@@ -1,5 +1,6 @@
 import 'package:conectatrabalho/pages/login-page.dart';
-import 'package:conectatrabalho/pages/register-page.dart';
+import 'package:conectatrabalho/pages/register/principal-data-page.dart';
+import 'package:conectatrabalho/pages/register/register-page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +11,13 @@ final routes = GoRouter(routes: [
   ),
   GoRoute(
     path: "/register",
-    pageBuilder: (context, state) => const MaterialPage(child: RegisterPage()),
-  )
+    pageBuilder: (context, state) =>
+        const MaterialPage(child: RegisterPage(), fullscreenDialog: true),
+  ),
+  GoRoute(
+      path: "/principal-data/:type",
+      builder: (context, state) {
+        final type = state.pathParameters["type"]!.toString();
+        return PrincipalDataPage(type: type);
+      })
 ]);

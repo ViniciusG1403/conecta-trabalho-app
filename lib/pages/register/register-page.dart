@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -60,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () => context.go("/principal-data/0"),
                       child: Card(
                           elevation: 4,
                           child: Container(
@@ -70,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   'assets/images/register-page/contractor-icon.png'))),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => context.go("/principal-data/1"),
                       child: Card(
                           elevation: 4,
                           child: Container(

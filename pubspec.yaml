@@ -64,7 +64,7 @@ flutter:
     - assets/images/login-page/linkedin-login.png
     - assets/images/login-page/facebook-login.png
     - assets/images/register-page/logo-register.png
-    - assets/images/register-page/register-background.png
+    - assets/images/register-page/principal-data-background.png
     - assets/images/register-page/register-select-type-background.png
     - assets/images/register-page/contractor-icon.png
     - assets/images/register-page/employee-icon.png
