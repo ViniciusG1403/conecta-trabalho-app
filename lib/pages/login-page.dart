@@ -151,23 +151,17 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     InkWell(
-                      onTap: () {
-                        // Ação a ser realizada quando o botão é tocado
-                      },
+                      onTap: () {},
                       child: Image.asset(
                           'assets/images/login-page/google-login.png'),
                     ),
                     InkWell(
-                      onTap: () {
-                        // Ação a ser realizada quando o botão é tocado
-                      },
+                      onTap: () {},
                       child: Image.asset(
                           'assets/images/login-page/linkedin-login.png'),
                     ),
                     InkWell(
-                      onTap: () {
-                        // Ação a ser realizada quando o botão é tocado
-                      },
+                      onTap: () {},
                       child: Image.asset(
                           'assets/images/login-page/facebook-login.png'),
                     ),

@@ -63,6 +63,11 @@ flutter:
     - assets/images/login-page/google-login.png
     - assets/images/login-page/linkedin-login.png
     - assets/images/login-page/facebook-login.png
+    - assets/images/register-page/logo-register.png
+    - assets/images/register-page/register-background.png
+    - assets/images/register-page/register-select-type-background.png
+    - assets/images/register-page/contractor-icon.png
+    - assets/images/register-page/employee-icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
