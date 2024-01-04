@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/register/services/login-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,20 +23,20 @@ class _LoginPageState extends State<LoginPage> {
     _senhaController = TextEditingController(text: "");
   }
 
-  // void realizarLogin() async {
-  //   String email = _emailController.text;
-  //   String senha = _senhaController.text;
+  void realizarLogin() async {
+    String email = _emailController.text;
+    String senha = _senhaController.text;
 
-  //   setState(() {
-  //     _isCharging = true;
-  //   });
+    setState(() {
+      _isCharging = true;
+    });
 
-  //   String response = await RealizarLogin(email, senha);
-  //   setState(() {
-  //     _feedbackMessage = response;
-  //     _isCharging = false;
-  //   });
-  // }
+    String response = await RealizarLogin(email, senha);
+    setState(() {
+      _feedbackMessage = response;
+      _isCharging = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.black,
                         )
                       : OutlinedButton(
-                          onPressed: () => {},
+                          onPressed: () => realizarLogin(),
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.white),

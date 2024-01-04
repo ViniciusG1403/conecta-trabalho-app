@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class PrincipalDataPage extends StatefulWidget {
-  const PrincipalDataPage({super.key, required this.type});
-  final String type;
+class LocalizationPage extends StatefulWidget {
+  const LocalizationPage({super.key});
   @override
-  State<PrincipalDataPage> createState() => _PrincipalDataPageState();
+  State<LocalizationPage> createState() => _LocalizationPageState();
 }
 
-class _PrincipalDataPageState extends State<PrincipalDataPage> {
-  late TextEditingController _nameController;
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-  late TextEditingController _confirmPasswordController;
+class _LocalizationPageState extends State<LocalizationPage> {
+  late TextEditingController _cepController;
+  late TextEditingController _streetController;
+  late TextEditingController _neighborhoodController;
+  late TextEditingController _numberController;
+  late TextEditingController _complementController;
+  late TextEditingController _cityController;
+  late TextEditingController _stateController;
   String _feedbackMessage = "";
   bool _isPasswordVisible = false;
   bool _isCharging = false;
@@ -20,10 +22,13 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: "");
-    _emailController = TextEditingController(text: "");
-    _passwordController = TextEditingController(text: "");
-    _confirmPasswordController = TextEditingController(text: "");
+    _cepController = TextEditingController(text: "");
+    _streetController = TextEditingController(text: "");
+    _neighborhoodController = TextEditingController(text: "");
+    _numberController = TextEditingController(text: "");
+    _complementController = TextEditingController(text: "");
+    _cityController = TextEditingController(text: "");
+    _stateController = TextEditingController(text: "");
   }
 
   @override
@@ -34,7 +39,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
       appBar: AppBar(
           backgroundColor: const Color(0xff413EFF),
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.white,
             ),
@@ -56,17 +61,16 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
+                  height: 100,
+                ),
+                SizedBox(
                   width: 330,
-                  height: 65,
+                  height: 50,
                   child: TextField(
-                    controller: _nameController,
+                    controller: _cepController,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.person_outline,
-                        color: Colors.white,
-                      ),
-                      labelText: 'Nome',
+                      labelText: 'CEP',
                       labelStyle: TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -88,16 +92,12 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                 ),
                 SizedBox(
                   width: 330,
-                  height: 65,
+                  height: 50,
                   child: TextField(
-                    controller: _emailController,
+                    controller: _streetController,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.mail_outline,
-                        color: Colors.white,
-                      ),
-                      labelText: 'Email',
+                      labelText: 'Rua',
                       labelStyle: TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(2)),
@@ -119,38 +119,20 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                 ),
                 SizedBox(
                     width: 330,
-                    height: 65,
+                    height: 50,
                     child: TextField(
-                      controller: _passwordController,
+                      controller: _neighborhoodController,
                       style: const TextStyle(color: Colors.white),
-                      obscureText: !_isPasswordVisible,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.password_outlined,
-                          color: Colors.white,
-                        ),
-                        labelText: 'Senha',
-                        labelStyle: const TextStyle(color: Colors.white),
-                        focusedBorder: const OutlineInputBorder(
+                      decoration: const InputDecoration(
+                        labelText: 'Bairro',
+                        labelStyle: TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(2)),
                           borderSide: BorderSide(color: Colors.white),
                         ),
-                        enabledBorder: const OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(2)),
                           borderSide: BorderSide(color: Colors.white),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
-                          },
                         ),
                       ),
                     )),
@@ -159,43 +141,91 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                 ),
                 SizedBox(
                     width: 330,
-                    height: 65,
+                    height: 50,
                     child: TextField(
-                      controller: _confirmPasswordController,
+                      controller: _numberController,
                       style: const TextStyle(color: Colors.white),
-                      obscureText: !_isPasswordVisible,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.password_outlined,
-                          color: Colors.white,
-                        ),
-                        labelText: 'Confirmação de Senha',
-                        labelStyle: const TextStyle(color: Colors.white),
-                        focusedBorder: const OutlineInputBorder(
+                      decoration: const InputDecoration(
+                        labelText: 'Número',
+                        labelStyle: TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(2)),
                           borderSide: BorderSide(color: Colors.white),
                         ),
-                        enabledBorder: const OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(2)),
                           borderSide: BorderSide(color: Colors.white),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
-                          },
                         ),
                       ),
                     )),
                 const SizedBox(
-                  height: 65,
+                  height: 25,
+                ),
+                SizedBox(
+                    width: 330,
+                    height: 50,
+                    child: TextField(
+                      controller: _complementController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Complemento',
+                        labelStyle: TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                    )),
+                const SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                    width: 330,
+                    height: 50,
+                    child: TextField(
+                      controller: _cityController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Cidade',
+                        labelStyle: TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                    )),
+                const SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                    width: 330,
+                    height: 50,
+                    child: TextField(
+                      controller: _stateController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: const InputDecoration(
+                        labelText: 'Estado',
+                        labelStyle: TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                      ),
+                    )),
+                const SizedBox(
+                  height: 40,
                 ),
                 SizedBox(
                   child: _isCharging
@@ -203,7 +233,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                           color: Colors.black,
                         )
                       : OutlinedButton(
-                          onPressed: () => context.go("/localization-register"),
+                          onPressed: () => {},
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.white),
@@ -212,7 +242,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10))),
                               )),
-                          child: const Text("Próximo",
+                          child: const Text("Salvar",
                               style: TextStyle(color: Colors.black)),
                         ),
                 ),
