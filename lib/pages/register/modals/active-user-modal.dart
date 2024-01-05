@@ -1,6 +1,5 @@
 import 'package:conectatrabalho/pages/register/services/active-user-service.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 Future<String> activeUser(String code, BuildContext context) async {
   String response = await ActiveUser(code);

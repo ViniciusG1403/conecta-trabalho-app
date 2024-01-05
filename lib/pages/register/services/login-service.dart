@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/login-model.dart';
 
 Future<String> RealizarLogin(String email, String senha) async {
-  Login login = new Login(email, senha);
+  Login login = Login(email, senha);
 
   var url = Uri.parse(loginUrl);
   var response = await http.post(url,
