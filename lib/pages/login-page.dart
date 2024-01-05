@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       showActivationModal(context);
     }
     setState(() {
-      _feedbackMessage = response;
+      _feedbackMessage = response == "Usuario inativo" ? "" : response;
       _isCharging = false;
     });
   }
