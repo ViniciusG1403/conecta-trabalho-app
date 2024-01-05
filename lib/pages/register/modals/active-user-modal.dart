@@ -52,7 +52,9 @@ void showActivationModal(BuildContext context) {
             onPressed: () async {
               String response = await activeUser(codeController.text, context);
               responseNotifier.value = response;
-              context.pop();
+              if (response == "Usuário ativado com sucesso") {
+                Navigator.of(context).pop();
+              }
             },
           ),
         ],
