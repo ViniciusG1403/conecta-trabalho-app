@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/register/modals/active-user-modal.dart';
 import 'package:conectatrabalho/pages/register/services/login-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,6 +33,9 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     String response = await RealizarLogin(email, senha);
+    if (response == "Usuario inativo") {
+      showActivationModal(context);
+    }
     setState(() {
       _feedbackMessage = response;
       _isCharging = false;
@@ -168,7 +172,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                Text(_feedbackMessage),
+                Text(_feedbackMessage,
+                    style: const TextStyle(color: Colors.white)),
                 const Text(""),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

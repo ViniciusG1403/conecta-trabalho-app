@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/initial/initial-page.dart';
 import 'package:conectatrabalho/pages/login-page.dart';
 import 'package:conectatrabalho/pages/register/localization-page.dart';
 import 'package:conectatrabalho/pages/register/principal-data-page.dart';
@@ -24,5 +25,9 @@ final routes = GoRouter(routes: [
       builder: (context, state) {
         final type = state.pathParameters["type"]!.toString();
         return PrincipalDataPage(type: type);
-      })
+      }),
+  GoRoute(
+    path: "/initial-page",
+    pageBuilder: (context, state) => const MaterialPage(child: InitialPage()),
+  ),
 ]);

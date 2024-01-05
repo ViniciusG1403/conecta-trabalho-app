@@ -1,2 +1,3 @@
-late String loginUrl = 'http://10.0.2.2:8080/auth/login';
-late String userUrl = 'http://10.0.2.2:8080/usuario';
+late String loginUrl = 'http://localhost:8080/auth/login';
+late String activeUserUrl = 'http://localhost:8080/user/active';
+late String userUrl = 'http://localhost:8080/usuario';
