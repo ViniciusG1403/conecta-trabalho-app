@@ -1,64 +1,57 @@
 class User {
-  String id;
   String name;
   String email;
-  String situacao;
-  DateTime dhCadastro;
-  DateTime dhUltimoLogin;
+  String password;
+  String type;
 
-  User(this.id, this.name, this.email, this.dhCadastro, this.situacao,
-      this.dhUltimoLogin);
+  User(this.name, this.email, this.password, this.type);
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'name': name,
         'email': email,
-        'dhCadastro': dhCadastro.toString(),
-        'situacao': situacao,
-        'dhUltimoLogin': dhUltimoLogin.toString(),
+        'password': password,
+        'type': type,
       };
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      json['id'],
-      json['name'],
-      json['email'],
-      convertStringToDateTime(json['dhCadastro']),
-      json['situacao'],
-      convertStringToDateTime(json['dhUltimoLogin']),
-    );
-  }
 }
 
-class UserUpdate {
-  String id;
+class UserRegister {
   String name;
   String email;
-  int situacao;
+  String password;
+  String type;
+  Localization localization;
 
-  UserUpdate(this.id, this.name, this.email, this.situacao);
+  UserRegister(
+      this.name, this.email, this.password, this.type, this.localization);
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'name': name,
         'email': email,
-        'situacao': situacao,
+        'password': password,
+        'type': type,
+        'localization': localization.toJson(),
       };
-
-  factory UserUpdate.fromJson(Map<String, dynamic> json) {
-    return UserUpdate(json['id'], json['name'], json['email'],
-        convertToEnum(json['situacao']));
-  }
 }
 
-int convertToEnum(String situacao) {
-  if (situacao == 'ATIVO') {
-    return 1;
-  } else {
-    return 0;
-  }
-}
+class Localization {
+  String cep;
+  String street;
+  String number;
+  String complement;
+  String neighborhood;
+  String city;
+  String state;
 
-DateTime convertStringToDateTime(String data) {
-  return DateTime.parse(data);
+  Localization(this.cep, this.street, this.number, this.complement,
+      this.neighborhood, this.city, this.state);
+
+  Map<String, dynamic> toJson() => {
+        'cep': cep,
+        'street': street,
+        'number': number,
+        'complement': complement,
+        'neighborhood': neighborhood,
+        'city': city,
+        'state': state,
+      };
 }

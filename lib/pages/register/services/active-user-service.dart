@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:conectatrabalho/core/environment.dart';
-import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/register/models/active-user-model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/login-model.dart';
 
 Future<String> ActiveUser(code) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

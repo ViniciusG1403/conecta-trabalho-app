@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -26,6 +27,29 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
     _confirmPasswordController = TextEditingController(text: "");
   }
 
+  void toModel() {
+    String name = _nameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    String confirmPassword = _confirmPasswordController.text;
+
+    if (name == "" || email == "" || password == "" || confirmPassword == "") {
+      setState(() {
+        _feedbackMessage = "Preencha todos os campos";
+      });
+      return;
+    }
+
+    if (password != confirmPassword) {
+      setState(() {
+        _feedbackMessage = "As senhas não coincidem";
+      });
+      return;
+    }
+
+    context.go("/localization-register/$name/$email/$password/${widget.type}");
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -34,7 +58,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
       appBar: AppBar(
           backgroundColor: const Color(0xff413EFF),
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.white,
             ),
@@ -203,7 +227,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                           color: Colors.black,
                         )
                       : OutlinedButton(
-                          onPressed: () => context.go("/localization-register"),
+                          onPressed: () => toModel(),
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.white),
