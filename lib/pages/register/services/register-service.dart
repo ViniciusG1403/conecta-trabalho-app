@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:http/http.dart' as http;
@@ -11,8 +10,23 @@ Future<String> RegistrarUsuario(UserRegister user) async {
       body: json.encode(user.toJson()));
 
   if (response.statusCode != 200) {
-    return "Ocorreu um erro ao cadastrar, tente novamente";
+    var jsonResponse = json.decode(response.body);
+    var errorMessage = _extractErrorMessage(jsonResponse);
+    return errorMessage ?? "Ocorreu um erro ao cadastrar, tente novamente";
   } else {
     return "Cadastro realizado com sucesso";
   }
+}
+
+String? _extractErrorMessage(Map<String, dynamic> jsonResponse) {
+  try {
+    String details = jsonResponse['details'];
+    var lastIndex = details.lastIndexOf(':');
+    if (lastIndex != -1) {
+      return details.substring(lastIndex + 1).trim();
+    }
+  } catch (e) {
+    print('Error extracting message: $e');
+  }
+  return null;
 }
