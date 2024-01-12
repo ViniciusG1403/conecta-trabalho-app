@@ -38,6 +38,7 @@ dependencies:
   http: ^1.1.2
   shared_preferences: ^2.2.1
   intl: ^0.19.0
+  flutter_svg: ^2.0.9
 
 
 dev_dependencies:
@@ -68,6 +69,8 @@ flutter:
     - assets/images/login-page/linkedin-login.png
     - assets/images/login-page/facebook-login.png
     - assets/images/register-page/logo-register.png
+    - assets/images/register-page/logo-register.svg
+    - assets/images/register-page/logo-resumido.png
     - assets/images/register-page/principal-data-background.png
     - assets/images/register-page/register-select-type-background.png
     - assets/images/register-page/contractor-icon.png
@@ -84,10 +87,13 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: Varela
+      fonts:
+        - asset: assets\fonts\VarelaRound-Regular.ttf
+    - family: MerriweatherSans
+      fonts:
+        - asset: assets\fonts\MerriweatherSans-VariableFont_wght.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -1,4 +1,4 @@
-import 'package:conectatrabalho/pages/register/services/active-user-service.dart';
+import 'package:conectatrabalho/pages/login/services/active-user-service.dart';
 import 'package:flutter/material.dart';
 
 Future<String> activeUser(String code, BuildContext context) async {

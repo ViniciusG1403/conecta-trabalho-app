@@ -1,5 +1,5 @@
 import 'package:conectatrabalho/pages/initial/initial-page.dart';
-import 'package:conectatrabalho/pages/login-page.dart';
+import 'package:conectatrabalho/pages/login/login-page.dart';
 import 'package:conectatrabalho/pages/register/localization-page.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:conectatrabalho/pages/register/principal-data-page.dart';

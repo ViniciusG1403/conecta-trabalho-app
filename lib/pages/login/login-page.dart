@@ -1,7 +1,8 @@
-import 'package:conectatrabalho/pages/register/modals/active-user-modal.dart';
-import 'package:conectatrabalho/pages/register/services/login-service.dart';
+import 'package:conectatrabalho/pages/login/modals/active-user-modal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'services/login-service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,6 +28,13 @@ class _LoginPageState extends State<LoginPage> {
   void realizarLogin() async {
     String email = _emailController.text;
     String senha = _senhaController.text;
+
+    if (email == "" || senha == "") {
+      setState(() {
+        _feedbackMessage = "Por favor, preencha corretamente os campos.";
+      });
+      return;
+    }
 
     setState(() {
       _isCharging = true;
@@ -63,14 +71,19 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 50,
+                  height: 250,
                 ),
                 SizedBox(
                   width: 330,
                   height: 50,
-                  child: TextField(
+                  child: TextFormField(
                     controller: _emailController,
                     style: const TextStyle(color: Colors.white),
+                    validator: (value) => value! == ""
+                        ? 'Por favor, insira o email'
+                        : !value.contains('@')
+                            ? 'Por favor, insira um email válido'
+                            : null,
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.mail_outline,
@@ -79,15 +92,15 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Email',
                       labelStyle: TextStyle(color: Colors.white),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(2)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                         borderSide: BorderSide(color: Colors.white),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(2)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                         borderSide: BorderSide(color: Colors.white),
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(2)),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                         borderSide: BorderSide(color: Colors.white),
                       ),
                     ),
@@ -97,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                     width: 330,
                     height: 50,
-                    child: TextField(
+                    child: TextFormField(
                       controller: _senhaController,
                       style: const TextStyle(color: Colors.white),
                       obscureText: !_isPasswordVisible,
@@ -109,11 +122,11 @@ class _LoginPageState extends State<LoginPage> {
                         labelText: 'Senha',
                         labelStyle: const TextStyle(color: Colors.white),
                         focusedBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                           borderSide: BorderSide(color: Colors.white),
                         ),
                         enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
                           borderSide: BorderSide(color: Colors.white),
                         ),
                         suffixIcon: IconButton(
@@ -158,17 +171,23 @@ class _LoginPageState extends State<LoginPage> {
                     InkWell(
                       onTap: () {},
                       child: Image.asset(
-                          'assets/images/login-page/google-login.png'),
+                        'assets/images/login-page/google-login.png',
+                        height: 35,
+                      ),
                     ),
                     InkWell(
                       onTap: () {},
                       child: Image.asset(
-                          'assets/images/login-page/linkedin-login.png'),
+                        'assets/images/login-page/linkedin-login.png',
+                        height: 35,
+                      ),
                     ),
                     InkWell(
                       onTap: () {},
                       child: Image.asset(
-                          'assets/images/login-page/facebook-login.png'),
+                        'assets/images/login-page/facebook-login.png',
+                        height: 35,
+                      ),
                     ),
                   ],
                 ),

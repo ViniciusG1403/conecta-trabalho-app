@@ -74,23 +74,30 @@ class _LocalizationPageState extends State<LocalizationPage> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: const Color(0xff413EFF),
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+          backgroundColor: const Color(0xff220A55),
+          toolbarHeight: 100,
+          leadingWidth: 300,
+          leading: Row(children: [
+            IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () => context.go("/"),
             ),
-            onPressed: () => context.go("/principal-data/${widget.user.type}"),
-          )),
+            const Text("                      "),
+            Image.asset(
+              'assets/images/register-page/logo-register.png',
+              filterQuality: FilterQuality.high,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
+          ])),
       body: Container(
         width: screenSize.width,
         height: screenSize.height,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-                'assets/images/register-page/principal-data-background.png'),
-            fit: BoxFit.cover,
-          ),
+          color: Color(0xff220A55),
         ),
         child: Center(
           child: SingleChildScrollView(
@@ -99,27 +106,27 @@ class _LocalizationPageState extends State<LocalizationPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 100),
+                  const SizedBox(height: 10),
                   _buildTextField(
                       _cepController, 'CEP', 'Por favor, insira o CEP'),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   _buildTextField(
                       _streetController, 'Rua', 'Por favor, insira a rua'),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   _buildTextField(_neighborhoodController, 'Bairro',
                       'Por favor, insira o bairro'),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   _buildTextField(_numberController, 'Número',
                       'Por favor, insira o número'),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   _buildTextField(_complementController, 'Complemento', null),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   _buildTextField(
                       _cityController, 'Cidade', 'Por favor, insira a cidade'),
-                  SizedBox(height: 25),
+                  const SizedBox(height: 25),
                   _buildTextField(
                       _stateController, 'Estado', 'Por favor, insira o estado'),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   ValueListenableBuilder<String>(
                     valueListenable: responseNotifier,
                     builder: (context, value, _) {
@@ -127,7 +134,6 @@ class _LocalizationPageState extends State<LocalizationPage> {
                           style: const TextStyle(color: Colors.white));
                     },
                   ),
-                  SizedBox(height: 10),
                   _buildSaveButton(),
                 ],
               ),
@@ -150,15 +156,15 @@ class _LocalizationPageState extends State<LocalizationPage> {
           labelText: label,
           labelStyle: const TextStyle(color: Colors.white),
           errorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2)),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: Colors.red),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2)),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: Colors.white),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2)),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: Colors.white),
           ),
         ),

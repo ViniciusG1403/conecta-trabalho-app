@@ -20,56 +20,74 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: const Color(0xff413EFF),
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+          backgroundColor: const Color(0xff220A55),
+          toolbarHeight: 100,
+          leadingWidth: 300,
+          leading: Row(children: [
+            IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () => context.go("/"),
             ),
-            onPressed: () => context.go("/"),
-          )),
+            const Text("                      "),
+            Image.asset(
+              'assets/images/register-page/logo-register.png',
+              filterQuality: FilterQuality.high,
+              height: 40,
+              fit: BoxFit.contain,
+            ),
+          ])),
       body: Container(
         width: screenSize.width,
         height: screenSize.height,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-                'assets/images/register-page/register-select-type-background.png'),
-            fit: BoxFit.cover,
-          ),
+          color: Color(0xff220A55),
         ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      onTap: () => context.go("/principal-data/0"),
-                      child: Card(
-                          elevation: 4,
-                          child: Container(
-                              width: 100,
-                              height: 100,
-                              child: Image.asset(
-                                  'assets/images/register-page/contractor-icon.png'))),
-                    ),
-                    InkWell(
-                      onTap: () => context.go("/principal-data/1"),
-                      child: Card(
-                          elevation: 4,
-                          child: Container(
-                              width: 100,
-                              height: 100,
-                              child: Image.asset(
-                                  'assets/images/register-page/employee-icon.png'))),
-                    ),
-                  ],
-                )
-              ],
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 150,
+              ),
+              const Text(
+                "Eu busco:",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontFamily: 'MerriweatherSans',
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                    onTap: () => context.go("/principal-data/0"),
+                    child: Card(
+                        elevation: 4,
+                        child: Container(
+                            width: 125,
+                            height: 125,
+                            child: Image.asset(
+                                'assets/images/register-page/contractor-icon.png'))),
+                  ),
+                  InkWell(
+                    onTap: () => context.go("/principal-data/1"),
+                    child: Card(
+                        elevation: 4,
+                        child: Container(
+                            width: 125,
+                            height: 125,
+                            child: Image.asset(
+                                'assets/images/register-page/employee-icon.png'))),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
       ),

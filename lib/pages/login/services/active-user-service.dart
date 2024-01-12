@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:conectatrabalho/core/environment.dart';
-import 'package:conectatrabalho/pages/register/models/active-user-model.dart';
+import 'package:conectatrabalho/pages/login/models/active-user-model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
