@@ -18,6 +18,7 @@ String? validateEmailFormatRegex(String value) {
   if (!isValid) {
     return "Por favor, insira um email válido.";
   }
+  return null;
 }
 
 String? validatePassword(String value, String value2) {

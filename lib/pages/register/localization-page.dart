@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:conectatrabalho/pages/register/modals/register-succesfull-modal.dart';
@@ -148,7 +149,6 @@ class _LocalizationPageState extends State<LocalizationPage> {
       TextEditingController controller, String label, String? errorMessage) {
     return SizedBox(
       width: 330,
-      height: 50,
       child: TextFormField(
         controller: controller,
         style: const TextStyle(color: Colors.white),
@@ -156,26 +156,25 @@ class _LocalizationPageState extends State<LocalizationPage> {
           labelText: label,
           labelStyle: const TextStyle(color: Colors.white),
           errorBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(14)),
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(14)),
             borderSide: BorderSide(color: Colors.red),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(14)),
             borderSide: BorderSide(color: Colors.white),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(14)),
             borderSide: BorderSide(color: Colors.white),
           ),
         ),
-        validator: errorMessage == null
-            ? null
-            : (value) {
-                if (value == null || value.isEmpty) {
-                  return errorMessage;
-                }
-                return null;
-              },
+        validator: (value) {
+          return validateNullField(value, label);
+        },
       ),
     );
   }
@@ -188,7 +187,7 @@ class _LocalizationPageState extends State<LocalizationPage> {
               onPressed: () async {
                 String response = await toModel();
                 if (response == "Cadastro realizado com sucesso") {
-                  showRegisterSuccesfullModal(context);
+                  showRegisterSuccessfulModal(context);
                 } else {
                   responseNotifier.value = response;
                 }

@@ -16,9 +16,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
   final _formKey = GlobalKey<FormState>();
-  String _feedbackMessage = "";
   bool _isPasswordVisible = false;
-  bool _isCharging = false;
 
   @override
   void initState() {
@@ -82,7 +80,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     SizedBox(
@@ -102,6 +100,11 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                                     BorderRadius.all(Radius.circular(14)),
                                 borderSide: BorderSide(
                                     color: Color.fromARGB(255, 255, 0, 0)),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(14)),
+                                borderSide: BorderSide(color: Colors.red),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius:
@@ -151,6 +154,10 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(14)),
                             borderSide: BorderSide(color: Colors.white),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(14)),
+                            borderSide: BorderSide(color: Colors.red),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(14)),
@@ -206,6 +213,11 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                                   BorderRadius.all(Radius.circular(14)),
                               borderSide: BorderSide(color: Colors.red),
                             ),
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(14)),
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _isPasswordVisible
@@ -257,6 +269,11 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                                   BorderRadius.all(Radius.circular(14)),
                               borderSide: BorderSide(color: Colors.red),
                             ),
+                            focusedErrorBorder: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(14)),
+                              borderSide: BorderSide(color: Colors.red),
+                            ),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _isPasswordVisible
@@ -280,31 +297,20 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Text(
-                      _feedbackMessage,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     SizedBox(
-                      child: _isCharging
-                          ? const CircularProgressIndicator(
-                              color: Colors.black,
-                            )
-                          : OutlinedButton(
-                              onPressed: () => toModel(),
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all(Colors.white),
-                                  shape: MaterialStateProperty.all(
-                                    const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10))),
-                                  )),
-                              child: const Text("Próximo",
-                                  style: TextStyle(color: Colors.black)),
-                            ),
+                      child: OutlinedButton(
+                        onPressed: () => toModel(),
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            shape: MaterialStateProperty.all(
+                              const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                            )),
+                        child: const Text("Próximo",
+                            style: TextStyle(color: Colors.black)),
+                      ),
                     ),
                   ],
                 ),

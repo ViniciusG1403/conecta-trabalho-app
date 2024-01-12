@@ -16,7 +16,7 @@ class _InitialPageState extends State<InitialPage> {
       appBar: AppBar(
           backgroundColor: const Color(0xff413EFF),
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               color: Colors.white,
             ),
@@ -32,7 +32,7 @@ class _InitialPageState extends State<InitialPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
+        child: const Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
