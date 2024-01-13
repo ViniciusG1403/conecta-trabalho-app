@@ -1,10 +1,13 @@
 import 'package:conectatrabalho/pages/login/services/active-user-service.dart';
 import 'package:conectatrabalho/pages/login/services/login-service.dart';
-import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
 import 'package:flutter/material.dart';
 
 bool _isCharging = false;
 Future<String> activeUser(String code, BuildContext context) async {
+  if (code == "") {
+    return "Código de ativação não pode ser vazio";
+  }
+
   _isCharging = true;
   String response = await ActiveUser(code);
   return response;

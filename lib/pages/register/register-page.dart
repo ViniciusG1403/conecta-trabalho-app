@@ -71,7 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         extra: User("", "", "", "0")),
                     child: Card(
                         elevation: 4,
-                        child: Container(
+                        child: SizedBox(
                             width: 125,
                             height: 125,
                             child: Image.asset(
@@ -82,7 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         extra: User("", "", "", "1")),
                     child: Card(
                         elevation: 4,
-                        child: Container(
+                        child: SizedBox(
                             width: 125,
                             height: 125,
                             child: Image.asset(

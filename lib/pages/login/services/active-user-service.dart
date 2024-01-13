@@ -15,11 +15,11 @@ Future<String> ActiveUser(code) async {
       headers: {"Content-Type": "application/json"},
       body: json.encode(activeUserModel.toJson()));
   if (response.statusCode == 401) {
-    return response.body ?? "Ocorreu um erro ao ativar o usuário";
+    return "Código de ativação inválido";
   }
 
   if (response.statusCode != 200) {
-    return response.body ?? "Ocorreu um erro ao ativar o usuário";
+    return "Código de ativação inválido";
   } else {
     return "Usuário ativado com sucesso";
   }

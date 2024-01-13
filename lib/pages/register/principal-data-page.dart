@@ -85,7 +85,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 SizedBox(

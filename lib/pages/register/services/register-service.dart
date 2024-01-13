@@ -3,7 +3,7 @@ import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> RegistrarUsuario(UserRegister user) async {
+Future<String> registrarUsuario(UserRegister user) async {
   var url = Uri.parse(userUrl);
   var response = await http.post(url,
       headers: {"Content-Type": "application/json"},
@@ -26,7 +26,7 @@ String? _extractErrorMessage(Map<String, dynamic> jsonResponse) {
       return details.substring(lastIndex + 1).trim();
     }
   } catch (e) {
-    print('Error extracting message: $e');
+    return "Ocorreu um erro ao cadastrar, tente novamente";
   }
   return null;
 }

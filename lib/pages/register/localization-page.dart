@@ -23,7 +23,7 @@ class _LocalizationPageState extends State<LocalizationPage> {
   late TextEditingController _complementController;
   late TextEditingController _cityController;
   late TextEditingController _stateController;
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isCharging = false;
   ValueNotifier<String> responseNotifier = ValueNotifier('');
 
@@ -62,7 +62,7 @@ class _LocalizationPageState extends State<LocalizationPage> {
             _cityController.text,
             _stateController.text));
 
-    String response = await RegistrarUsuario(userRegister);
+    String response = await registrarUsuario(userRegister);
 
     setState(() {
       _isCharging = false;
