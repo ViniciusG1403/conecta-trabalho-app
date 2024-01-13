@@ -10,11 +10,13 @@ import 'package:go_router/go_router.dart';
 final routes = GoRouter(routes: [
   GoRoute(
     path: "/",
-    pageBuilder: (context, state) => const MaterialPage(child: LoginPage()),
+    pageBuilder: (context, state) =>
+        const MaterialPage(child: LoginPage(), fullscreenDialog: true),
   ),
   GoRoute(
     path: "/register",
-    pageBuilder: (context, state) => const MaterialPage(child: RegisterPage()),
+    pageBuilder: (context, state) =>
+        const MaterialPage(child: RegisterPage(), fullscreenDialog: true),
   ),
   GoRoute(
     path: "/localization-register",

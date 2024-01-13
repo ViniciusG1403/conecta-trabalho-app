@@ -10,9 +10,16 @@ Future<String> activeUser(String code, BuildContext context) async {
   return response;
 }
 
+Future<String> resendCode(String email) async {
+  _isCharging = true;
+  String response = await ResendActivationCode(email);
+  return response;
+}
+
 void showActivationModal(BuildContext context, String email, String senha) {
   TextEditingController codeController = TextEditingController();
   ValueNotifier<String> responseNotifier = ValueNotifier('');
+  _isCharging = false;
 
   showDialog(
     context: context,
@@ -72,20 +79,22 @@ void showActivationModal(BuildContext context, String email, String senha) {
             ValueListenableBuilder<String>(
               valueListenable: responseNotifier,
               builder: (context, value, _) {
-                return Text(value);
+                return Text(value, style: const TextStyle(color: Colors.white));
               },
             ),
           ],
         ),
         actions: <Widget>[
-          !_isCharging
+          _isCharging
               ? const CircularProgressIndicator()
               : Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   TextButton(
-                    child: const Text('Cancelar',
+                    child: const Text('Reenviar código',
                         style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      Navigator.of(context).pop();
+                    onPressed: () async {
+                      String response = await resendCode(email);
+                      responseNotifier.value = response;
+                      _isCharging = false;
                     },
                   ),
                   TextButton(
@@ -98,6 +107,7 @@ void showActivationModal(BuildContext context, String email, String senha) {
                       if (response == "Usuário ativado com sucesso") {
                         Navigator.of(context).pop();
                         RealizarLogin(email, senha);
+                        _isCharging = false;
                       } else {
                         _isCharging = false;
                       }

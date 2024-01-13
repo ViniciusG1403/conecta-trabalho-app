@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/routes.dart';
+import 'package:conectatrabalho/pages/login/models/resend-activecode-model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -75,4 +76,27 @@ Future<void> logout() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('accessToken', '');
   routes.go("/");
+}
+
+Future<String> ResendActivationCode(String email) async {
+  ResendActivateCode model =
+      ResendActivateCode("", "Ativação de usuário", email);
+
+  var url = Uri.parse(userUrl + "/send-confirmation-code");
+  var response = await http.put(url,
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(model.toJson()));
+  if (response.statusCode == 401) {
+    return response.body;
+  }
+
+  if (response.statusCode != 200) {
+    return "Ocorreu um erro ao reenviar o código de ativação";
+  }
+
+  try {
+    return "Código reenviado com sucesso";
+  } catch (e) {
+    return "Ocorreu um erro ao reenviar o código de ativação";
+  }
 }
