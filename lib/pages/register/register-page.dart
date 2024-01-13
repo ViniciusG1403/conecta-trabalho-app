@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -66,7 +67,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
-                    onTap: () => context.go("/principal-data/0"),
+                    onTap: () => context.go("/principal-data",
+                        extra: User("", "", "", "0")),
                     child: Card(
                         elevation: 4,
                         child: Container(
@@ -76,7 +78,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 'assets/images/register-page/contractor-icon.png'))),
                   ),
                   InkWell(
-                    onTap: () => context.go("/principal-data/1"),
+                    onTap: () => context.go("/principal-data",
+                        extra: User("", "", "", "1")),
                     child: Card(
                         elevation: 4,
                         child: Container(

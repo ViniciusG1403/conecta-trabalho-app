@@ -86,7 +86,8 @@ class _LocalizationPageState extends State<LocalizationPage> {
                 Icons.arrow_back,
                 color: Colors.white,
               ),
-              onPressed: () => context.go("/"),
+              onPressed: () =>
+                  context.go("/principal-data", extra: widget.user),
             ),
             const Text("                      "),
             Image.asset(

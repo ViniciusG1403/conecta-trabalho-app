@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class PrincipalDataPage extends StatefulWidget {
-  const PrincipalDataPage({super.key, required this.type});
-  final String type;
+  const PrincipalDataPage({super.key, required this.user});
+  final User user;
   @override
   State<PrincipalDataPage> createState() => _PrincipalDataPageState();
 }
@@ -21,10 +21,12 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: "");
-    _emailController = TextEditingController(text: "");
-    _passwordController = TextEditingController(text: "");
-    _confirmPasswordController = TextEditingController(text: "");
+    _nameController = TextEditingController(text: widget.user.name ?? "");
+    _emailController = TextEditingController(text: widget.user.email ?? "");
+    _passwordController =
+        TextEditingController(text: widget.user.password ?? "");
+    _confirmPasswordController =
+        TextEditingController(text: widget.user.password ?? "");
   }
 
   void toModel() {
@@ -35,7 +37,11 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
     String email = _emailController.text;
     String password = _passwordController.text;
 
-    context.go("/localization-register/$name/$email/$password/${widget.type}");
+    widget.user.name = name;
+    widget.user.email = email;
+    widget.user.password = password;
+
+    context.go("/localization-register", extra: widget.user);
   }
 
   bool validateSamePassword() {

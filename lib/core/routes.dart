@@ -17,23 +17,19 @@ final routes = GoRouter(routes: [
     pageBuilder: (context, state) => const MaterialPage(child: RegisterPage()),
   ),
   GoRoute(
-    path: "/localization-register/:name/:email/:password/:type",
+    path: "/localization-register",
     builder: (context, state) {
-      final name = state.pathParameters["name"]!.toString();
-      final email = state.pathParameters["email"]!.toString();
-      final password = state.pathParameters["password"]!.toString();
-      final type = state.pathParameters["type"]!.toString();
-      User user = User(name, email, password, type);
+      final user = state.extra as User;
       return LocalizationPage(
         user: user,
       );
     },
   ),
   GoRoute(
-      path: "/principal-data/:type",
+      path: "/principal-data",
       builder: (context, state) {
-        final type = state.pathParameters["type"]!.toString();
-        return PrincipalDataPage(type: type);
+        final user = state.extra as User;
+        return PrincipalDataPage(user: user);
       }),
   GoRoute(
     path: "/initial-page",
