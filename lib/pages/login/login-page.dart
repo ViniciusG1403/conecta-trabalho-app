@@ -1,4 +1,5 @@
 import 'package:conectatrabalho/pages/login/modals/active-user-modal.dart';
+import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late TextEditingController _emailController;
   late TextEditingController _senhaController;
+  final _formKey = GlobalKey<FormState>();
   String _feedbackMessage = "";
   bool _isPasswordVisible = false;
   bool _isCharging = false;
@@ -29,10 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     String email = _emailController.text;
     String senha = _senhaController.text;
 
-    if (email == "" || senha == "") {
-      setState(() {
-        _feedbackMessage = "Por favor, preencha corretamente os campos.";
-      });
+    if (this._formKey.currentState!.validate() == false) {
       return;
     }
 
@@ -55,18 +54,20 @@ class _LoginPageState extends State<LoginPage> {
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Container(
-        width: screenSize.width,
-        height: screenSize.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-                'assets/images/login-page/login-page-background.png'),
-            fit: BoxFit.cover,
-          ),
+        body: Container(
+      width: screenSize.width,
+      height: screenSize.height,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image:
+              AssetImage('assets/images/login-page/login-page-background.png'),
+          fit: BoxFit.cover,
         ),
-        child: Center(
-          child: SingleChildScrollView(
+      ),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -75,15 +76,17 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(
                   width: 330,
-                  height: 50,
                   child: TextFormField(
                     controller: _emailController,
                     style: const TextStyle(color: Colors.white),
-                    validator: (value) => value! == ""
-                        ? 'Por favor, insira o email'
-                        : !value.contains('@')
-                            ? 'Por favor, insira um email válido'
-                            : null,
+                    validator: (value) {
+                      if (value == null || value == "") {
+                        return validateNullField(value, "email");
+                      }
+
+                      return validateEmailFormatRegex(value!);
+                    },
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: const InputDecoration(
                       icon: Icon(
                         Icons.mail_outline,
@@ -99,6 +102,10 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         borderSide: BorderSide(color: Colors.white),
                       ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         borderSide: BorderSide(color: Colors.white),
@@ -109,11 +116,15 @@ class _LoginPageState extends State<LoginPage> {
                 const Text(''),
                 SizedBox(
                     width: 330,
-                    height: 50,
                     child: TextFormField(
                       controller: _senhaController,
                       style: const TextStyle(color: Colors.white),
                       obscureText: !_isPasswordVisible,
+                      validator: (value) {
+                        if (value == null || value == "") {
+                          return validateNullField(value, "Senha");
+                        }
+                      },
                       decoration: InputDecoration(
                         icon: const Icon(
                           Icons.password_outlined,
@@ -128,6 +139,10 @@ class _LoginPageState extends State<LoginPage> {
                         enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                           borderSide: BorderSide(color: Colors.white),
+                        ),
+                        errorBorder: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(color: Colors.red),
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -164,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(color: Colors.black)),
                         ),
                 ),
-                Text(""),
+                const Text(""),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -213,6 +228,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
