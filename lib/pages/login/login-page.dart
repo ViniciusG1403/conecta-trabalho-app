@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
 
     String response = await RealizarLogin(email, senha);
     if (response == "Usuario inativo") {
-      showActivationModal(context);
+      showActivationModal(context, email, senha);
     }
     setState(() {
       _feedbackMessage = response == "Usuario inativo" ? "" : response;
