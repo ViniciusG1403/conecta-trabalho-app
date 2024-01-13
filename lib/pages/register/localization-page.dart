@@ -1,3 +1,5 @@
+import 'package:conectatrabalho/pages/register/models/cep-model.dart';
+import 'package:conectatrabalho/pages/register/services/cep-service.dart';
 import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -147,11 +149,27 @@ class _LocalizationPageState extends State<LocalizationPage> {
 
   Widget _buildTextField(
       TextEditingController controller, String label, String? errorMessage) {
+    Future<Cep> cepEncontrado;
     return SizedBox(
       width: 330,
       child: TextFormField(
         controller: controller,
         style: const TextStyle(color: Colors.white),
+        onChanged: (value) => {
+          if (label == 'CEP')
+            {
+              if (value.length == 8)
+                {
+                  cepEncontrado = getCep(value),
+                  cepEncontrado.then((value) => {
+                        _streetController.text = value.logradouro,
+                        _neighborhoodController.text = value.bairro,
+                        _cityController.text = value.localidade,
+                        _stateController.text = value.uf
+                      })
+                }
+            }
+        },
         decoration: InputDecoration(
           labelText: label,
           labelStyle: const TextStyle(color: Colors.white),
