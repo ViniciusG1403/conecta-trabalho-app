@@ -20,19 +20,20 @@ final routes = GoRouter(routes: [
   ),
   GoRoute(
     path: "/localization-register",
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final user = state.extra as User;
-      return LocalizationPage(
-        user: user,
-      );
+      return MaterialPage(
+          child: LocalizationPage(user: user), fullscreenDialog: true);
     },
   ),
   GoRoute(
-      path: "/principal-data",
-      builder: (context, state) {
-        final user = state.extra as User;
-        return PrincipalDataPage(user: user);
-      }),
+    path: "/principal-data",
+    pageBuilder: (context, state) {
+      final user = state.extra as User;
+      return MaterialPage(
+          child: PrincipalDataPage(user: user), fullscreenDialog: true);
+    },
+  ),
   GoRoute(
     path: "/initial-page",
     pageBuilder: (context, state) => const MaterialPage(child: InitialPage()),
