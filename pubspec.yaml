@@ -71,10 +71,11 @@ flutter:
     - assets/images/register-page/logo-register.png
     - assets/images/register-page/logo-register.svg
     - assets/images/register-page/logo-resumido.png
-    - assets/images/register-page/principal-data-background.png
+    - assets/images/initial-page/background-initial-page.png
     - assets/images/register-page/register-select-type-background.png
     - assets/images/register-page/contractor-icon.png
     - assets/images/register-page/employee-icon.png
+    - assets/images/initial-page/logo-resumido.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -90,7 +91,7 @@ flutter:
   fonts:
     - family: Varela
       fonts:
-        - asset: assets\fonts\VarelaRound-Regular.ttf
+        - asset: assets/fonts/VarelaRound-Regular.ttf
     - family: MerriweatherSans
       fonts:
         - asset: assets\fonts\MerriweatherSans-VariableFont_wght.ttf

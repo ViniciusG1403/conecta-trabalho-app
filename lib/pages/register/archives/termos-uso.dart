@@ -30,8 +30,8 @@ O Conecta Trabalho não é responsável por interações ou contratos firmados e
 Reservamos o direito de alterar estes Termos de Uso a qualquer momento. As alterações entrarão em vigor imediatamente após a publicação no aplicativo.
 
 8. Lei Aplicável e Jurisdição
-Estes Termos de Uso são regidos pela legislação brasileira. Qualquer disputa relacionada a estes termos será submetida ao foro da comarca de [Inserir Localidade].
+Estes Termos de Uso são regidos pela legislação brasileira. Qualquer disputa relacionada a estes termos será submetida ao foro da comarca de Pitanga, Paraná, Brasil.
 
 9. Contato
-Em caso de dúvidas ou para mais informações, os usuários podem entrar em contato através de [Inserir Informações de Contato].
+Em caso de dúvidas ou para mais informações, os usuários podem entrar em contato através de suporte@conectatrabalho.com.
 ''';

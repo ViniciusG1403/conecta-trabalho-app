@@ -1,7 +1,5 @@
-import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/register/archives/termos-uso.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 Future<bool> showTermsAndCondition(BuildContext context) async {
   return await showDialog<bool>(
