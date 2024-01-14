@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/login/models/resend-activecode-model.dart';
+import 'package:conectatrabalho/pages/initial/models/user-model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,4 +1,5 @@
-import 'package:conectatrabalho/pages/login/services/login-service.dart';
+import 'package:conectatrabalho/pages/initial/models/user-model.dart';
+import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,10 +10,28 @@ class InitialPage extends StatefulWidget {
   State<InitialPage> createState() => _InitialPageState();
 }
 
-Future<String> getUserName() async {
+String username = "";
+
+String messageForUsers = "";
+
+int userType = 0;
+
+Future<void> getUserFromLogin() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? username = prefs.getString('username');
-  return username!;
+  String? idUser = prefs.getString('uidUsuario');
+  User user = await getUser(idUser);
+
+  username = user.name;
+
+  userType = user.type;
+
+  if (user.type == 1) {
+    messageForUsers =
+        "Para começar, complete seu perfil. Isso nos ajudará a conectar você com as melhores oportunidades de trabalho.";
+  } else {
+    messageForUsers =
+        "Para começar, complete seu perfil. Isso nos ajudará a conectar você com os melhores profissionais da sua área.";
+  }
 }
 
 class _InitialPageState extends State<InitialPage> {
@@ -20,8 +39,8 @@ class _InitialPageState extends State<InitialPage> {
 
   @override
   void initState() {
-    getUserName().then((value) => setState(() {
-          name = value;
+    getUserFromLogin().then((value) => setState(() {
+          name = username;
         }));
     super.initState();
   }
@@ -58,7 +77,7 @@ class _InitialPageState extends State<InitialPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 160,
+                height: 200,
               ),
               SizedBox(
                 width: screenSize.width * 0.8,
@@ -72,9 +91,9 @@ class _InitialPageState extends State<InitialPage> {
               ),
               SizedBox(
                 width: screenSize.width * 0.8,
-                child: const Text(
-                  "Para começar, complete seu perfil. Isso nos ajudará a conectar você com as melhores oportunidades de trabalho.",
-                  style: TextStyle(color: Colors.white, fontSize: 13),
+                child: Text(
+                  messageForUsers,
+                  style: const TextStyle(color: Colors.white, fontSize: 13),
                 ),
               ),
               const SizedBox(
@@ -83,9 +102,14 @@ class _InitialPageState extends State<InitialPage> {
               SizedBox(
                 width: screenSize.width * 0.9,
                 child: TextButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                          if (userType == 1)
+                            context.go("/worker-register")
+                          else
+                            context.go("/contractor-register")
+                        },
                     child: const Text(
-                      "Preencha agora e dê o próximo passo em sua carreira!",
+                      "Preencha agora e dê o próximo passo!",
                       style: TextStyle(color: Colors.white, fontSize: 13),
                     )),
               )

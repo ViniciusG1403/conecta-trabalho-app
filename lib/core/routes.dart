@@ -1,9 +1,11 @@
 import 'package:conectatrabalho/pages/initial/initial-page.dart';
 import 'package:conectatrabalho/pages/login/login-page.dart';
+import 'package:conectatrabalho/pages/register/contractor-profile-register.dart';
 import 'package:conectatrabalho/pages/register/localization-page.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:conectatrabalho/pages/register/principal-data-page.dart';
 import 'package:conectatrabalho/pages/register/register-page.dart';
+import 'package:conectatrabalho/pages/register/worker-profile-register.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -37,5 +39,15 @@ final routes = GoRouter(routes: [
   GoRoute(
     path: "/initial-page",
     pageBuilder: (context, state) => const MaterialPage(child: InitialPage()),
+  ),
+  GoRoute(
+    path: "/worker-register",
+    pageBuilder: (context, state) => const MaterialPage(
+        child: WorkerProfileRegisterPage(), fullscreenDialog: true),
+  ),
+  GoRoute(
+    path: "/contractor-register",
+    pageBuilder: (context, state) => const MaterialPage(
+        child: ContractorProfileRegisterPage(), fullscreenDialog: true),
   ),
 ]);
