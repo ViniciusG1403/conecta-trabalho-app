@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/register/modals/terms-modal.dart';
 import 'package:conectatrabalho/pages/register/models/cep-model.dart';
 import 'package:conectatrabalho/pages/register/services/cep-service.dart';
 import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
@@ -26,6 +27,7 @@ class _LocalizationPageState extends State<LocalizationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isCharging = false;
   ValueNotifier<String> responseNotifier = ValueNotifier('');
+  bool _isAceptedTerms = false;
 
   @override
   void initState() {
@@ -42,6 +44,10 @@ class _LocalizationPageState extends State<LocalizationPage> {
   Future<String> toModel() async {
     if (!_formKey.currentState!.validate()) {
       return 'Por favor, preencha todos os campos obrigatórios';
+    }
+
+    if (_isAceptedTerms == false) {
+      return 'Por favor, aceite os termos e condições de uso';
     }
 
     setState(() {
@@ -130,7 +136,7 @@ class _LocalizationPageState extends State<LocalizationPage> {
                   const SizedBox(height: 25),
                   _buildTextField(
                       _stateController, 'Estado', 'Por favor, insira o estado'),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   ValueListenableBuilder<String>(
                     valueListenable: responseNotifier,
                     builder: (context, value, _) {
@@ -138,6 +144,19 @@ class _LocalizationPageState extends State<LocalizationPage> {
                           style: const TextStyle(color: Colors.white));
                     },
                   ),
+                  const SizedBox(height: 20),
+                  TextButton(
+                      onPressed: () => {
+                            showTermsAndCondition(context).then((value) => {
+                                  setState(() {
+                                    _isAceptedTerms = value;
+                                  })
+                                })
+                          },
+                      child: const Text(
+                          'Aperte aqui para ler os Termos e condições de uso',
+                          style: TextStyle(color: Colors.white))),
+                  const SizedBox(height: 25),
                   _buildSaveButton(),
                 ],
               ),
