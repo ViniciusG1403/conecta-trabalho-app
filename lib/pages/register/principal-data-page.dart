@@ -1,6 +1,7 @@
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:go_router/go_router.dart';
 
 class PrincipalDataPage extends StatefulWidget {
@@ -15,18 +16,20 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
+  late TextEditingController _telefoneController;
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.user.name ?? "");
+    _nameController = TextEditingController(text: widget.user.nome ?? "");
     _emailController = TextEditingController(text: widget.user.email ?? "");
-    _passwordController =
-        TextEditingController(text: widget.user.password ?? "");
+    _passwordController = TextEditingController(text: widget.user.senha ?? "");
     _confirmPasswordController =
-        TextEditingController(text: widget.user.password ?? "");
+        TextEditingController(text: widget.user.senha ?? "");
+    _telefoneController = MaskedTextController(
+        mask: '(00)00000-0000', text: widget.user.telefone ?? "");
   }
 
   void toModel() {
@@ -36,10 +39,12 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
     String name = _nameController.text;
     String email = _emailController.text;
     String password = _passwordController.text;
+    String telefone = _telefoneController.text;
 
-    widget.user.name = name;
+    widget.user.nome = name;
     widget.user.email = email;
-    widget.user.password = password;
+    widget.user.senha = password;
+    widget.user.telefone = telefone;
 
     context.go("/localization-register", extra: widget.user);
   }
@@ -178,6 +183,51 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                         return validateNullField(value, "Email");
                       }
                       return validateEmailFormatRegex(value!);
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                SizedBox(
+                  width: 330,
+                  child: TextFormField(
+                    controller: _telefoneController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.mail_outline,
+                        color: Colors.white,
+                      ),
+                      labelText: 'Telefone',
+                      labelStyle: TextStyle(color: Colors.white),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14)),
+                        borderSide:
+                            BorderSide(color: Color.fromARGB(255, 255, 0, 0)),
+                      ),
+                    ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value == "") {
+                        return validateNullField(value, "Telefone");
+                      }
                     },
                   ),
                 ),

@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   InkWell(
                     onTap: () => context.go("/principal-data",
-                        extra: User("", "", "", "0")),
+                        extra: User("", "", "", "", "1")),
                     child: Card(
                         elevation: 4,
                         child: SizedBox(
@@ -79,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   InkWell(
                     onTap: () => context.go("/principal-data",
-                        extra: User("", "", "", "1")),
+                        extra: User("", "", "12341234", "", "0")),
                     child: Card(
                         elevation: 4,
                         child: SizedBox(

@@ -1,57 +1,63 @@
 class User {
-  String name;
+  String nome;
   String email;
-  String password;
-  String type;
+  String telefone;
+  String senha;
+  String tipo;
 
-  User(this.name, this.email, this.password, this.type);
+  User(this.nome, this.email, this.telefone, this.senha, this.tipo);
 
   Map<String, dynamic> toJson() => {
-        'name': name,
+        'nome': nome,
         'email': email,
-        'password': password,
-        'type': type,
+        'telefone': telefone,
+        'senha': senha,
+        'tipo': tipo,
       };
 }
 
 class UserRegister {
-  String name;
+  String nome;
   String email;
-  String password;
-  String type;
-  Localization localization;
+  String telefone;
+  String senha;
+  String tipo;
+  Endereco endereco;
 
-  UserRegister(
-      this.name, this.email, this.password, this.type, this.localization);
+  UserRegister(this.nome, this.email, this.telefone, this.senha, this.tipo,
+      this.endereco);
 
   Map<String, dynamic> toJson() => {
-        'name': name,
+        'nome': nome,
         'email': email,
-        'password': password,
-        'type': type,
-        'localization': localization.toJson(),
+        'telefone': telefone,
+        'senha': senha,
+        'tipo': tipo,
+        'endereco': endereco.toJson(),
       };
 }
 
-class Localization {
+class Endereco {
   String cep;
-  String street;
-  String number;
-  String complement;
-  String neighborhood;
-  String city;
-  String state;
+  String estado;
+  String pais;
+  String municipio;
+  String bairro;
+  String logradouro;
+  String numero;
+  String complemento;
 
-  Localization(this.cep, this.street, this.number, this.complement,
-      this.neighborhood, this.city, this.state);
+  Endereco(this.cep, this.estado, this.pais, this.municipio, this.bairro,
+      this.logradouro, this.numero, this.complemento);
 
   Map<String, dynamic> toJson() => {
         'cep': cep,
-        'street': street,
-        'number': number,
-        'complement': complement,
-        'neighborhood': neighborhood,
-        'city': city,
-        'state': state,
+        'estado': estado,
+        'pais': pais,
+        'municipio': municipio,
+        'bairro': bairro,
+        'logradouro': logradouro,
+        'numero': numero,
+        'complemento': complemento,
       };
 }

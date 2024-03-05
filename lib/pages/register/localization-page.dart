@@ -18,12 +18,13 @@ class LocalizationPage extends StatefulWidget {
 
 class _LocalizationPageState extends State<LocalizationPage> {
   late TextEditingController _cepController;
-  late TextEditingController _streetController;
-  late TextEditingController _neighborhoodController;
-  late TextEditingController _numberController;
-  late TextEditingController _complementController;
-  late TextEditingController _cityController;
-  late TextEditingController _stateController;
+  late TextEditingController _estadoController;
+  late TextEditingController _paisController;
+  late TextEditingController _municipioController;
+  late TextEditingController _bairroController;
+  late TextEditingController _logradouroController;
+  late TextEditingController _numeroController;
+  late TextEditingController _complementoController;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isCharging = false;
   ValueNotifier<String> responseNotifier = ValueNotifier('');
@@ -33,12 +34,13 @@ class _LocalizationPageState extends State<LocalizationPage> {
   void initState() {
     super.initState();
     _cepController = TextEditingController();
-    _streetController = TextEditingController();
-    _neighborhoodController = TextEditingController();
-    _numberController = TextEditingController();
-    _complementController = TextEditingController();
-    _cityController = TextEditingController();
-    _stateController = TextEditingController();
+    _estadoController = TextEditingController();
+    _paisController = TextEditingController(text: "Brasil");
+    _municipioController = TextEditingController();
+    _bairroController = TextEditingController();
+    _logradouroController = TextEditingController();
+    _numeroController = TextEditingController();
+    _complementoController = TextEditingController();
   }
 
   Future<String> toModel() async {
@@ -55,18 +57,20 @@ class _LocalizationPageState extends State<LocalizationPage> {
     });
 
     UserRegister userRegister = UserRegister(
-        widget.user.name,
+        widget.user.nome,
         widget.user.email,
-        widget.user.password,
-        widget.user.type,
-        Localization(
+        widget.user.telefone,
+        widget.user.senha,
+        widget.user.tipo,
+        Endereco(
             _cepController.text,
-            _streetController.text,
-            _numberController.text,
-            _complementController.text,
-            _neighborhoodController.text,
-            _cityController.text,
-            _stateController.text));
+            _estadoController.text,
+            _paisController.text,
+            _municipioController.text,
+            _bairroController.text,
+            _logradouroController.text,
+            _numeroController.text,
+            _complementoController.text));
 
     String response = await registrarUsuario(userRegister);
 
@@ -121,21 +125,25 @@ class _LocalizationPageState extends State<LocalizationPage> {
                       _cepController, 'CEP', 'Por favor, insira o CEP'),
                   const SizedBox(height: 25),
                   _buildTextField(
-                      _streetController, 'Rua', 'Por favor, insira a rua'),
+                      _paisController, 'Pais', 'Por favor, insira o pais'),
                   const SizedBox(height: 25),
-                  _buildTextField(_neighborhoodController, 'Bairro',
+                  _buildTextField(_estadoController, 'Estado',
+                      'Por favor, insira o estado'),
+                  const SizedBox(height: 25),
+                  _buildTextField(_municipioController, 'Município',
+                      'Por favor, insira o Município'),
+                  const SizedBox(height: 25),
+                  _buildTextField(_bairroController, 'Bairro',
                       'Por favor, insira o bairro'),
                   const SizedBox(height: 25),
-                  _buildTextField(_numberController, 'Número',
+                  _buildTextField(_logradouroController, 'Logradouro',
+                      'Por favor, insira o logradouro'),
+                  const SizedBox(height: 25),
+                  _buildTextField(_numeroController, 'Número',
                       'Por favor, insira o número'),
                   const SizedBox(height: 25),
-                  _buildTextField(_complementController, 'Complemento', null),
-                  const SizedBox(height: 25),
-                  _buildTextField(
-                      _cityController, 'Cidade', 'Por favor, insira a cidade'),
-                  const SizedBox(height: 25),
-                  _buildTextField(
-                      _stateController, 'Estado', 'Por favor, insira o estado'),
+                  _buildTextField(_complementoController, 'Complemento',
+                      'Por favor, insira o complemento'),
                   const SizedBox(height: 20),
                   ValueListenableBuilder<String>(
                     valueListenable: responseNotifier,
@@ -182,10 +190,10 @@ class _LocalizationPageState extends State<LocalizationPage> {
                 {
                   cepEncontrado = getCep(value),
                   cepEncontrado.then((value) => {
-                        _streetController.text = value.logradouro,
-                        _neighborhoodController.text = value.bairro,
-                        _cityController.text = value.localidade,
-                        _stateController.text = value.uf
+                        _logradouroController.text = value.logradouro,
+                        _bairroController.text = value.bairro,
+                        _municipioController.text = value.localidade,
+                        _estadoController.text = value.uf
                       })
                 }
             }

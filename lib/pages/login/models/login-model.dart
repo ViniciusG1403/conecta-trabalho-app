@@ -1,11 +1,11 @@
 class Login {
   String email;
-  String password;
+  String senha;
 
-  Login(this.email, this.password);
+  Login(this.email, this.senha);
 
   Map<String, dynamic> toJson() => {
         'email': email,
-        'password': password,
+        'senha': senha,
       };
 }

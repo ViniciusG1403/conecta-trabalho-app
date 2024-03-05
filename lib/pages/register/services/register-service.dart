@@ -9,7 +9,7 @@ Future<String> registrarUsuario(UserRegister user) async {
       headers: {"Content-Type": "application/json"},
       body: json.encode(user.toJson()));
 
-  if (response.statusCode != 200) {
+  if (response.statusCode != 201) {
     var jsonResponse = json.decode(response.body);
     var errorMessage = _extractErrorMessage(jsonResponse);
     return errorMessage ?? "Ocorreu um erro ao cadastrar, tente novamente";
