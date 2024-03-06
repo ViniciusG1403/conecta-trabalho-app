@@ -1,6 +1,6 @@
 //Routes for the API - Android
 late String loginUrl = 'http://10.0.2.2:8080/auth/login';
-late String activeUserUrl = 'http://10.0.2.2:8080/user/active';
+late String activeUserUrl = 'http://10.0.2.2:8080/usuario/ativar/';
 late String userUrl = 'http://10.0.2.2:8080/usuario';
 late String viaCepUrl = 'https://viacep.com.br/ws/';
 

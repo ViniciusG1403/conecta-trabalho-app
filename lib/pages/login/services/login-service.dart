@@ -83,7 +83,7 @@ Future<String> ResendActivationCode(String email) async {
   ResendActivateCode model =
       ResendActivateCode("", "Ativação de usuário", email);
 
-  var url = Uri.parse(userUrl + "/send-confirmation-code");
+  var url = Uri.parse(userUrl + "/reenviar-codigo");
   var response = await http.put(url,
       headers: {"Content-Type": "application/json"},
       body: json.encode(model.toJson()));

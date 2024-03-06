@@ -10,10 +10,8 @@ Future<String> ActiveUser(code) async {
 
   ActiveUserModel activeUserModel = ActiveUserModel(code);
 
-  var url = Uri.parse(activeUserUrl);
-  var response = await http.put(url,
-      headers: {"Content-Type": "application/json"},
-      body: json.encode(activeUserModel.toJson()));
+  var url = Uri.parse(activeUserUrl + code);
+  var response = await http.put(url);
   if (response.statusCode == 401) {
     return "Código de ativação inválido";
   }
