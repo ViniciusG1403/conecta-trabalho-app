@@ -2,11 +2,15 @@ import 'dart:convert';
 
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user-model.dart';
 
 Future<User> getUser(String? id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
   var url = Uri.parse(userUrl + "/" + id!);
-  var response = await http.get(url);
+  var response = await http.get(url,
+      headers: {"Authorization": "Bearer ${prefs.getString('accessToken')}"});
   if (response.statusCode == 200) {
     Map<String, dynamic> jsonResponse = json.decode(response.body);
     if (jsonResponse.length > 1) {

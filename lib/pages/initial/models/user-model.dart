@@ -1,21 +1,21 @@
 class User {
-  String name;
+  String nome;
   String email;
-  int type;
+  int tipo;
 
-  User(this.name, this.email, this.type);
+  User(this.nome, this.email, this.tipo);
 
   Map<String, dynamic> toJson() => {
-        'name': name,
+        'name': nome,
         'email': email,
-        'type': type,
+        'tipo': tipo,
       };
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      json['name'],
+      json['nome'],
       json['email'],
-      json['type'],
+      json['tipo'],
     );
   }
 }

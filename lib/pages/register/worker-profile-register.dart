@@ -42,7 +42,7 @@ class _WorkerProfileRegisterPageState extends State<WorkerProfileRegisterPage> {
                   Icons.arrow_back,
                   color: Colors.white,
                 ),
-                onPressed: () => context.go("/register"),
+                onPressed: () => context.go("/initial-page"),
               ),
               const Text("                      "),
               Image.asset(

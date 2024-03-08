@@ -21,11 +21,11 @@ Future<void> getUserFromLogin() async {
   String? idUser = prefs.getString('uidUsuario');
   User user = await getUser(idUser);
 
-  username = user.name;
+  username = user.nome.split(" ")[0];
 
-  userType = user.type;
+  userType = user.tipo;
 
-  if (user.type == 1) {
+  if (user.tipo == 0) {
     messageForUsers =
         "Para começar, complete seu perfil. Isso nos ajudará a conectar você com as melhores oportunidades de trabalho.";
   } else {
