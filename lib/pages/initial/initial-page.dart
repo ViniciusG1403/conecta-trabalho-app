@@ -103,10 +103,10 @@ class _InitialPageState extends State<InitialPage> {
                 width: screenSize.width * 0.9,
                 child: TextButton(
                     onPressed: () => {
-                          if (userType == 1)
-                            context.go("/worker-register")
+                          if (userType == 0)
+                            context.go("/registro-candidato")
                           else
-                            context.go("/contractor-register")
+                            context.go("/registro-empresa")
                         },
                     child: const Text(
                       "Preencha agora e dê o próximo passo!",

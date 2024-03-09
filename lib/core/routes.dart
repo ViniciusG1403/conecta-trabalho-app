@@ -1,11 +1,12 @@
+import 'package:conectatrabalho/pages/home/home-page.dart';
 import 'package:conectatrabalho/pages/initial/initial-page.dart';
 import 'package:conectatrabalho/pages/login/login-page.dart';
-import 'package:conectatrabalho/pages/register/contractor-profile-register.dart';
+import 'package:conectatrabalho/pages/register/perfil-empresa-registro.dart';
 import 'package:conectatrabalho/pages/register/localization-page.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
+import 'package:conectatrabalho/pages/register/perfil-candidato-registro.dart';
 import 'package:conectatrabalho/pages/register/principal-data-page.dart';
 import 'package:conectatrabalho/pages/register/register-page.dart';
-import 'package:conectatrabalho/pages/register/worker-profile-register.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -41,13 +42,16 @@ final routes = GoRouter(routes: [
     pageBuilder: (context, state) => const MaterialPage(child: InitialPage()),
   ),
   GoRoute(
-    path: "/worker-register",
+    path: "/registro-candidato",
     pageBuilder: (context, state) => const MaterialPage(
-        child: WorkerProfileRegisterPage(), fullscreenDialog: true),
+        child: PerfilCandidatoRegistro(), fullscreenDialog: true),
   ),
   GoRoute(
-    path: "/contractor-register",
+    path: "/registro-empresa",
     pageBuilder: (context, state) => const MaterialPage(
-        child: ContractorProfileRegisterPage(), fullscreenDialog: true),
+        child: PerfilEmpresaRegistro(), fullscreenDialog: true),
   ),
+  GoRoute(
+      path: '/home',
+      pageBuilder: (context, state) => MaterialPage(child: HomePage())),
 ]);
