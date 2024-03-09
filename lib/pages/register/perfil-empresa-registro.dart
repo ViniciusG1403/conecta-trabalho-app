@@ -1,4 +1,5 @@
 import 'package:conectatrabalho/pages/register/models/perfil-candidato-registro-model.dart';
+import 'package:conectatrabalho/pages/register/models/perfil-empresa-registro-model.dart';
 import 'package:conectatrabalho/pages/register/services/profiles-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -14,43 +15,31 @@ class PerfilEmpresaRegistro extends StatefulWidget {
 }
 
 class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
-  late TextEditingController _habilidadesController;
+  late TextEditingController _setorController;
+  late TextEditingController _descricaoController;
+  late TextEditingController _websiteController;
   late TextEditingController _linkedinController;
-  late TextEditingController _githubController;
-  late TextEditingController _portfolioController;
-  late TextEditingController _disponibilidadeController;
-  late TextEditingController _pretensaoSalarialController;
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
-    _habilidadesController = TextEditingController(text: "");
+    _setorController = TextEditingController(text: "");
+    _descricaoController = TextEditingController(text: "");
+    _websiteController = TextEditingController(text: "");
     _linkedinController = TextEditingController(text: "");
-    _githubController = TextEditingController(text: "");
-    _portfolioController = TextEditingController(text: "");
-    _disponibilidadeController = TextEditingController(text: "");
-    _pretensaoSalarialController =
-        MaskedTextController(mask: "R\$ 000.000,00'", text: "");
     super.initState();
   }
 
   void _registerWorkerProfile() {
     if (_formKey.currentState!.validate()) {
-      num pretensaoSalarial = num.parse(_pretensaoSalarialController.text
-          .replaceAll("R\$", "")
-          .replaceAll(".", "")
-          .replaceAll(",", ".")
-          .replaceAll("'", ""));
-      Candidato candidato = Candidato(
+      Empresa empresa = Empresa(
           '',
-          _habilidadesController.text,
-          _linkedinController.text,
-          _githubController.text,
-          _portfolioController.text,
-          _disponibilidadeController.text,
-          pretensaoSalarial);
+          _setorController.text,
+          _descricaoController.text,
+          _websiteController.text,
+          _linkedinController.text);
 
-      registrarCandidato(candidato).then((value) {
+      registrarEmpresa(empresa).then((value) {
         if (value == "Preenchimento de perfil realizado com sucesso") {
           context.go("/home");
         } else {
@@ -110,7 +99,7 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
                 SizedBox(
                   width: screenSize.width * 0.8,
                   child: const Text(
-                    "Aqui você preencherá o seu perfil de candidato, não se esqueça de preencher sempre com dados reais para que as empresas consigam entrar em contato com você.",
+                    "Aqui você preencherá o seu perfil de empresa, não se esqueça de preencher sempre com dados reais para que os candidatos consigam confiar em sua empresa.",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -118,8 +107,24 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
                   height: 50,
                 ),
                 _buildTextField(
-                  _habilidadesController,
-                  "Habilidades",
+                  _setorController,
+                  "Setor",
+                  "Setor é obrigatório",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                _buildTextField(
+                  _descricaoController,
+                  "Descrição da Empresa	",
+                  "Descrição é obrigatória",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                _buildTextField(
+                  _websiteController,
+                  "Website",
                   "",
                 ),
                 const SizedBox(
@@ -132,35 +137,6 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
                 ),
                 const SizedBox(
                   height: 20,
-                ),
-                _buildTextField(
-                  _githubController,
-                  "GitHub",
-                  "",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                _buildTextField(
-                  _portfolioController,
-                  "Portfolio",
-                  "",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                _buildTextField(
-                  _disponibilidadeController,
-                  "Disponibilidade",
-                  "A disponibilidade é obrigatória.",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                _buildTextField(
-                  _pretensaoSalarialController,
-                  "Pretensão Salarial Mensal",
-                  "A pretensão salarial é obrigatória.",
                 ),
                 const SizedBox(
                   height: 20,

@@ -5,6 +5,7 @@ late String loginUrl = '$route/auth/login';
 late String activeUserUrl = '$route/usuario/ativar/';
 late String userUrl = '$route/usuario';
 late String candidatoUrl = '$route/candidato';
+late String empresaUrl = '$route/empresa';
 late String viaCepUrl = 'https://viacep.com.br/ws/';
 
 //Routes for the API - Android
