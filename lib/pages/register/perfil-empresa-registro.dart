@@ -40,12 +40,13 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
           _linkedinController.text);
 
       registrarEmpresa(empresa).then((value) {
-        if (value == "Preenchimento de perfil realizado com sucesso") {
-          context.go("/home");
+        if (value.id !=
+            "Ocorreu um erro ao preencher perfil, tente novamente") {
+          context.go("/preencher-foto", extra: value);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(value),
+              content: Text(value.id),
               backgroundColor: Colors.red,
             ),
           );

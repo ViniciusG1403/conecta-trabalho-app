@@ -3,10 +3,12 @@ import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/pages/register/models/perfil-candidato-registro-model.dart';
 import 'package:conectatrabalho/pages/register/models/perfil-empresa-registro-model.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
+import 'package:conectatrabalho/pages/register/models/retorno-cadastro-perfil.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<String> registrarCandidato(Candidato candidato) async {
+Future<RetornoCadastroPerfil> registrarCandidato(Candidato candidato) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   candidato.idUsuario = prefs.getString('uidUsuario') ?? "";
@@ -20,12 +22,11 @@ Future<String> registrarCandidato(Candidato candidato) async {
       body: json.encode(candidato.toJson()));
 
   if (response.statusCode != 201) {
-    var jsonResponse = json.decode(response.body);
-    var errorMessage = _extractErrorMessage(jsonResponse);
-    return errorMessage ??
-        "Ocorreu um erro ao preencher o perfil, tente novamente";
+    return RetornoCadastroPerfil(
+        "Ocorreu um erro ao preencher perfil, tente novamente", 0);
   } else {
-    return "Preenchimento de perfil realizado com sucesso";
+    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    return RetornoCadastroPerfil.fromJson(jsonResponse);
   }
 }
 
@@ -42,7 +43,7 @@ String? _extractErrorMessage(Map<String, dynamic> jsonResponse) {
   return null;
 }
 
-Future<String> registrarEmpresa(Empresa empresa) async {
+Future<RetornoCadastroPerfil> registrarEmpresa(Empresa empresa) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   empresa.idUsuario = prefs.getString('uidUsuario') ?? "";
@@ -56,11 +57,31 @@ Future<String> registrarEmpresa(Empresa empresa) async {
       body: json.encode(empresa.toJson()));
 
   if (response.statusCode != 201) {
-    var jsonResponse = json.decode(response.body);
-    var errorMessage = _extractErrorMessage(jsonResponse);
-    return errorMessage ??
-        "Ocorreu um erro ao preencher o perfil, tente novamente";
+    return RetornoCadastroPerfil(
+        "Ocorreu um erro ao preencher perfil, tente novamente", 0);
   } else {
-    return "Preenchimento de perfil realizado com sucesso";
+    return RetornoCadastroPerfil.fromJson(json.decode(response.body));
   }
+}
+
+Future<void> salvarImagemCandidato(XFile image, String id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var url = Uri.parse("$candidatoUrl/salvar-imagem");
+  var request = http.MultipartRequest('POST', url);
+  request.headers
+      .addAll({"Authorization": "Bearer ${prefs.getString('accessToken')}"});
+  request.files.add(await http.MultipartFile.fromPath('file', image.path));
+  request.files.add(http.MultipartFile.fromString('id', id));
+  await request.send();
+}
+
+Future<void> salvarImagemEmpresa(XFile image, String id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var url = Uri.parse("$candidatoUrl/salvar-imagem");
+  var request = http.MultipartRequest('POST', url);
+  request.headers
+      .addAll({"Authorization": "Bearer ${prefs.getString('accessToken')}"});
+  request.files.add(await http.MultipartFile.fromPath('file', image.path));
+  request.files.add(http.MultipartFile.fromString('id', id));
+  await request.send();
 }

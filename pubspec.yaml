@@ -40,6 +40,7 @@ dependencies:
   intl: ^0.19.0
   flutter_svg: ^2.0.9
   flutter_masked_text2: ^0.9.1
+  image_picker: ^1.0.7
 
 
 dev_dependencies:
