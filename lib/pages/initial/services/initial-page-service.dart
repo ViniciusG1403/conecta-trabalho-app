@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:http/http.dart' as http;
@@ -21,5 +22,22 @@ Future<User> getUser(String? id) async {
     }
   } else {
     return User("", "", 0);
+  }
+}
+
+Future<bool> userWithProfile(String? id) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  var url = Uri.parse("$userUrl/${id!}/tem-perfil-cadastrado");
+  var response = await http.get(url,
+      headers: {"Authorization": "Bearer ${prefs.getString('accessToken')}"});
+  if (response.statusCode == 200) {
+    if (response.body == "true") {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
   }
 }

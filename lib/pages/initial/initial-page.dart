@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/initial/models/user-model.dart';
 import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
 import 'package:flutter/material.dart';
@@ -19,19 +20,25 @@ int userType = 0;
 Future<void> getUserFromLogin() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? idUser = prefs.getString('uidUsuario');
-  User user = await getUser(idUser);
+  bool hasProfile = await userWithProfile(idUser);
+  if (!hasProfile) {
+    User user = await getUser(idUser);
 
-  username = user.nome.split(" ")[0];
+    username = user.nome.split(" ")[0];
 
-  userType = user.tipo;
+    userType = user.tipo;
 
-  if (user.tipo == 0) {
-    messageForUsers =
-        "Para começar, complete seu perfil. Isso nos ajudará a conectar você com as melhores oportunidades de trabalho.";
-  } else {
-    messageForUsers =
-        "Para começar, complete seu perfil. Isso nos ajudará a conectar você com os melhores profissionais da sua área.";
+    if (user.tipo == 0) {
+      messageForUsers =
+          "Para começar, complete seu perfil. Isso nos ajudará a conectar você com as melhores oportunidades de trabalho.";
+    } else {
+      messageForUsers =
+          "Para começar, complete seu perfil. Isso nos ajudará a conectar você com os melhores profissionais da sua área.";
+    }
+    return;
   }
+
+  routes.go("/home");
 }
 
 class _InitialPageState extends State<InitialPage> {
