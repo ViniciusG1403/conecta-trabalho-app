@@ -202,32 +202,6 @@ class _LoginPageState extends State<LoginPage> {
                   Text(_feedbackMessage,
                       style: const TextStyle(color: Colors.white)),
                   const Text(""),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Image.asset(
-                          'assets/images/login-page/google-login.png',
-                          height: 35,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Image.asset(
-                          'assets/images/login-page/linkedin-login.png',
-                          height: 35,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Image.asset(
-                          'assets/images/login-page/facebook-login.png',
-                          height: 35,
-                        ),
-                      ),
-                    ],
-                  ),
                   const Text(""),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
