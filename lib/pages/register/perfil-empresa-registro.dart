@@ -1,11 +1,8 @@
-import 'package:conectatrabalho/pages/register/models/perfil-candidato-registro-model.dart';
 import 'package:conectatrabalho/pages/register/models/perfil-empresa-registro-model.dart';
 import 'package:conectatrabalho/pages/register/services/profiles-service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:go_router/go_router.dart';
-import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PerfilEmpresaRegistro extends StatefulWidget {
   const PerfilEmpresaRegistro({Key? key}) : super(key: key);
