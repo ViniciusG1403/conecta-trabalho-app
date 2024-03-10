@@ -1,19 +1,20 @@
+import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late bool isCharging = true;
-
   String urlFotoPerfil = '';
   late SearchController controller;
   late Image image;
+
   @override
   void initState() {
     controller = SearchController();
@@ -24,13 +25,6 @@ class _HomePageState extends State<HomePage> {
       });
     });
     super.initState();
-    setState(() {
-      if (urlFotoPerfil != '') {
-        isCharging = true;
-      } else {
-        isCharging = false;
-      }
-    });
   }
 
   @override
@@ -71,32 +65,26 @@ class _HomePageState extends State<HomePage> {
                         )
                       : CircularProgressIndicator(),
                   const SizedBox(width: 230),
-                  IconButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white)),
-                      icon: const Icon(
-                        Icons.menu,
-                        color: Colors.black,
-                      ))
+                  CustomPopupMenu()
                 ],
               ),
               const SizedBox(height: 35),
               SizedBox(
-                  width: screenSize.width * 0.9,
-                  child: SearchBar(
-                    controller: controller,
-                    padding: const MaterialStatePropertyAll<EdgeInsets>(
-                        EdgeInsets.symmetric(horizontal: 16.0)),
-                    onTap: () {
-                      controller.openView();
-                    },
-                    onChanged: (_) {
-                      controller.openView();
-                    },
-                    leading: const Icon(Icons.search),
-                  ))
+                width: screenSize.width * 0.9,
+                child: SearchBar(
+                  controller: controller,
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    EdgeInsets.symmetric(horizontal: 16.0),
+                  ),
+                  onTap: () {
+                    controller.openView();
+                  },
+                  onChanged: (_) {
+                    controller.openView();
+                  },
+                  leading: const Icon(Icons.search),
+                ),
+              ),
             ],
           ),
         ),
