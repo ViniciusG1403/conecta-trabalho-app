@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/routes.dart';
+import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
 import 'package:conectatrabalho/pages/login/models/resend-activecode-model.dart';
 import 'package:conectatrabalho/pages/initial/models/user-model.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +27,15 @@ Future<String> RealizarLogin(String email, String senha) async {
 
   try {
     await _saveToken(response.body);
-    routes.go("/initial-page");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idUser = prefs.getString('uidUsuario');
+    bool userProfile = await userWithProfile(idUser!);
+
+    if (userProfile) {
+      routes.go("/home");
+    } else {
+      routes.go("/initial-page");
+    }
     return "Login realizado com sucesso";
   } catch (e) {
     return "Ocorreu um erro ao realizar login";

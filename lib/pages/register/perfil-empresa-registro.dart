@@ -110,6 +110,7 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
                 _buildTextField(
                   _setorController,
                   "Setor",
+                  false,
                   "Setor é obrigatório",
                 ),
                 const SizedBox(
@@ -118,6 +119,7 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
                 _buildTextField(
                   _descricaoController,
                   "Descrição da Empresa	",
+                  false,
                   "Descrição é obrigatória",
                 ),
                 const SizedBox(
@@ -126,6 +128,7 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
                 _buildTextField(
                   _websiteController,
                   "Website",
+                  true,
                   "",
                 ),
                 const SizedBox(
@@ -134,6 +137,7 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
                 _buildTextField(
                   _linkedinController,
                   "Linkedin",
+                  true,
                   "",
                 ),
                 const SizedBox(
@@ -159,6 +163,7 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
   Widget _buildTextField(
     TextEditingController controller,
     String label,
+    bool permitNull,
     String? errorMessage,
   ) {
     return SizedBox(
@@ -188,6 +193,9 @@ class _PerfilEmpresaRegistroState extends State<PerfilEmpresaRegistro> {
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
+          if (permitNull) {
+            return null;
+          }
           return validateNullField(value, label);
         },
       ),

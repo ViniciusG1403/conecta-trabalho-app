@@ -122,6 +122,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
                 _buildTextField(
                   _habilidadesController,
                   "Habilidades",
+                  false,
                   "",
                 ),
                 const SizedBox(
@@ -130,6 +131,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
                 _buildTextField(
                   _linkedinController,
                   "Linkedin",
+                  true,
                   "",
                 ),
                 const SizedBox(
@@ -138,6 +140,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
                 _buildTextField(
                   _githubController,
                   "GitHub",
+                  true,
                   "",
                 ),
                 const SizedBox(
@@ -146,6 +149,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
                 _buildTextField(
                   _portfolioController,
                   "Portfolio",
+                  true,
                   "",
                 ),
                 const SizedBox(
@@ -154,6 +158,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
                 _buildTextField(
                   _disponibilidadeController,
                   "Disponibilidade",
+                  false,
                   "A disponibilidade é obrigatória.",
                 ),
                 const SizedBox(
@@ -162,6 +167,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
                 _buildTextField(
                   _pretensaoSalarialController,
                   "Pretensão Salarial Mensal",
+                  false,
                   "A pretensão salarial é obrigatória.",
                 ),
                 const SizedBox(
@@ -184,6 +190,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
   Widget _buildTextField(
     TextEditingController controller,
     String label,
+    bool permitNull,
     String? errorMessage,
   ) {
     return SizedBox(
@@ -213,6 +220,9 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
         ),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
+          if (permitNull) {
+            return null;
+          }
           return validateNullField(value, label);
         },
       ),
