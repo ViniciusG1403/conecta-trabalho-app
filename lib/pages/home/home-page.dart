@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,10 +9,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String urlFotoPerfil = '';
   late SearchController controller;
+  late Image image;
   @override
   void initState() {
     controller = SearchController();
+    getPerfilByUser().then((value) {
+      setState(() {
+        urlFotoPerfil = value.fotoPerfil;
+        image = Image.network(urlFotoPerfil);
+        print(image);
+      });
+    });
     super.initState();
   }
 
@@ -44,9 +54,9 @@ class _HomePageState extends State<HomePage> {
                     borderRadius:
                         BorderRadius.circular(screenSize.width * 0.3 / 2),
                     child: Image.network(
-                      "https://img.freepik.com/fotos-gratis/uma-pintura-de-um-lago-de-montanha-com-uma-montanha-ao-fundo_188544-9126.jpg",
-                      width: screenSize.width * 0.15,
-                      height: screenSize.width * 0.15,
+                      urlFotoPerfil,
+                      width: screenSize.width * 0.115,
+                      height: screenSize.width * 0.115,
                       fit: BoxFit.cover,
                     ),
                   ),
