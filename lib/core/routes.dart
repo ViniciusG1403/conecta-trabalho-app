@@ -6,7 +6,7 @@ import 'package:conectatrabalho/pages/register/perfil-empresa-registro.dart';
 import 'package:conectatrabalho/pages/register/localization-page.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
 import 'package:conectatrabalho/pages/register/perfil-candidato-registro.dart';
-import 'package:conectatrabalho/pages/register/preencher-foto-perfil.dart';
+import 'package:conectatrabalho/pages/register/preencher-documentos-registro.dart';
 import 'package:conectatrabalho/pages/register/principal-data-page.dart';
 import 'package:conectatrabalho/pages/register/register-page.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ final routes = GoRouter(routes: [
       pageBuilder: (context, state) {
         final retorno = state.extra as RetornoCadastroPerfil;
         return MaterialPage(
-            child: PreencherFotoPerfil(retorno: retorno),
+            child: PreencherDocumentosRegistro(retorno: retorno),
             fullscreenDialog: true);
       })
 ]);
