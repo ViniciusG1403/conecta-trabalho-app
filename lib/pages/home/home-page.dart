@@ -8,23 +8,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late SearchController controller;
+  @override
+  void initState() {
+    controller = SearchController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xff220A55),
-        toolbarHeight: 80,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
-          onPressed: () => context.go("/"),
-        ),
-        actions: [Image.asset("assets/images/initial-page/logo-resumido.png")],
-      ),
       body: Container(
         width: screenSize.width,
         height: screenSize.height,
@@ -40,17 +35,48 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 200,
+                height: 80,
               ),
-              const SizedBox(
-                height: 30,
+              Row(
+                children: [
+                  const SizedBox(width: 35),
+                  ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(screenSize.width * 0.3 / 2),
+                    child: Image.network(
+                      "https://img.freepik.com/fotos-gratis/uma-pintura-de-um-lago-de-montanha-com-uma-montanha-ao-fundo_188544-9126.jpg",
+                      width: screenSize.width * 0.15,
+                      height: screenSize.width * 0.15,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(width: 230),
+                  IconButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white)),
+                      icon: const Icon(
+                        Icons.menu,
+                        color: Colors.black,
+                      ))
+                ],
               ),
+              const SizedBox(height: 35),
               SizedBox(
-                width: screenSize.width * 0.8,
-              ),
-              const SizedBox(
-                height: 30,
-              ),
+                  width: screenSize.width * 0.9,
+                  child: SearchBar(
+                    controller: controller,
+                    padding: const MaterialStatePropertyAll<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 16.0)),
+                    onTap: () {
+                      controller.openView();
+                    },
+                    onChanged: (_) {
+                      controller.openView();
+                    },
+                    leading: const Icon(Icons.search),
+                  ))
             ],
           ),
         ),
