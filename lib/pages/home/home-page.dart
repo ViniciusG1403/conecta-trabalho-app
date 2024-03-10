@@ -9,6 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late bool isCharging = true;
+
   String urlFotoPerfil = '';
   late SearchController controller;
   late Image image;
@@ -19,10 +21,16 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         urlFotoPerfil = value.fotoPerfil;
         image = Image.network(urlFotoPerfil);
-        print(image);
       });
     });
     super.initState();
+    setState(() {
+      if (urlFotoPerfil != '') {
+        isCharging = true;
+      } else {
+        isCharging = false;
+      }
+    });
   }
 
   @override
@@ -50,16 +58,18 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: [
                   const SizedBox(width: 35),
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(screenSize.width * 0.3 / 2),
-                    child: Image.network(
-                      urlFotoPerfil,
-                      width: screenSize.width * 0.115,
-                      height: screenSize.width * 0.115,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  urlFotoPerfil != ''
+                      ? ClipRRect(
+                          borderRadius:
+                              BorderRadius.circular(screenSize.width * 0.3 / 2),
+                          child: Image.network(
+                            urlFotoPerfil,
+                            width: screenSize.width * 0.115,
+                            height: screenSize.width * 0.115,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : CircularProgressIndicator(),
                   const SizedBox(width: 230),
                   IconButton(
                       onPressed: () {},
