@@ -58,7 +58,6 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: const Color(0xff220A55),
           toolbarHeight: 100,
