@@ -1,4 +1,5 @@
 import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
+import 'package:conectatrabalho/pages/home/models/busca-perfil-model.dart';
 import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   String urlFotoPerfil = '';
   late SearchController controller;
   late Image image;
+  late List<UserModel> users = [];
 
   @override
   void initState() {
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         urlFotoPerfil = value.fotoPerfil;
         image = Image.network(urlFotoPerfil);
+        users = value.usuarios;
       });
     });
     super.initState();
@@ -42,51 +45,66 @@ class _HomePageState extends State<HomePage> {
             fit: BoxFit.fill,
           ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 80,
-              ),
-              Row(
+        child: ListView.builder(
+          itemCount: users.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Column(
                 children: [
-                  const SizedBox(width: 35),
-                  urlFotoPerfil != ''
-                      ? ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(screenSize.width * 0.3 / 2),
-                          child: Image.network(
-                            urlFotoPerfil,
-                            width: screenSize.width * 0.115,
-                            height: screenSize.width * 0.115,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                      : CircularProgressIndicator(),
-                  const SizedBox(width: 230),
-                  CustomPopupMenu()
-                ],
-              ),
-              const SizedBox(height: 35),
-              SizedBox(
-                width: screenSize.width * 0.9,
-                child: SearchBar(
-                  controller: controller,
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    EdgeInsets.symmetric(horizontal: 16.0),
+                  const SizedBox(
+                    height: 80,
                   ),
-                  onTap: () {
-                    controller.openView();
-                  },
-                  onChanged: (_) {
-                    controller.openView();
-                  },
-                  leading: const Icon(Icons.search),
+                  Row(
+                    children: [
+                      const SizedBox(width: 35),
+                      urlFotoPerfil != ''
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                  screenSize.width * 0.3 / 2),
+                              child: Image.network(
+                                urlFotoPerfil,
+                                width: screenSize.width * 0.115,
+                                height: screenSize.width * 0.115,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : CircularProgressIndicator(),
+                      const SizedBox(width: 230),
+                      CustomPopupMenu()
+                    ],
+                  ),
+                  const SizedBox(height: 35),
+                  SizedBox(
+                    width: screenSize.width * 0.9,
+                    child: SearchBar(
+                      controller: controller,
+                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        EdgeInsets.symmetric(horizontal: 16.0),
+                      ),
+                      onTap: () {
+                        controller.openView();
+                      },
+                      onChanged: (_) {
+                        controller.openView();
+                      },
+                      leading: const Icon(Icons.search),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              );
+            } else {
+              return ListTile(
+                title: Text(
+                  users[index - 1].nome,
+                  style: TextStyle(color: Colors.white),
                 ),
-              ),
-            ],
-          ),
+                onTap: () {
+                  context.go("/perfil", extra: users[index - 1]);
+                },
+              );
+            }
+          },
         ),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:conectatrabalho/pages/register/models/cep-model.dart';
 import 'package:conectatrabalho/pages/register/services/cep-service.dart';
 import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:go_router/go_router.dart';
 import 'package:conectatrabalho/pages/register/modals/register-succesfull-modal.dart';
 import 'package:conectatrabalho/pages/register/models/register-model.dart';
@@ -33,7 +34,7 @@ class _LocalizationPageState extends State<LocalizationPage> {
   @override
   void initState() {
     super.initState();
-    _cepController = TextEditingController();
+    _cepController = MaskedTextController(text: "", mask: '00000-000');
     _estadoController = TextEditingController();
     _paisController = TextEditingController(text: "Brasil");
     _municipioController = TextEditingController();
@@ -63,7 +64,7 @@ class _LocalizationPageState extends State<LocalizationPage> {
         widget.user.senha,
         widget.user.tipo,
         Endereco(
-            _cepController.text,
+            _cepController.text.split('-').join(),
             _estadoController.text,
             _paisController.text,
             _municipioController.text,
@@ -186,9 +187,9 @@ class _LocalizationPageState extends State<LocalizationPage> {
         onChanged: (value) => {
           if (label == 'CEP')
             {
-              if (value.length == 8)
+              if (value.length == 9)
                 {
-                  cepEncontrado = getCep(value),
+                  cepEncontrado = getCep(value.split('-').join()),
                   cepEncontrado.then((value) => {
                         _logradouroController.text = value.logradouro,
                         _bairroController.text = value.bairro,

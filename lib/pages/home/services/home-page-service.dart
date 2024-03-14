@@ -18,9 +18,9 @@ Future<BuscaPerfilRetorno> getPerfilByUser() async {
       BuscaPerfilRetorno user = BuscaPerfilRetorno.fromJson(jsonResponse);
       return user;
     } else {
-      return BuscaPerfilRetorno("", "", "", "");
+      return BuscaPerfilRetorno("", "", "", "", []);
     }
   } else {
-    return BuscaPerfilRetorno("", "", "", "");
+    return BuscaPerfilRetorno("", "", "", "", []);
   }
 }
