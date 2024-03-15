@@ -5,10 +5,8 @@ class BuscaPerfilRetorno {
   String nome;
   String email;
   String fotoPerfil;
-  List<UserModel> usuarios;
 
-  BuscaPerfilRetorno(
-      this.id, this.nome, this.email, this.fotoPerfil, this.usuarios);
+  BuscaPerfilRetorno(this.id, this.nome, this.email, this.fotoPerfil);
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -18,40 +16,7 @@ class BuscaPerfilRetorno {
       };
 
   factory BuscaPerfilRetorno.fromJson(Map<String, dynamic> json) {
-    var list = json['usuarios'] as List;
-    List<UserModel> usuariosList =
-        list.map((i) => UserModel.fromJson(i)).toList();
-
     return BuscaPerfilRetorno(
-      json['id'],
-      json['nome'],
-      json['email'],
-      json['fotoPerfil'],
-      usuariosList,
-    );
-  }
-}
-
-class UserModel {
-  String id;
-  String nome;
-
-  UserModel({
-    required this.id,
-    required this.nome,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nome': nome,
-    };
-  }
-
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['id'],
-      nome: json['nome'],
-    );
+        json['id'], json['nome'], json['email'], json['fotoPerfil']);
   }
 }

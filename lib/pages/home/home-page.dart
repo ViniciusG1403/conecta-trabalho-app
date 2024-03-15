@@ -1,7 +1,9 @@
+import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
+import 'package:flutter/material.dart';
 import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/home/models/busca-perfil-model.dart';
+import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
 import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   String urlFotoPerfil = '';
   late SearchController controller;
   late Image image;
-  late List<UserModel> users = [];
+  var vagas = getVagasProximo();
 
   @override
   void initState() {
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         urlFotoPerfil = value.fotoPerfil;
         image = Image.network(urlFotoPerfil);
-        users = value.usuarios;
+        vagas = getVagasProximo();
       });
     });
     super.initState();
@@ -87,26 +89,8 @@ class _HomePageState extends State<HomePage> {
                   leading: const Icon(Icons.search),
                 ),
               ),
-              const SizedBox(height: 20),
-              const Center(
-                child: Text(
-                  "Vagas próximas a você",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
               const SizedBox(height: 10),
-              ...users
-                  .map((user) => SizedBox(
-                      width: screenSize.width * 0.9,
-                      child: Card(
-                          child: ListTile(
-                        title: Text(
-                          user.nome,
-                          style: const TextStyle(color: Colors.black),
-                        ),
-                        subtitle: Text(user.id),
-                      ))))
-                  .toList(),
+              buildHomePageCandidato(screenSize, vagas),
             ],
           ),
         ),
