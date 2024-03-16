@@ -1,10 +1,8 @@
-import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
-import 'package:flutter/material.dart';
 import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
-import 'package:conectatrabalho/pages/home/models/busca-perfil-model.dart';
-import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
+import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
 import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,10 +12,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late SharedPreferences prefs;
+  List<String> recentSearches = [];
   String urlFotoPerfil = '';
   late SearchController controller;
   late Image image;
-  var vagas = getVagasProximo();
+
+  void initPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      recentSearches = prefs.getStringList('recentSearches') ?? [];
+    });
+  }
 
   @override
   void initState() {
@@ -26,10 +32,10 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         urlFotoPerfil = value.fotoPerfil;
         image = Image.network(urlFotoPerfil);
-        vagas = getVagasProximo();
       });
     });
     super.initState();
+    initPrefs();
   }
 
   @override
@@ -51,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               const SizedBox(
-                height: 80,
+                height: 50,
               ),
               Row(
                 children: [
@@ -75,22 +81,48 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 35),
               SizedBox(
                 width: screenSize.width * 0.9,
-                child: SearchBar(
-                  controller: controller,
-                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                    const EdgeInsets.symmetric(horizontal: 16.0),
-                  ),
-                  onTap: () {
-                    controller.openView();
-                  },
-                  onChanged: (_) {
-                    controller.openView();
-                  },
-                  leading: const Icon(Icons.search),
-                ),
               ),
               const SizedBox(height: 10),
-              buildHomePageCandidato(screenSize, vagas),
+              SizedBox(
+                width: screenSize.width * 0.9,
+                child: SearchAnchor(builder:
+                    (BuildContext context, SearchController controller) {
+                  return SearchBar(
+                    controller: controller,
+                    padding: const MaterialStatePropertyAll<EdgeInsets>(
+                        EdgeInsets.symmetric(horizontal: 16.0)),
+                    onTap: () {
+                      controller.openView();
+                    },
+                    onChanged: (_) {
+                      controller.openView();
+                    },
+                    hintText: "Pesquise por titulo de vagas",
+                    onSubmitted: (value) => {
+                      print(value),
+                      recentSearches.add(value),
+                      prefs.setStringList('recentSearches', recentSearches),
+                    },
+                    leading: const Icon(Icons.search),
+                  );
+                }, suggestionsBuilder:
+                    (BuildContext context, SearchController controller) {
+                  return recentSearches.map((search) {
+                    return ListTile(
+                      title: Text(search),
+                      onTap: () {
+                        setState(() {
+                          controller.closeView(search);
+                        });
+                      },
+                    );
+                  }).toList();
+                }),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              buildHomePageCandidato(screenSize),
             ],
           ),
         ),
