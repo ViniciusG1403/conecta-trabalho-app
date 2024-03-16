@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
 import 'package:flutter/material.dart';
 
@@ -60,7 +61,7 @@ Column buildHomePageCandidato(Size screenSize) {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     TextButton.icon(
-                      onPressed: () => {},
+                      onPressed: () => routes.go('/vagas'),
                       icon: const Icon(
                         Icons.more,
                         color: Colors.white,
