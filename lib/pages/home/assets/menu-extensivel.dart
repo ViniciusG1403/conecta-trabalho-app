@@ -11,6 +11,17 @@ class CustomPopupMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
+            value: "Vagas",
+            child: TextButton.icon(
+              icon: const Icon(Icons.groups_outlined, color: Colors.black),
+              label: const Text(
+                'Vagas',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () => {routes.go("/vagas")},
+            ),
+          ),
+          PopupMenuItem(
             child: TextButton.icon(
               icon:
                   const Icon(Icons.build_circle_outlined, color: Colors.black),
@@ -37,6 +48,10 @@ class CustomPopupMenu extends StatelessWidget {
       onSelected: (value) {
         if (value == "Sair") {
           exitApp();
+        }
+
+        if (value == "Vagas") {
+          routes.go("/vagas");
         }
       },
       icon: const Icon(
