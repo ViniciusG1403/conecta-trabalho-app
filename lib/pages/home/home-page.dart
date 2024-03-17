@@ -83,46 +83,6 @@ class _HomePageState extends State<HomePage> {
                 width: screenSize.width * 0.9,
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                width: screenSize.width * 0.9,
-                child: SearchAnchor(
-                    isFullScreen: false,
-                    builder:
-                        (BuildContext context, SearchController controller) {
-                      return SearchBar(
-                        controller: controller,
-                        padding: const MaterialStatePropertyAll<EdgeInsets>(
-                            EdgeInsets.symmetric(horizontal: 16.0)),
-                        onTap: () {
-                          controller.openView();
-                        },
-                        onChanged: (_) {
-                          controller.openView();
-                        },
-                        hintText: "Pesquise por titulo de vagas",
-                        onSubmitted: (value) => {
-                          print(value),
-                          recentSearches.add(value),
-                          prefs.setStringList('recentSearches', recentSearches),
-                        },
-                        leading: const Icon(Icons.search),
-                      );
-                    },
-                    suggestionsBuilder:
-                        (BuildContext context, SearchController controller) {
-                      return recentSearches.map((search) {
-                        return ListTile(
-                          title: Text(search),
-                          onTap: () {
-                            setState(() {
-                              print(search);
-                              controller.closeView(search);
-                            });
-                          },
-                        );
-                      }).toList();
-                    }),
-              ),
               const SizedBox(
                 height: 15,
               ),

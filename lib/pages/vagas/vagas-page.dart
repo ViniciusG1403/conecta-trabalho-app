@@ -1,8 +1,7 @@
 import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
-import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
 import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
-import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
+import 'package:conectatrabalho/pages/vagas/services/vagas-service.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

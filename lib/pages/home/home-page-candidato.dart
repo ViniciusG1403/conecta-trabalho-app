@@ -1,5 +1,5 @@
 import 'package:conectatrabalho/core/routes.dart';
-import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
+import 'package:conectatrabalho/pages/vagas/services/vagas-service.dart';
 import 'package:flutter/material.dart';
 
 import 'models/vagas-retorno-model.dart';
@@ -45,8 +45,7 @@ Column buildHomePageCandidato(Size screenSize) {
                                       style:
                                           const TextStyle(color: Colors.black),
                                     ),
-                                    subtitle: Text(
-                                        '${vaga.descricao.substring(0, 20)}...'),
+                                    subtitle: Text('${vaga.descricao}...'),
                                     leading: const Icon(Icons.work),
                                   ),
                                 ),
