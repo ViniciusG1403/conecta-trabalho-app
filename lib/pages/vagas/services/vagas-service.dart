@@ -5,11 +5,12 @@ import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<List<VagasRetornoModel>> getVagasProximo() async {
+Future<List<VagasRetornoModel>> getVagasProximo(int page, int size) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String uuid = prefs.getString('uidUsuario')!;
 
-  var url = Uri.parse(vagasUrl + "/" + uuid + "/proximidade?page=1&size=5");
+  var url = Uri.parse(
+      vagasUrl + "/" + uuid + "/proximidade?page=${page}&size=${size}");
   var response = await http.get(url,
       headers: {"Authorization": "Bearer ${prefs.getString('accessToken')}"});
   if (response.statusCode == 200) {

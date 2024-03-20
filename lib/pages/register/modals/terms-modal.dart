@@ -1,4 +1,4 @@
-import 'package:conectatrabalho/pages/register/archives/termos-uso.dart';
+import 'package:conectatrabalho/pages/register/assets/termos-uso.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> showTermsAndCondition(BuildContext context) async {

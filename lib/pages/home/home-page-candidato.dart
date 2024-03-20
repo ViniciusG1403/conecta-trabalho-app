@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'models/vagas-retorno-model.dart';
 
 Column buildHomePageCandidato(Size screenSize) {
-  var vagas = getVagasProximo();
+  var vagas = getVagasProximo(1, 5);
 
   return Column(children: [
     Card(
