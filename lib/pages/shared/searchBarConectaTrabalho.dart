@@ -19,7 +19,7 @@ SizedBox searchBarConectaTrabalho(
           repository.vagas.clear();
           repository.getVagasCargos(value);
         },
-        hintText: "Pesquise por cargos de vagas",
+        hintText: "Pesquise por vagas",
         onSubmitted: (value) => {
           repository.page = 1,
           repository.vagas.clear(),
