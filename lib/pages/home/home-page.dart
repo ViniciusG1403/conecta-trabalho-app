@@ -27,6 +27,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  renderHomePageCandidato() {
+    return HomePageCandidato();
+  }
+
   @override
   void initState() {
     controller = SearchController();
@@ -36,8 +40,9 @@ class _HomePageState extends State<HomePage> {
         image = Image.network(urlFotoPerfil);
       });
     });
-    super.initState();
+    renderHomePageCandidato();
     initPrefs();
+    super.initState();
   }
 
   @override
@@ -91,7 +96,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 15,
               ),
-              const HomePageCandidato()
+              renderHomePageCandidato(),
             ],
           ),
         ),
