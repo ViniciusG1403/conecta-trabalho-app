@@ -73,13 +73,11 @@ class _HomePageState extends State<HomePage> {
                       ? Transform.rotate(
                           angle: pi / 2,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                screenSize.width * 0.3 / 2),
+                            borderRadius: BorderRadius.circular(30),
                             child: Image.network(
                               urlFotoPerfil,
-                              width: screenSize.width * 0.150,
-                              height: screenSize.width * 0.150,
-                              filterQuality: FilterQuality.high,
+                              width: screenSize.width * 0.160,
+                              height: screenSize.width * 0.160,
                               fit: BoxFit.cover,
                             ),
                           ))
