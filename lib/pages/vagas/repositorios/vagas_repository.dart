@@ -14,7 +14,7 @@ class VagasRepository extends ChangeNotifier {
   getTodasVagas() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uuid = prefs.getString('uidUsuario')!;
-    var url = Uri.parse(vagasUrl + "/?page=${page}&size=20");
+    var url = Uri.parse("$vagasUrl/?page=${page}&size=20");
     var response = await http.get(url,
         headers: {"Authorization": "Bearer ${prefs.getString('accessToken')}"});
     if (response.statusCode == 200) {
@@ -31,8 +31,8 @@ class VagasRepository extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uuid = prefs.getString('uidUsuario')!;
 
-    var url = Uri.parse(
-        vagasUrl + "/" + uuid + "/proximidade?page=${page}&size=${size}");
+    var url =
+        Uri.parse("$vagasUrl/$uuid/proximidade?page=${page}&size=${size}");
     var response = await http.get(url,
         headers: {"Authorization": "Bearer ${prefs.getString('accessToken')}"});
     if (response.statusCode == 200) {
@@ -52,9 +52,16 @@ class VagasRepository extends ChangeNotifier {
       return getVagasProximo(20);
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uuid = prefs.getString('uidUsuario')!;
+    Uri url;
+    if (!pesquisarVagasProximas) {
+      url =
+          Uri.parse("$vagasUrl/?search=cargo:${pesquisa}&page=${page}&size=20");
+    } else {
+      url = Uri.parse(
+          "$vagasUrl/$uuid/proximidade?search=cargo:${pesquisa}&page=${page}&size=20");
+    }
 
-    var url =
-        Uri.parse(vagasUrl + "/?search=cargo:${pesquisa}&page=${page}&size=20");
     var response = await http.get(url,
         headers: {"Authorization": "Bearer ${prefs.getString('accessToken')}"});
     if (response.statusCode == 200) {

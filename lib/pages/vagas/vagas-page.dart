@@ -3,7 +3,6 @@ import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
 import 'package:conectatrabalho/pages/shared/searchBarConectaTrabalho.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
-import 'package:conectatrabalho/pages/vagas/services/vagas-service.dart';
 import 'package:flutter/material.dart';
 
 class VagasPage extends StatefulWidget {
@@ -17,7 +16,7 @@ class _VagasPageState extends State<VagasPage> {
   late VagasRepository repository;
   List<String> recentSearches = [];
   late SearchController controller;
-  bool pesquisarVagasProximas = true;
+  bool pesquisarVagasProximas = false;
   final loading = ValueNotifier(true);
   late final ScrollController _scrollController;
 
