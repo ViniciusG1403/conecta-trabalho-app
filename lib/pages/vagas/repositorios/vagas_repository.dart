@@ -45,7 +45,7 @@ class VagasRepository extends ChangeNotifier {
     }
   }
 
-  getVagasCargos(String pesquisa) async {
+  getVagasCargos(String pesquisa, int distancia) async {
     if (pesquisa == "" && !pesquisarVagasProximas) {
       return getTodasVagas();
     } else if (pesquisa == "" && pesquisarVagasProximas) {
@@ -59,7 +59,7 @@ class VagasRepository extends ChangeNotifier {
           Uri.parse("$vagasUrl/?search=cargo:${pesquisa}&page=${page}&size=20");
     } else {
       url = Uri.parse(
-          "$vagasUrl/$uuid/proximidade?search=cargo:${pesquisa}&page=${page}&size=20");
+          "$vagasUrl/$uuid/proximidade?search=cargo:${pesquisa}&page=${page}&size=20&distanciaMaxima=${distancia}");
     }
 
     var response = await http.get(url,

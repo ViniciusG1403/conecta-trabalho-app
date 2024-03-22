@@ -86,8 +86,8 @@ class _VagasPageState extends State<VagasPage> {
             const SizedBox(height: 35),
             SizedBox(
               width: screenSize.width * 0.9,
-              child: searchBarConectaTrabalho(
-                  screenSize, 1, recentSearches, repository),
+              child: searchBarConectaTrabalho(screenSize, 1, recentSearches,
+                  repository, _currentRangeValues.end.toInt()),
             ),
             const SizedBox(height: 10),
             const SizedBox(
