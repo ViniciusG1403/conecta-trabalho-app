@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
@@ -19,6 +21,8 @@ class _VagasPageState extends State<VagasPage> {
   bool pesquisarVagasProximas = false;
   final loading = ValueNotifier(true);
   late final ScrollController _scrollController;
+  RangeValues _currentRangeValues = const RangeValues(0, 80);
+  String distanciaSelected = "Distancia máxima: 80 km	";
 
   @override
   void initState() {
@@ -111,7 +115,7 @@ class _VagasPageState extends State<VagasPage> {
                         if (value) {
                           repository.vagas.clear();
                           repository.page = 1;
-                          repository.getVagasProximo(20);
+                          repository.getVagasProximo(20, 80);
                         } else {
                           repository.vagas.clear();
                           repository.page = 1;
@@ -124,6 +128,39 @@ class _VagasPageState extends State<VagasPage> {
                 ],
               ),
             ),
+            pesquisarVagasProximas
+                ? RangeSlider(
+                    values: _currentRangeValues,
+                    labels: RangeLabels(
+                      _currentRangeValues.start.round().toString(),
+                      _currentRangeValues.end.round().toString(),
+                    ),
+                    onChanged: (RangeValues values) {},
+                    onChangeStart: (RangeValues values) {
+                      RangeValues valor = RangeValues(0, values.end);
+                      setState(() {
+                        _currentRangeValues = valor;
+                      });
+                    },
+                    onChangeEnd: (value) => {
+                      setState(() {
+                        _currentRangeValues = value;
+                      }),
+                      repository.vagas.clear(),
+                      repository.page = 1,
+                      repository.getVagasProximo(20, value.end.toInt()),
+                      distanciaSelected =
+                          "Distância máxima: ${value.end.toInt()} km",
+                    },
+                    max: 1000,
+                  )
+                : const SizedBox(),
+            pesquisarVagasProximas
+                ? Text(
+                    distanciaSelected,
+                    style: TextStyle(color: Colors.white),
+                  )
+                : const SizedBox(),
             Expanded(
               child: AnimatedBuilder(
                   animation: repository,

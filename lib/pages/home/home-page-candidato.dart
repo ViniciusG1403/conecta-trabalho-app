@@ -18,7 +18,7 @@ class _HomePageCandidatoState extends State<HomePageCandidato> {
   @override
   void initState() {
     vagasRepository = VagasRepository();
-    vagasRepository.getVagasProximo(5);
+    vagasRepository.getVagasProximo(5, 80);
     super.initState();
   }
 

@@ -27,12 +27,12 @@ class VagasRepository extends ChangeNotifier {
     }
   }
 
-  getVagasProximo(int size) async {
+  getVagasProximo(int size, int distancia) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uuid = prefs.getString('uidUsuario')!;
 
-    var url =
-        Uri.parse("$vagasUrl/$uuid/proximidade?page=${page}&size=${size}");
+    var url = Uri.parse(
+        "$vagasUrl/$uuid/proximidade?page=${page}&size=${size}&distanciaMaxima=${distancia}");
     var response = await http.get(url,
         headers: {"Authorization": "Bearer ${prefs.getString('accessToken')}"});
     if (response.statusCode == 200) {
@@ -49,7 +49,7 @@ class VagasRepository extends ChangeNotifier {
     if (pesquisa == "" && !pesquisarVagasProximas) {
       return getTodasVagas();
     } else if (pesquisa == "" && pesquisarVagasProximas) {
-      return getVagasProximo(20);
+      return getVagasProximo(20, 80);
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uuid = prefs.getString('uidUsuario')!;
