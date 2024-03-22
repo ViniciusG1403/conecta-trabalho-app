@@ -135,7 +135,13 @@ class _VagasPageState extends State<VagasPage> {
                       _currentRangeValues.start.round().toString(),
                       _currentRangeValues.end.round().toString(),
                     ),
-                    onChanged: (RangeValues values) {},
+                    onChanged: (RangeValues values) {
+                      setState(() {
+                        _currentRangeValues = values;
+                        distanciaSelected =
+                            "Distância máxima: ${values.end.toInt()} km";
+                      });
+                    },
                     onChangeStart: (RangeValues values) {
                       RangeValues valor = RangeValues(0, values.end);
                       setState(() {
@@ -143,14 +149,9 @@ class _VagasPageState extends State<VagasPage> {
                       });
                     },
                     onChangeEnd: (value) => {
-                      setState(() {
-                        _currentRangeValues = value;
-                      }),
                       repository.vagas.clear(),
                       repository.page = 1,
                       repository.getVagasProximo(20, value.end.toInt()),
-                      distanciaSelected =
-                          "Distância máxima: ${value.end.toInt()} km",
                     },
                     max: 1000,
                   )

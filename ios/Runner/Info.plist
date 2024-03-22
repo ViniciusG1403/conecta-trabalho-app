@@ -28,6 +28,10 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Nós precisamos acessar sua galeria para que você possa escolher uma foto.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Nós precisamos acessar seus documentos para permitir a seleção de arquivos</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

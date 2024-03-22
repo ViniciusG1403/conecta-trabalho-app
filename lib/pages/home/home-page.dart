@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
 import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
@@ -57,24 +59,27 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               const SizedBox(
-                height: 50,
+                height: 90,
               ),
               Row(
                 children: [
                   const SizedBox(width: 35),
                   urlFotoPerfil != ''
-                      ? ClipRRect(
-                          borderRadius:
-                              BorderRadius.circular(screenSize.width * 0.3 / 2),
-                          child: Image.network(
-                            urlFotoPerfil,
-                            width: screenSize.width * 0.115,
-                            height: screenSize.width * 0.115,
-                            fit: BoxFit.cover,
-                          ),
-                        )
+                      ? Transform.rotate(
+                          angle: pi / 2,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                screenSize.width * 0.3 / 2),
+                            child: Image.network(
+                              urlFotoPerfil,
+                              width: screenSize.width * 0.150,
+                              height: screenSize.width * 0.150,
+                              filterQuality: FilterQuality.high,
+                              fit: BoxFit.cover,
+                            ),
+                          ))
                       : const CircularProgressIndicator(),
-                  const SizedBox(width: 230),
+                  const SizedBox(width: 210),
                   const CustomPopupMenu()
                 ],
               ),
