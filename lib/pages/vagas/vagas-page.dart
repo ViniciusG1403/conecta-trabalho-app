@@ -5,6 +5,7 @@ import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
 import 'package:conectatrabalho/pages/shared/searchBarConectaTrabalho.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
+import 'package:conectatrabalho/shared/tratamento-erros/mostrar-mensagem-erro.dart';
 import 'package:flutter/material.dart';
 
 class VagasPage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _VagasPageState extends State<VagasPage> {
 
   loadingVagas() async {
     loading.value = true;
-    await repository.getTodasVagas();
+    await repository.getTodasVagas(context);
     loading.value = false;
   }
 
@@ -87,7 +88,7 @@ class _VagasPageState extends State<VagasPage> {
             SizedBox(
               width: screenSize.width * 0.9,
               child: searchBarConectaTrabalho(screenSize, 1, recentSearches,
-                  repository, _currentRangeValues.end.toInt()),
+                  repository, _currentRangeValues.end.toInt(), context),
             ),
             const SizedBox(height: 10),
             const SizedBox(
@@ -115,11 +116,11 @@ class _VagasPageState extends State<VagasPage> {
                         if (value) {
                           repository.vagas.clear();
                           repository.page = 1;
-                          repository.getVagasProximo(20, 80);
+                          repository.getVagasProximo(20, 80, context);
                         } else {
                           repository.vagas.clear();
                           repository.page = 1;
-                          repository.getTodasVagas();
+                          repository.getTodasVagas(context);
                         }
                       });
                     },
@@ -151,7 +152,8 @@ class _VagasPageState extends State<VagasPage> {
                     onChangeEnd: (value) => {
                       repository.vagas.clear(),
                       repository.page = 1,
-                      repository.getVagasProximo(20, value.end.toInt()),
+                      repository.getVagasProximo(
+                          20, value.end.toInt(), context),
                     },
                     max: 1000,
                   )

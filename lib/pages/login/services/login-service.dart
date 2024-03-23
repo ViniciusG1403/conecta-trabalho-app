@@ -13,7 +13,7 @@ import '../models/login-model.dart';
 Future<String> RealizarLogin(String email, String senha) async {
   Login login = Login(email, senha);
 
-  var url = Uri.parse(loginUrl);
+  var url = Uri.parse("$authUrl/login");
   var response = await http.post(url,
       headers: {"Content-Type": "application/json"},
       body: json.encode(login.toJson()));
