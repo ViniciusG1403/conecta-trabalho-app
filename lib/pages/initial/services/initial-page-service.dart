@@ -41,5 +41,5 @@ Future<bool> userWithProfile(String? id) async {
     containProfile = false;
   });
 
-  return false;
+  return containProfile;
 }
