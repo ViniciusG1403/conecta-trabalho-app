@@ -13,15 +13,14 @@ Future<String> activeUser(String code, BuildContext context) async {
   return response;
 }
 
-Future<String> resendCode(String email) async {
+Future<String> resendCode(String email, BuildContext context) async {
   _isCharging = true;
-  String response = await ResendActivationCode(email);
+  String response = await ResendActivationCode(email, context);
   return response;
 }
 
 void showActivationModal(BuildContext context, String email, String senha) {
   TextEditingController codeController = TextEditingController();
-  ValueNotifier<String> responseNotifier = ValueNotifier('');
   _isCharging = false;
 
   showDialog(
@@ -79,12 +78,6 @@ void showActivationModal(BuildContext context, String email, String senha) {
                 ),
               ),
             ),
-            ValueListenableBuilder<String>(
-              valueListenable: responseNotifier,
-              builder: (context, value, _) {
-                return Text(value, style: const TextStyle(color: Colors.white));
-              },
-            ),
           ],
         ),
         actions: <Widget>[
@@ -95,8 +88,7 @@ void showActivationModal(BuildContext context, String email, String senha) {
                     child: const Text('Reenviar código',
                         style: TextStyle(color: Colors.white)),
                     onPressed: () async {
-                      String response = await resendCode(email);
-                      responseNotifier.value = response;
+                      String response = await resendCode(email, context);
                       _isCharging = false;
                     },
                   ),
@@ -106,10 +98,9 @@ void showActivationModal(BuildContext context, String email, String senha) {
                     onPressed: () async {
                       String response =
                           await activeUser(codeController.text, context);
-                      responseNotifier.value = response;
                       if (response == "Usuário ativado com sucesso") {
                         Navigator.of(context).pop();
-                        RealizarLogin(email, senha);
+                        RealizarLogin(email, senha, context);
                         _isCharging = false;
                       } else {
                         _isCharging = false;

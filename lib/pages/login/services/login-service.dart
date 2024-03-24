@@ -5,12 +5,17 @@ import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
 import 'package:conectatrabalho/pages/login/models/resend-activecode-model.dart';
 import 'package:conectatrabalho/pages/initial/models/user-model.dart';
+import 'package:conectatrabalho/pages/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
+import 'package:conectatrabalho/pages/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
+import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/login-model.dart';
 
-Future<String> RealizarLogin(String email, String senha) async {
+Future<String> RealizarLogin(
+    String email, String senha, BuildContext context) async {
   Login login = Login(email, senha);
 
   var url = Uri.parse("$authUrl/login");
@@ -18,15 +23,17 @@ Future<String> RealizarLogin(String email, String senha) async {
       headers: {"Content-Type": "application/json"},
       body: json.encode(login.toJson()));
   if (response.statusCode == 401) {
+    exibirMensagemAlerta(context, response.body);
     return response.body;
   }
 
   if (response.statusCode != 200) {
+    exibirMensagemErro(context, "Ocorreu um erro ao realizar login");
     return "Ocorreu um erro ao realizar login";
   }
 
   try {
-    await _saveToken(response.body);
+    await _saveToken(response.body, context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? idUser = prefs.getString('uidUsuario');
     bool userProfile = await userWithProfile(idUser!);
@@ -36,28 +43,30 @@ Future<String> RealizarLogin(String email, String senha) async {
     } else {
       routes.go("/initial-page");
     }
+    exibirMensagemSucesso(context, "Login realizado com sucesso");
     return "Login realizado com sucesso";
   } catch (e) {
+    exibirMensagemErro(context, "Ocorreu um erro ao realizar login");
     return "Ocorreu um erro ao realizar login";
   }
 }
 
-Future<void> _saveToken(String token) async {
+Future<void> _saveToken(String token, BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   Map<String, dynamic> parsedToken = json.decode(token);
   String tokenTransformed = parsedToken['token'];
   prefs.setString('accessToken', tokenTransformed);
-  getInfoFromToken(tokenTransformed);
+  getInfoFromToken(tokenTransformed, context);
 }
 
-Future<void> getInfoFromToken(String token) async {
+Future<void> getInfoFromToken(String token, BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String jwtToken = token;
 
   List<String> tokenParts = jwtToken.split('.');
 
   if (tokenParts.length != 3) {
-    print("Token inválido");
+    exibirMensagemErro(context, "Ocorreu um erro ao autenticar o usuário");
   } else {
     String payload = tokenParts[1];
 
@@ -88,7 +97,7 @@ Future<void> logout() async {
   routes.go("/");
 }
 
-Future<String> ResendActivationCode(String email) async {
+Future<String> ResendActivationCode(String email, BuildContext context) async {
   ResendActivateCode model =
       ResendActivateCode("", "Ativação de usuário", email);
 
@@ -101,12 +110,17 @@ Future<String> ResendActivationCode(String email) async {
   }
 
   if (response.statusCode != 200) {
+    exibirMensagemErro(
+        context, "Ocorreu um erro ao reenviar o código de ativação");
     return "Ocorreu um erro ao reenviar o código de ativação";
   }
 
   try {
+    exibirMensagemSucesso(context, "Código reenviado com sucesso");
     return "Código reenviado com sucesso";
   } catch (e) {
+    exibirMensagemErro(
+        context, "Ocorreu um erro ao reenviar o código de ativação");
     return "Ocorreu um erro ao reenviar o código de ativação";
   }
 }

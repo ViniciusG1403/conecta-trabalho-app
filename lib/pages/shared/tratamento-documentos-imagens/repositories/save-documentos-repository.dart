@@ -15,5 +15,4 @@ Future<void> salvarImagemCandidato(XFile image, BuildContext context) async {
   request.files.add(await http.MultipartFile.fromPath('file', image.path));
   request.files.add(http.MultipartFile.fromString('id', id));
   http.StreamedResponse requestReturn = await request.send();
-  print(requestReturn.statusCode);
 }

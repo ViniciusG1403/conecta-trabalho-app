@@ -5,7 +5,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> exibirMensagemSucesso(
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(mensagemErro,
-          style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0))),
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
       backgroundColor: Color.fromARGB(255, 0, 177, 6),
     ),
   );

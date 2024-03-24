@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:conectatrabalho/pages/register/services/profiles-service.dart';
 import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:conectatrabalho/pages/shared/tratamento-documentos-imagens/repositories/save-documentos-repository.dart';
@@ -7,8 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> imagePicker(idUsuario, BuildContext context) async {
   try {
-    ImagePicker _picker = ImagePicker();
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    ImagePicker picker = ImagePicker();
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getInt("tipoUsuario")!;
     if (image != null && prefs.getInt("tipoUsuario") == 0) {
@@ -37,10 +39,8 @@ Future<bool> imagePicker(idUsuario, BuildContext context) async {
 
 Future<bool> imagePickerWithType(tipo, idUsuario, BuildContext context) async {
   try {
-    ImagePicker _picker = ImagePicker();
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.getInt("tipoUsuario")!;
+    ImagePicker picker = ImagePicker();
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null && tipo == 0) {
       salvarImagemCandidato(image, context);
     }

@@ -77,7 +77,6 @@ class VagasRepository extends ChangeNotifier {
     }
 
     await dio.get(url).then((response) {
-      print(response.statusCode);
       if (response.statusCode == 200) {
         for (var i = 0; i < response.data.length; i++) {
           vagas.add(VagasRetornoModel.fromJson(response.data[i]));

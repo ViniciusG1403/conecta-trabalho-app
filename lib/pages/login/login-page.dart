@@ -1,7 +1,9 @@
+import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/login/modals/active-user-modal.dart';
 import 'package:conectatrabalho/pages/register/services/validate-fields-service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'services/login-service.dart';
 
@@ -16,15 +18,23 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController _emailController;
   late TextEditingController _senhaController;
   final _formKey = GlobalKey<FormState>();
-  String _feedbackMessage = "";
   bool _isPasswordVisible = false;
   bool _isCharging = false;
 
   @override
   void initState() {
+    _validarUsuarioLogado();
     super.initState();
     _emailController = TextEditingController(text: "");
     _senhaController = TextEditingController(text: "");
+  }
+
+  _validarUsuarioLogado() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('accessToken');
+    if (token != null) {
+      routes.go('/home');
+    }
   }
 
   void realizarLogin() async {
@@ -39,12 +49,11 @@ class _LoginPageState extends State<LoginPage> {
       _isCharging = true;
     });
 
-    String response = await RealizarLogin(email, senha);
+    String response = await RealizarLogin(email, senha, context);
     if (response == "Usuario inativo") {
       showActivationModal(context, email, senha);
     }
     setState(() {
-      _feedbackMessage = response == "Usuario inativo" ? "" : response;
       _isCharging = false;
     });
   }
@@ -199,8 +208,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                   ),
                   const Text(""),
-                  Text(_feedbackMessage,
-                      style: const TextStyle(color: Colors.white)),
                   const Text(""),
                   const Text(""),
                   Row(
