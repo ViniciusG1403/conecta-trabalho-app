@@ -65,17 +65,6 @@ Future<RetornoCadastroPerfil> registrarEmpresa(Empresa empresa) async {
   }
 }
 
-Future<void> salvarImagemCandidato(XFile image, String id) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var url = Uri.parse("$candidatoUrl/salvar-imagem");
-  var request = http.MultipartRequest('POST', url);
-  request.headers
-      .addAll({"Authorization": "Bearer ${prefs.getString('accessToken')}"});
-  request.files.add(await http.MultipartFile.fromPath('file', image.path));
-  request.files.add(http.MultipartFile.fromString('id', id));
-  await request.send();
-}
-
 Future<void> salvarCurriculumCandidato(FilePickerResult file, String id) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var url = Uri.parse("$candidatoUrl/salvar-curriculo");

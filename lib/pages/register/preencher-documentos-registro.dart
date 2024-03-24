@@ -1,5 +1,6 @@
 import 'package:conectatrabalho/pages/register/models/retorno-cadastro-perfil.dart';
 import 'package:conectatrabalho/pages/register/services/profiles-service.dart';
+import 'package:conectatrabalho/pages/shared/tratamento-documentos-imagens/image-picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -17,36 +18,6 @@ class PreencherDocumentosRegistro extends StatefulWidget {
 class _PreencherDocumentosRegistroState
     extends State<PreencherDocumentosRegistro> {
   final _formKey = GlobalKey<FormState>();
-
-  _imagePicker() async {
-    try {
-      ImagePicker _picker = ImagePicker();
-      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image != null && widget.retorno.tipo == 0) {
-        salvarImagemCandidato(image, widget.retorno.id);
-      }
-      if (image != null && widget.retorno.tipo == 1) {
-        salvarImagemEmpresa(image, widget.retorno.id);
-      }
-      if (image == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Seleção cancelada pelo usuário",
-                style: TextStyle(color: Colors.black)),
-            backgroundColor: Colors.white,
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Ocorreu um erro ao processar a imagem",
-              style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
 
   _filePicker() async {
     try {
@@ -138,7 +109,8 @@ class _PreencherDocumentosRegistroState
                 SizedBox(
                   width: screenSize.width * 0.8,
                   child: ElevatedButton(
-                      onPressed: () => _imagePicker(),
+                      onPressed: () => imagePickerWithType(
+                          widget.retorno.tipo, widget.retorno.id, context),
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

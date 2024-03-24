@@ -35,7 +35,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
     super.initState();
   }
 
-  void _registerWorkerProfile() {
+  void _registerCandidatoProfile() {
     if (_formKey.currentState!.validate()) {
       num pretensaoSalarial = num.parse(_pretensaoSalarialController.text
           .replaceAll("R\$", "")
@@ -174,7 +174,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
                   height: 20,
                 ),
                 ElevatedButton(
-                    onPressed: () => _registerWorkerProfile(),
+                    onPressed: () => _registerCandidatoProfile(),
                     child: const Text(
                       "Salvar",
                       style: TextStyle(color: Colors.black),

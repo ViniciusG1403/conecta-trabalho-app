@@ -1,7 +1,7 @@
 // Aws Routes
 late String route = 'http://15.228.46.105:8080/';
 //late String route = 'http://10.0.2.2:8080';
-// late String route = 'http://localhost:8080';
+//late String route = 'http://localhost:8080';
 late String authUrl = '$route/auth';
 late String activeUserUrl = '$route/usuario/ativar/';
 late String userUrl = '$route/usuario';

@@ -1,5 +1,7 @@
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/http/validate-token.dart';
+import 'package:conectatrabalho/pages/initial/models/perfil-model.dart';
+import 'package:conectatrabalho/pages/register/perfil-candidato-registro.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,4 +41,24 @@ Future<bool> userWithProfile(String? id) async {
   });
 
   return containProfile;
+}
+
+Future<void> getProfile(String? id) async {
+  Dio dio = Dio();
+  dio.interceptors.add(TokenInterceptor(dio));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool containProfile = false;
+  Perfil perfil;
+
+  var url = "$userUrl/${id!}/perfil";
+  await dio
+      .get(url)
+      .then((value) => {
+            perfil = Perfil.fromJson(value.data),
+            prefs.setString("idPerfil", perfil.id),
+            prefs.setInt("tipoUsuario", perfil.tipoUsuario)
+          })
+      .catchError((e) {
+    containProfile = false;
+  });
 }

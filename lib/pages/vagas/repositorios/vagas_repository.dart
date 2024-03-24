@@ -1,7 +1,7 @@
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/http/validate-token.dart';
 import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
-import 'package:conectatrabalho/shared/tratamento-erros/mostrar-mensagem-erro.dart';
+import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,7 +26,7 @@ class VagasRepository extends ChangeNotifier {
         notifyListeners();
       }
     }).catchError((e) {
-      showErrorMessage(
+      exibirMensagemErro(
           context, "Ocorreu um erro ao buscar as vagas, tente novamente.");
     });
   }
@@ -53,7 +53,7 @@ class VagasRepository extends ChangeNotifier {
                 }
             })
         .catchError((e) {
-      showErrorMessage(
+      exibirMensagemErro(
           context, "Ocorreu um erro ao buscar as vagas, tente novamente.");
     });
   }
@@ -86,7 +86,7 @@ class VagasRepository extends ChangeNotifier {
         notifyListeners();
       }
     }).catchError((e) {
-      showErrorMessage(
+      exibirMensagemErro(
           context, "Ocorreu um erro ao buscar as vagas, tente novamente.");
     });
   }

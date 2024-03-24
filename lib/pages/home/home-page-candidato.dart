@@ -1,6 +1,8 @@
 import 'package:conectatrabalho/core/routes.dart';
+import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/vagas-retorno-model.dart';
 
@@ -19,7 +21,15 @@ class _HomePageCandidatoState extends State<HomePageCandidato> {
   void initState() {
     vagasRepository = VagasRepository();
     vagasRepository.getVagasProximo(5, 80, context);
+
+    getPerfil();
     super.initState();
+  }
+
+  getPerfil() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idUser = prefs.getString('uidUsuario');
+    getProfile(idUser);
   }
 
   @override

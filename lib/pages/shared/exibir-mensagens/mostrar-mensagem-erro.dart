@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showErrorMessage(
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> exibirMensagemErro(
     BuildContext context, String mensagemErro) {
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
