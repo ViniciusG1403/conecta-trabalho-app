@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/http/validate-token.dart';
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/user-model.dart';
 
 Future<User> getUser(String? id) async {

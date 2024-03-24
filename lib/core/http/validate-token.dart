@@ -2,12 +2,9 @@ import 'dart:convert';
 
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/routes.dart';
-import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenInterceptor extends Interceptor {
   final Dio dio;

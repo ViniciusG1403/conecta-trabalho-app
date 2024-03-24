@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/http/validate-token.dart';
 import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
 import 'package:conectatrabalho/shared/tratamento-erros/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class VagasRepository extends ChangeNotifier {
   int page = 1;
