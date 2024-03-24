@@ -9,6 +9,7 @@ import 'package:conectatrabalho/pages/register/perfil-candidato-registro.dart';
 import 'package:conectatrabalho/pages/register/preencher-documentos-registro.dart';
 import 'package:conectatrabalho/pages/register/principal-data-page.dart';
 import 'package:conectatrabalho/pages/register/register-page.dart';
+import 'package:conectatrabalho/pages/vagas/detalhes-vaga-page.dart';
 import 'package:conectatrabalho/pages/vagas/vagas-page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -68,4 +69,11 @@ final routes = GoRouter(routes: [
   GoRoute(
       path: '/vagas',
       pageBuilder: (context, state) => MaterialPage(child: VagasPage())),
+  GoRoute(
+      path: '/detalhes-vaga/:id',
+      pageBuilder: (context, state) {
+        String? id = state.pathParameters['id'];
+        return MaterialPage(
+            child: DetalhesVagaPage(id: id), fullscreenDialog: true);
+      }),
 ]);

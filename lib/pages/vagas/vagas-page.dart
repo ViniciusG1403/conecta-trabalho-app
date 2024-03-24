@@ -172,30 +172,33 @@ class _VagasPageState extends State<VagasPage> {
                           controller: _scrollController,
                           itemBuilder: ((context, index) {
                             final vaga = repository.vagas[index];
-                            return Card(
-                                color: Color.fromARGB(160, 33, 0, 109),
-                                child: ListTile(
-                                  title: Text(
-                                    vaga.cargo.length > 30
-                                        ? '${vaga.cargo.substring(0, 30)}...'
-                                        : vaga.cargo,
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 248, 248, 248)),
-                                  ),
-                                  subtitle: Text(
-                                    vaga.descricao.length > 50
-                                        ? '${vaga.descricao.substring(0, 50)}...\nEmpresa ${vaga.empresa}'
-                                        : '${vaga.descricao}\nEmpresa ${vaga.empresa}',
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 248, 248, 248)),
-                                  ),
-                                  trailing: const Icon(
-                                    Icons.task_alt_outlined,
-                                    color: Colors.white,
-                                  ),
-                                ));
+                            return GestureDetector(
+                                onTap: () =>
+                                    routes.go('/detalhes-vaga/${vaga.id}'),
+                                child: Card(
+                                    color: Color.fromARGB(160, 33, 0, 109),
+                                    child: ListTile(
+                                      title: Text(
+                                        vaga.cargo.length > 30
+                                            ? '${vaga.cargo.substring(0, 30)}...'
+                                            : vaga.cargo,
+                                        style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 248, 248, 248)),
+                                      ),
+                                      subtitle: Text(
+                                        vaga.descricao.length > 50
+                                            ? '${vaga.descricao.substring(0, 50)}...\nEmpresa ${vaga.empresa}'
+                                            : '${vaga.descricao}\nEmpresa ${vaga.empresa}',
+                                        style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 248, 248, 248)),
+                                      ),
+                                      trailing: const Icon(
+                                        Icons.task_alt_outlined,
+                                        color: Colors.white,
+                                      ),
+                                    )));
                           }),
                           itemCount: repository.vagas.length)
                     ]);
