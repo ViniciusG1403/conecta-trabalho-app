@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+        <uses-permission android:name="android.permission.INTERNET" /> <!-- Esta é a permissão para acesso à internet -->
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Esta é a permissão para leitura de arquivos -->
+        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Esta é a permissão para escrita de arquivos -->
+        <uses-permission android:name="android.permission.CAMERA" /> <!-- Esta é a permissão para acesso à câmera -->
     <application
         android:label="Conecta Trabalho"
         android:name="${applicationName}"
