@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenInterceptor extends Interceptor {
   final Dio dio;
+  Dio _dio = Dio();
 
   TokenInterceptor(this.dio);
 
@@ -16,7 +17,7 @@ class TokenInterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     bool tokenValido = await _validateToken();
 
-    if (!tokenValido) {
+    if (tokenValido) {
       await _atualizarToken();
       tokenValido = await _validateToken();
     }
@@ -49,18 +50,22 @@ class TokenInterceptor extends Interceptor {
 
   Future<void> _salvarToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, dynamic> parsedToken = json.decode(token);
-    String tokenTransformed = parsedToken['token'];
-    prefs.setString('accessToken', tokenTransformed);
+    prefs.setString('accessToken', token);
   }
 
   Future<void> _atualizarToken() async {
+    CancelToken cancelToken = CancelToken();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uidUsuario = prefs.getString('uidUsuario')!;
-    var url = Uri.parse("$authUrl/$uidUsuario/refresh");
-    var response =
-        await http.post(url, headers: {"Content-Type": "application/json"});
+    var url = "$authUrl/$uidUsuario/refresh";
+    var response = await _dio.post(url, cancelToken: cancelToken);
 
-    await _salvarToken(response.body);
+    String token = response.data['token'];
+
+    await _salvarToken(token);
+  }
+
+  void cancelarRequisicao() {
+    _dio.httpClientAdapter.close(force: true);
   }
 }
