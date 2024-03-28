@@ -23,6 +23,16 @@ class CustomPopupMenu extends StatelessWidget {
           ),
           PopupMenuItem(
             child: TextButton.icon(
+              icon: const Icon(Icons.store, color: Colors.black),
+              label: const Text(
+                'Empresas',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () => {routes.go("/")},
+            ),
+          ),
+          PopupMenuItem(
+            child: TextButton.icon(
               icon:
                   const Icon(Icons.build_circle_outlined, color: Colors.black),
               label: const Text(

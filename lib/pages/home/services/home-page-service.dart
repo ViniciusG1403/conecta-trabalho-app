@@ -1,5 +1,5 @@
 import 'package:conectatrabalho/core/environment.dart';
-import 'package:conectatrabalho/core/http/validate-token.dart';
+import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
 import 'package:conectatrabalho/pages/home/models/busca-perfil-model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';

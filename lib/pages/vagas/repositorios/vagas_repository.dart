@@ -1,5 +1,5 @@
 import 'package:conectatrabalho/core/environment.dart';
-import 'package:conectatrabalho/core/http/validate-token.dart';
+import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
 import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
 import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';

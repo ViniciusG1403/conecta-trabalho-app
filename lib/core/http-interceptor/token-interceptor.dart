@@ -14,11 +14,11 @@ class TokenInterceptor extends Interceptor {
   @override
   Future<void> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    bool tokenValido = await validateToken();
+    bool tokenValido = await _validateToken();
 
     if (!tokenValido) {
-      await atualizarToken();
-      tokenValido = await validateToken();
+      await _atualizarToken();
+      tokenValido = await _validateToken();
     }
 
     if (!tokenValido) {
@@ -34,7 +34,7 @@ class TokenInterceptor extends Interceptor {
     });
   }
 
-  Future<bool> validateToken() async {
+  Future<bool> _validateToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String accessToken = prefs.getString('accessToken')!;
     var url = Uri.parse('$authUrl/validate');
@@ -47,20 +47,20 @@ class TokenInterceptor extends Interceptor {
     }
   }
 
-  Future<void> _saveToken(String token) async {
+  Future<void> _salvarToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> parsedToken = json.decode(token);
     String tokenTransformed = parsedToken['token'];
     prefs.setString('accessToken', tokenTransformed);
   }
 
-  Future<void> atualizarToken() async {
+  Future<void> _atualizarToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uidUsuario = prefs.getString('uidUsuario')!;
     var url = Uri.parse("$authUrl/$uidUsuario/refresh");
     var response =
         await http.post(url, headers: {"Content-Type": "application/json"});
 
-    await _saveToken(response.body);
+    await _salvarToken(response.body);
   }
 }
