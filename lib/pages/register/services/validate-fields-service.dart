@@ -21,7 +21,7 @@ String? validateEmailFormatRegex(String value) {
   return null;
 }
 
-String? validatePassword(String value, String value2) {
+String? validatePassword(String value, String value2, bool isConfirmPassword) {
   if (value == null || value == "") {
     return "Por favor, insira a senha.";
   }
@@ -31,7 +31,7 @@ String? validatePassword(String value, String value2) {
   if (value.length > 20) {
     return "A senha deve ter no máximo 20 caracteres.";
   }
-  if (value != value2) {
+  if (value != value2 && isConfirmPassword) {
     return "As senhas não coincidem.";
   }
   return null;

@@ -279,7 +279,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         return validatePassword(
-                            value!, _confirmPasswordController.text);
+                            value!, _confirmPasswordController.text, false);
                       },
                     )),
                 const SizedBox(
@@ -331,7 +331,7 @@ class _PrincipalDataPageState extends State<PrincipalDataPage> {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         return validatePassword(
-                            value!, _passwordController.text);
+                            value!, _passwordController.text, true);
                       },
                     )),
                 const SizedBox(
