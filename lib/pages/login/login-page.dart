@@ -185,11 +185,13 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       )),
-                  const Text(""),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     child: _isCharging
                         ? const CircularProgressIndicator(
-                            color: Colors.black,
+                            color: Color.fromARGB(255, 255, 255, 255),
                           )
                         : OutlinedButton(
                             onPressed: () => realizarLogin(),
@@ -207,9 +209,9 @@ class _LoginPageState extends State<LoginPage> {
                                 style: TextStyle(color: Colors.black)),
                           ),
                   ),
-                  const Text(""),
-                  const Text(""),
-                  const Text(""),
+                  const SizedBox(
+                    height: 60,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

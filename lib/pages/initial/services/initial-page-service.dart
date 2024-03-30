@@ -56,7 +56,8 @@ Future<void> getProfile(String? id) async {
       .then((value) => {
             perfil = Perfil.fromJson(value.data),
             prefs.setString("idPerfil", perfil.id),
-            prefs.setInt("tipoUsuario", perfil.tipoUsuario)
+            prefs.setInt("tipoUsuario", perfil.tipoUsuario),
+            containProfile = true
           })
       .catchError((e) {
     containProfile = false;

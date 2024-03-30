@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(width: 35),
                   !carregandoFotoPerfil
                       ? GestureDetector(
-                          onLongPress: () async => {
+                          onTap: () async => {
                                 setState(() {
                                   this.carregandoFotoPerfil = true;
                                 }),
@@ -115,7 +115,8 @@ class _HomePageState extends State<HomePage> {
                                 urlFotoPerfil,
                                 width: screenSize.width * 0.160,
                                 height: screenSize.width * 0.160,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.scaleDown,
+                                filterQuality: FilterQuality.high,
                               ),
                             ),
                           ))
