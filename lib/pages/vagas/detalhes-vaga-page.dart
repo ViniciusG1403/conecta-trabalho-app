@@ -16,8 +16,12 @@ class DetalhesVagaPage extends StatefulWidget {
 }
 
 class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
+  final VagasRepository _vagasRepository = VagasRepository();
   @override
   void initState() {
+    _vagasRepository.getVagasById(widget.id!).then((value) {
+      print(value);
+    });
     super.initState();
   }
 

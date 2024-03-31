@@ -89,4 +89,10 @@ class VagasRepository extends ChangeNotifier {
           context, "Ocorreu um erro ao buscar as vagas, tente novamente.");
     });
   }
+
+  getVagasById(String id) {
+    final dio = Dio();
+    dio.interceptors.add(TokenInterceptor(dio));
+    return dio.get("$vagasUrl/$id");
+  }
 }
