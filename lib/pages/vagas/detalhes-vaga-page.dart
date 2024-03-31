@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:conectatrabalho/core/routes.dart';
+import 'package:conectatrabalho/pages/vagas/models/vaga-detail-response-model.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
 import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
@@ -17,12 +18,20 @@ class DetalhesVagaPage extends StatefulWidget {
 
 class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
   final VagasRepository _vagasRepository = VagasRepository();
+  VagasDetailResponseModel response =
+      VagasDetailResponseModel("", "", "", "", 0, "", "", 0.0);
   @override
   void initState() {
-    _vagasRepository.getVagasById(widget.id!).then((value) {
-      print(value);
-    });
+    loadVaga();
     super.initState();
+  }
+
+  loadVaga() async {
+    await _vagasRepository.getVagasById(widget.id!).then((value) {
+      setState(() {
+        response = VagasDetailResponseModel.fromJson(value.data);
+      });
+    });
   }
 
   @override
@@ -60,6 +69,35 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
                 const CustomPopupMenu()
               ],
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text("Detalhes da vaga",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600)),
+            Card(
+                color: const Color.fromARGB(89, 135, 135, 135),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Empresa: ${response.empresa}',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        'Cargo: ${response.cargo}',
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        response.remuneracao == 0
+                            ? 'Remuneração: A combinar'
+                            : 'Remuneração: R\$ ${response.remuneracao}',
+                        style: const TextStyle(color: Colors.white),
+                      )
+                    ])),
           ],
         ),
       ),

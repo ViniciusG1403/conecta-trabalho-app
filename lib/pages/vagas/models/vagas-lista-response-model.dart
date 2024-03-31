@@ -1,5 +1,3 @@
-import 'package:conectatrabalho/pages/initial/models/user-model.dart';
-
 class VagasListaResponseModel {
   String id;
   String titulo;
