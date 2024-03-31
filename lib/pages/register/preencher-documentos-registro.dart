@@ -1,6 +1,6 @@
 import 'package:conectatrabalho/pages/register/models/retorno-cadastro-perfil.dart';
 import 'package:conectatrabalho/pages/register/services/profiles-service.dart';
-import 'package:conectatrabalho/pages/shared/tratamento-documentos-imagens/image-picker.dart';
+import 'package:conectatrabalho/shared/tratamento-documentos-imagens/image-picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

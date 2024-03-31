@@ -1,14 +1,14 @@
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
-import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
+import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VagasRepository extends ChangeNotifier {
   int page = 1;
-  final List<VagasRetornoModel> vagas = [];
+  final List<VagasListaResponseModel> vagas = [];
   bool pesquisarVagasProximas = true;
 
   getTodasVagas(BuildContext context) async {
@@ -20,7 +20,7 @@ class VagasRepository extends ChangeNotifier {
     await dio.get(url).then((response) {
       if (response.statusCode == 200) {
         for (var i = 0; i < response.data.length; i++) {
-          vagas.add(VagasRetornoModel.fromJson(response.data[i]));
+          vagas.add(VagasListaResponseModel.fromJson(response.data[i]));
         }
         page++;
         notifyListeners();
@@ -46,7 +46,8 @@ class VagasRepository extends ChangeNotifier {
                 {
                   for (var i = 0; i < response.data.length; i++)
                     {
-                      vagas.add(VagasRetornoModel.fromJson(response.data[i])),
+                      vagas.add(
+                          VagasListaResponseModel.fromJson(response.data[i])),
                     },
                   page++,
                   notifyListeners(),
@@ -79,7 +80,7 @@ class VagasRepository extends ChangeNotifier {
     await dio.get(url).then((response) {
       if (response.statusCode == 200) {
         for (var i = 0; i < response.data.length; i++) {
-          vagas.add(VagasRetornoModel.fromJson(response.data[i]));
+          vagas.add(VagasListaResponseModel.fromJson(response.data[i]));
         }
         page++;
         notifyListeners();

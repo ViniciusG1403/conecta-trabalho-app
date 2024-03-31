@@ -43,14 +43,16 @@ Future<bool> userWithProfile(String? id) async {
   return containProfile;
 }
 
-Future<void> getProfile(String? id) async {
+Future<Perfil> getProfile() async {
   Dio dio = Dio();
   dio.interceptors.add(TokenInterceptor(dio));
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool containProfile = false;
-  Perfil perfil;
 
-  var url = "$userUrl/${id!}/perfil";
+  String? idUser = prefs.getString('uidUsuario');
+  Perfil perfil = Perfil("", "", "", 0, "");
+
+  var url = "$userUrl/${idUser!}/perfil";
   await dio
       .get(url)
       .then((value) => {
@@ -62,4 +64,6 @@ Future<void> getProfile(String? id) async {
       .catchError((e) {
     containProfile = false;
   });
+
+  return perfil;
 }

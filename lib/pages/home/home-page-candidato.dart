@@ -4,7 +4,7 @@ import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'models/vagas-retorno-model.dart';
+import '../vagas/models/vagas-lista-response-model.dart';
 
 class HomePageCandidato extends StatefulWidget {
   const HomePageCandidato({Key? key}) : super(key: key);
@@ -22,14 +22,7 @@ class _HomePageCandidatoState extends State<HomePageCandidato> {
     vagasRepository = VagasRepository();
     vagasRepository.getVagasProximo(5, 80, context);
 
-    getPerfil();
     super.initState();
-  }
-
-  getPerfil() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? idUser = prefs.getString('uidUsuario');
-    getProfile(idUser);
   }
 
   @override

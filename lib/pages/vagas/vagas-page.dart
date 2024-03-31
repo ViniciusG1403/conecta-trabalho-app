@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:conectatrabalho/core/routes.dart';
-import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
-import 'package:conectatrabalho/pages/home/models/vagas-retorno-model.dart';
-import 'package:conectatrabalho/pages/shared/searchBarConectaTrabalho.dart';
+import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
+import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
+import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
 import 'package:flutter/material.dart';
 

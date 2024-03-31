@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:conectatrabalho/pages/register/services/profiles-service.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
-import 'package:conectatrabalho/pages/shared/tratamento-documentos-imagens/repositories/save-documentos-repository.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
+import 'package:conectatrabalho/shared/tratamento-documentos-imagens/repositories/save-documentos-repository.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';

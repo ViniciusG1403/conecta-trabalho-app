@@ -1,5 +1,5 @@
-import 'package:conectatrabalho/pages/login/services/active-user-service.dart';
-import 'package:conectatrabalho/pages/login/services/login-service.dart';
+import 'package:conectatrabalho/core/repositories/usuarios/ativar-usuario-repository.dart';
+import 'package:conectatrabalho/pages/login/repositories/login-repository.dart';
 import 'package:flutter/material.dart';
 
 bool _isCharging = false;

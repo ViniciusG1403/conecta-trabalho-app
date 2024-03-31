@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenInterceptor extends Interceptor {
   final Dio dio;
-  Dio _dio = Dio();
+  final Dio _dio = Dio();
 
   TokenInterceptor(this.dio);
 

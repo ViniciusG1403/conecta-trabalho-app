@@ -4,13 +4,11 @@ import 'dart:convert';
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
-import 'package:conectatrabalho/pages/login/models/resend-activecode-model.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/login-model.dart';
@@ -41,6 +39,7 @@ Future<String> RealizarLogin(
       bool userProfile = await userWithProfile(idUser!);
 
       if (userProfile) {
+        getProfile();
         routes.go("/home");
       } else {
         routes.go("/initial-page");
@@ -103,32 +102,4 @@ Future<void> logout() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString('accessToken', '');
   routes.go("/");
-}
-
-Future<String> ResendActivationCode(String email, BuildContext context) async {
-  ResendActivateCode model =
-      ResendActivateCode("", "Ativação de usuário", email);
-
-  var url = Uri.parse(userUrl + "/reenviar-codigo");
-  var response = await http.put(url,
-      headers: {"Content-Type": "application/json"},
-      body: json.encode(model.toJson()));
-  if (response.statusCode == 401) {
-    return response.body;
-  }
-
-  if (response.statusCode != 200) {
-    exibirMensagemErro(
-        context, "Ocorreu um erro ao reenviar o código de ativação");
-    return "Ocorreu um erro ao reenviar o código de ativação";
-  }
-
-  try {
-    exibirMensagemSucesso(context, "Código reenviado com sucesso");
-    return "Código reenviado com sucesso";
-  } catch (e) {
-    exibirMensagemErro(
-        context, "Ocorreu um erro ao reenviar o código de ativação");
-    return "Ocorreu um erro ao reenviar o código de ativação";
-  }
 }

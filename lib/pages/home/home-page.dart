@@ -1,14 +1,10 @@
-import 'dart:math';
-
-import 'package:conectatrabalho/pages/home/assets/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
-import 'package:conectatrabalho/pages/home/services/home-page-service.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
-import 'package:conectatrabalho/pages/shared/tratamento-documentos-imagens/image-picker.dart';
-import 'package:conectatrabalho/pages/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
+import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
+import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
+import 'package:conectatrabalho/shared/tratamento-documentos-imagens/image-picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -39,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   carregarPerfilUsuario() {
-    getPerfilByUser().then((value) {
+    getProfile().then((value) {
       setState(() {
         urlFotoPerfil = value.fotoPerfil;
         image = Image.network(urlFotoPerfil);
@@ -50,11 +46,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    initPrefs();
     controller = SearchController();
     _menuController = MenuController();
     carregarPerfilUsuario();
     renderHomePageCandidato();
-    initPrefs();
     super.initState();
   }
 
