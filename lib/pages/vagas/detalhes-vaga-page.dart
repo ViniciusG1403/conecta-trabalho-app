@@ -1,16 +1,13 @@
-import 'dart:async';
-
 import 'package:conectatrabalho/core/routes.dart';
+import 'package:conectatrabalho/pages/aplicacao/repositorios/aplicacao-repository.dart';
 import 'package:conectatrabalho/pages/vagas/models/vaga-detail-response-model.dart';
-import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
-import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
-import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
+import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
 import 'package:flutter/material.dart';
 
 class DetalhesVagaPage extends StatefulWidget {
   DetalhesVagaPage({Key? key, required this.id}) : super(key: key);
-  late String? id;
+  final String? id;
 
   @override
   State<DetalhesVagaPage> createState() => _DetalhesVagaPageState();
@@ -20,8 +17,11 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
   final VagasRepository _vagasRepository = VagasRepository();
   VagasDetailResponseModel response =
       VagasDetailResponseModel("", "", "", "", 0, "", "", 0.0);
+        bool jaAplicado = false;
+
   @override
   void initState() {
+    verifyApplication();
     loadVaga();
     super.initState();
   }
@@ -32,6 +32,15 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
         response = VagasDetailResponseModel.fromJson(value.data);
       });
     });
+  }
+
+  verifyApplication(){
+  Future<bool> aplicacao = verificarAplicacaoVaga(context, widget.id!);
+  aplicacao.then((value) {
+    setState(() {
+      jaAplicado = value;
+    });
+  });
   }
 
   @override
@@ -54,51 +63,99 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
             fit: BoxFit.fill,
           ),
         ),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                const SizedBox(width: 35),
-                IconButton(
-                    onPressed: () => routes.go('/vagas'),
-                    icon: const Icon(Icons.arrow_back, color: Colors.white)),
-                const SizedBox(width: 230),
-                const CustomPopupMenu()
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text("Detalhes da vaga",
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              Row(
+                children: [
+                  const SizedBox(width: 35),
+                  IconButton(
+                      onPressed: () => routes.go('/vagas'),
+                      icon: const Icon(Icons.arrow_back, color: Colors.white)),
+                  const Spacer(),
+                  const CustomPopupMenu(),
+                  const SizedBox(width: 35),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text("Detalhes da vaga",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600)),
+              SizedBox(
+                width: screenSize.width * 0.95,
+                child: Card(
+                  color: const Color.fromARGB(89, 135, 135, 135),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Empresa: ${response.empresa}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Cargo: ${response.cargo}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          response.remuneracao == 0
+                              ? 'Remuneração: A combinar'
+                              : 'Remuneração: R\$ ${response.remuneracao}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Descrição detalhada da vaga:',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 15,
-                    fontWeight: FontWeight.w600)),
-            Card(
-                color: const Color.fromARGB(89, 135, 135, 135),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Empresa: ${response.empresa}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        'Cargo: ${response.cargo}',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        response.remuneracao == 0
-                            ? 'Remuneração: A combinar'
-                            : 'Remuneração: R\$ ${response.remuneracao}',
-                        style: const TextStyle(color: Colors.white),
-                      )
-                    ])),
-          ],
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                width: screenSize.width * 0.95,
+                child: Card(
+                  color: const Color.fromARGB(89, 135, 135, 135),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8),
+                        Text(
+                          '${response.descricao}\n',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () => {
+                  aplicarParaVaga(context, response.id)
+                },
+                style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(Colors.black)),
+                icon: const Icon(Icons.check, color: Colors.white,),
+                label: const Text('Candidatar-se', style: TextStyle(color: Colors.white),),
+              )
+            ],
+          ),
         ),
       ),
     );

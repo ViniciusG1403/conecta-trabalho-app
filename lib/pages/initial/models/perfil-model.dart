@@ -23,7 +23,7 @@ class Perfil {
       json['nome'],
       json['email'],
       json['tipoUsuario'],
-      json['fotoPerfil'],
+      json['fotoPerfil'] ?? "",
     );
   }
 }

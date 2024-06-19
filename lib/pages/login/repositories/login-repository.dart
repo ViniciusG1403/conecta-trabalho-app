@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
+import 'package:conectatrabalho/pages/login/modals/active-user-modal.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
@@ -55,6 +56,10 @@ Future<String> RealizarLogin(
         context, "Tempo limite excedido ao realizar login, tente novamente.");
     return "Ocorreu um erro ao realizar login";
   } catch (e) {
+    if(e.toString().contains("inativo")){
+      showActivationModal(context, email, senha);
+      return " ";
+    }
     exibirMensagemErro(context, "Ocorreu um erro ao realizar login");
     return "Ocorreu um erro ao realizar login";
   }
