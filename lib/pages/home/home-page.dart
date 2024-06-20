@@ -2,6 +2,7 @@ import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
 import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
 import 'package:conectatrabalho/shared/tratamento-documentos-imagens/image-picker.dart';
 import 'package:flutter/material.dart';
@@ -34,14 +35,29 @@ class _HomePageState extends State<HomePage> {
     return HomePageCandidato();
   }
 
-  carregarPerfilUsuario() {
-    getProfile().then((value) {
+  carregarPerfilUsuario() async {
+    try {
+      prefs = await SharedPreferences.getInstance();
+      DateTime now = DateTime.now();
+      int timefoto = prefs.getInt("timeFoto")!;
+      if (now.millisecondsSinceEpoch - timefoto > 59000) {
+        getProfile().then((value) {
+          setState(() {
+            urlFotoPerfil = value.fotoPerfil;
+            image = Image.network(urlFotoPerfil);
+            carregandoFotoPerfil = false;
+          });
+        });
+        return;
+      }
       setState(() {
-        urlFotoPerfil = value.fotoPerfil;
+        urlFotoPerfil = prefs.getString("fotoPerfil")!;
         image = Image.network(urlFotoPerfil);
         carregandoFotoPerfil = false;
       });
-    });
+    } catch (e) {
+      exibirMensagemErro(context, "Erro ao carregar foto de perfil");
+    }
   }
 
   @override

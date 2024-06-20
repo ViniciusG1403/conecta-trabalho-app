@@ -34,21 +34,29 @@ aplicarParaVaga(BuildContext context, String idVaga) async {
   }
 
 Future<bool> verificarAplicacaoVaga(BuildContext context, String idVaga) async {
+  try{
     final dio = Dio();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? idCandidato = prefs.getString("idPerfil");
     dio.interceptors.add(TokenInterceptor(dio));
+    bool aplicacao = false;
 
     var url = "$vagasUrl/$idVaga/$idCandidato/verifica-duplicidade-aplicacao";
     await dio.get(url).then((response) {
-      if (response.statusCode == 201) {
-        return response.data;
-      } 
-      return false;
+      if (response.statusCode == 200) {
+        aplicacao = response.data;
+      } else {
+      aplicacao = false;
+    }
     }).catchError((e) {
       exibirMensagemErro(
           context,  extractErrorMessage(e.response.data["stack"].toString()));
-          return false;
+          aplicacao = false;
     });
-    return false;
+    return aplicacao;
+  }catch(e){
+    exibirMensagemErro(
+          context,  extractErrorMessage(e.toString()));
+          return false;
+  }
 }

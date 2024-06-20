@@ -3,6 +3,7 @@ import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
 import 'package:conectatrabalho/pages/initial/models/perfil-model.dart';
 import 'package:conectatrabalho/pages/register/perfil-candidato-registro.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user-model.dart';
@@ -40,6 +41,15 @@ Future<bool> userWithProfile(String? id) async {
     containProfile = false;
   });
 
+  if(containProfile){
+    getProfile().then((value) {
+      prefs.setString("idPerfil", value.id);
+      prefs.setInt("tipoUsuario", value.tipoUsuario);
+
+
+    });
+  }
+
   return containProfile;
 }
 
@@ -53,12 +63,15 @@ Future<Perfil> getProfile() async {
   Perfil perfil = Perfil("", "", "", 0, "");
 
   var url = "$userUrl/${idUser!}/perfil";
+  DateTime now = DateTime.now();
   await dio
       .get(url)
       .then((value) => {
             perfil = Perfil.fromJson(value.data),
             prefs.setString("idPerfil", perfil.id),
             prefs.setInt("tipoUsuario", perfil.tipoUsuario),
+            prefs.setString("fotoPerfil", perfil.fotoPerfil),
+            prefs.setInt("timeFoto", now.millisecondsSinceEpoch),
             containProfile = true
           })
       .catchError((e) {

@@ -31,8 +31,8 @@ class _HomePageCandidatoState extends State<HomePageCandidato> {
 
     return Column(children: [
       SizedBox(
-          width: screenSize.width * 0.95,
-          height: screenSize.height * 0.60,
+          width: screenSize.width * 0.90,
+          height: screenSize.height * 0.75,
           child: Column(children: [
             const SizedBox(
               height: 10,
@@ -46,7 +46,10 @@ class _HomePageCandidatoState extends State<HomePageCandidato> {
                 child: ListView.builder(
                     itemBuilder: ((context, index) {
                       final vaga = vagasRepository.vagas[index];
-                      return Card(
+                      return GestureDetector(
+                      onTap: () =>
+                                    routes.go('/detalhes-vaga/${vaga.id}'),
+                      child: Card(
                           color: Colors.transparent,
                           child: ListTile(
                             title: Text(
@@ -67,7 +70,7 @@ class _HomePageCandidatoState extends State<HomePageCandidato> {
                               Icons.task_alt_outlined,
                               color: Colors.white,
                             ),
-                          ));
+                          )));
                     }),
                     itemCount: vagasRepository.vagas.length)),
             Row(

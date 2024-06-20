@@ -35,8 +35,7 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
   }
 
   verifyApplication(){
-  Future<bool> aplicacao = verificarAplicacaoVaga(context, widget.id!);
-  aplicacao.then((value) {
+  verificarAplicacaoVaga(context, widget.id!).then((value) {
     setState(() {
       jaAplicado = value;
     });
@@ -147,12 +146,15 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
               ),
               ElevatedButton.icon(
                 onPressed: () => {
-                  aplicarParaVaga(context, response.id)
+                  jaAplicado ? {} : aplicarParaVaga(context, response.id),
+                  setState(() {
+                    jaAplicado = true;
+                  })
                 },
                 style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colors.black)),
-                icon: const Icon(Icons.check, color: Colors.white,),
-                label: const Text('Candidatar-se', style: TextStyle(color: Colors.white),),
+                icon: jaAplicado ? const Icon(Icons.check, color: Colors.green,) : const Icon(Icons.check, color: Colors.white,),
+                label: jaAplicado ? const Text('Já aplicado', style: TextStyle(color: Colors.white),) : const Text('Candidatar-se', style: TextStyle(color: Colors.white),),
               )
             ],
           ),

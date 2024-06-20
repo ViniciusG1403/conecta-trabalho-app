@@ -40,7 +40,7 @@ Future<String> RealizarLogin(
       bool userProfile = await userWithProfile(idUser!);
 
       if (userProfile) {
-        getProfile();
+        await getProfile();
         routes.go("/home");
       } else {
         routes.go("/initial-page");
