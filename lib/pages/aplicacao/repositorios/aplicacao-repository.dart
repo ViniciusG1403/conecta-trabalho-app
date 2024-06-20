@@ -5,6 +5,7 @@
   import 'dart:convert';
 
 import 'package:conectatrabalho/core/environment.dart';
+import 'package:conectatrabalho/core/http-interceptor/error-tratament.dart';
 import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
 import 'package:conectatrabalho/pages/aplicacao/models/aplicar-para-vaga-model.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
@@ -26,8 +27,9 @@ aplicarParaVaga(BuildContext context, String idVaga) async {
         exibirMensagemSucesso(context, "Aplicação realizada com sucesso.");
       }
     }).catchError((e) {
+
       exibirMensagemErro(
-          context, "Ocorreu um erro ao aplicar para vaga. ");
+          context, extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
 
@@ -45,7 +47,7 @@ Future<bool> verificarAplicacaoVaga(BuildContext context, String idVaga) async {
       return false;
     }).catchError((e) {
       exibirMensagemErro(
-          context, "Ocorreu um erro ao aplicar para vaga. ");
+          context,  extractErrorMessage(e.response.data["stack"].toString()));
           return false;
     });
     return false;

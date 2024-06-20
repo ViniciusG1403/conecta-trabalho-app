@@ -60,7 +60,7 @@ Future<String> RealizarLogin(
       showActivationModal(context, email, senha);
       return " ";
     }
-    exibirMensagemErro(context, "Ocorreu um erro ao realizar login");
+    exibirMensagemErro(context, "Usuário ou senha inválido.");
     return "Ocorreu um erro ao realizar login";
   }
 }

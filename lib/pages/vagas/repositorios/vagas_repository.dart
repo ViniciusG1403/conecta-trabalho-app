@@ -1,4 +1,5 @@
 import 'package:conectatrabalho/core/environment.dart';
+import 'package:conectatrabalho/core/http-interceptor/error-tratament.dart';
 import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
 import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
@@ -27,7 +28,7 @@ class VagasRepository extends ChangeNotifier {
       }
     }).catchError((e) {
       exibirMensagemErro(
-          context, "Ocorreu um erro ao buscar as vagas, tente novamente.");
+          context,  extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
 
@@ -55,7 +56,7 @@ class VagasRepository extends ChangeNotifier {
             })
         .catchError((e) {
       exibirMensagemErro(
-          context, "Ocorreu um erro ao buscar as vagas, tente novamente.");
+          context,  extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
 
@@ -87,7 +88,7 @@ class VagasRepository extends ChangeNotifier {
       }
     }).catchError((e) {
       exibirMensagemErro(
-          context, "Ocorreu um erro ao buscar as vagas, tente novamente.");
+          context, extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
 
