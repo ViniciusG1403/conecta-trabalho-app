@@ -2,6 +2,7 @@ import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/aplicacao/repositorios/aplicacao-repository.dart';
 import 'package:conectatrabalho/pages/vagas/models/vaga-detail-response-model.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
   final VagasRepository _vagasRepository = VagasRepository();
   VagasDetailResponseModel response =
       VagasDetailResponseModel("", "", "", "", 0, "", "", 0.0);
-        bool jaAplicado = false;
+  bool jaAplicado = false;
 
   @override
   void initState() {
@@ -34,12 +35,34 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
     });
   }
 
-  verifyApplication(){
-  verificarAplicacaoVaga(context, widget.id!).then((value) {
-    setState(() {
-      jaAplicado = value;
+  verifyApplication() {
+    verificarAplicacaoVaga(context, widget.id!).then((value) {
+      setState(() {
+        jaAplicado = value;
+      });
     });
-  });
+  }
+
+  cancelar(BuildContext context, id) async {
+    try {
+      await cancelarAplicacao(context, id);
+      setState(() {
+        jaAplicado = false;
+      });
+    } catch (e) {
+      exibirMensagemErro(context, "Erro ao cancelar aplicação.");
+    }
+  }
+
+  aplicar(BuildContext context, id) async {
+    try {
+      await aplicarParaVaga(context, id);
+      setState(() {
+        jaAplicado = true;
+      });
+    } catch (e) {
+      exibirMensagemErro(context, "Erro ao aplicar para vaga.");
+    }
   }
 
   @override
@@ -117,7 +140,7 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               const Text(
                 'Descrição detalhada da vaga:',
                 style: TextStyle(
@@ -135,9 +158,18 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 8),
-                        Text(
-                          '${response.descricao}\n',
-                          style: const TextStyle(color: Colors.white),
+                        RichText(
+                          text: TextSpan(
+                            style: const TextStyle(color: Colors.white),
+                            children:
+                                response.descricao.split('.').map((sentence) {
+                              return TextSpan(
+                                text: sentence.trim().isNotEmpty
+                                    ? sentence.trim() + '.\n' + '\n'
+                                    : '',
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ],
                     ),
@@ -146,15 +178,30 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
               ),
               ElevatedButton.icon(
                 onPressed: () => {
-                  jaAplicado ? {} : aplicarParaVaga(context, response.id),
-                  setState(() {
-                    jaAplicado = true;
-                  })
+                  jaAplicado
+                      ? cancelar(context, response.id)
+                      : aplicar(context, response.id)
                 },
                 style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(Colors.black)),
-                icon: jaAplicado ? const Icon(Icons.check, color: Colors.green,) : const Icon(Icons.check, color: Colors.white,),
-                label: jaAplicado ? const Text('Já aplicado', style: TextStyle(color: Colors.white),) : const Text('Candidatar-se', style: TextStyle(color: Colors.white),),
+                icon: jaAplicado
+                    ? const Icon(
+                        Icons.cancel,
+                        color: Color.fromARGB(255, 255, 30, 0),
+                      )
+                    : const Icon(
+                        Icons.add_task,
+                        color: Color.fromARGB(255, 21, 255, 0),
+                      ),
+                label: jaAplicado
+                    ? const Text(
+                        'Cancelar aplicação',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : const Text(
+                        'Candidatar-se',
+                        style: TextStyle(color: Colors.white),
+                      ),
               )
             ],
           ),

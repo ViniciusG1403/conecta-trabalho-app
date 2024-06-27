@@ -33,6 +33,26 @@ aplicarParaVaga(BuildContext context, String idVaga) async {
     });
   }
 
+
+cancelarAplicacao(BuildContext context, String idVaga) async {
+    final dio = Dio();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idCandidato = prefs.getString("idPerfil");
+    dio.interceptors.add(TokenInterceptor(dio));
+    final model = AplicarParaVagaModel(idVaga, idCandidato);
+
+    var url = "$aplicacaoUrl/cancelar";
+    await dio.post(url, data: json.encode(model.toJson())).then((response) {
+      if (response.statusCode == 200) {
+        exibirMensagemSucesso(context, "Cancelamento realizada com sucesso.");
+      }
+    }).catchError((e) {
+
+      exibirMensagemErro(
+          context, extractErrorMessage(e.response.data["stack"].toString()));
+    });
+  }
+
 Future<bool> verificarAplicacaoVaga(BuildContext context, String idVaga) async {
   try{
     final dio = Dio();

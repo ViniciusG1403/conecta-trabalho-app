@@ -28,7 +28,7 @@ class VagasRepository extends ChangeNotifier {
       }
     }).catchError((e) {
       exibirMensagemErro(
-          context,  extractErrorMessage(e.response.data["stack"].toString()));
+          context, extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
 
@@ -56,7 +56,7 @@ class VagasRepository extends ChangeNotifier {
             })
         .catchError((e) {
       exibirMensagemErro(
-          context,  extractErrorMessage(e.response.data["stack"].toString()));
+          context, extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
 
@@ -96,5 +96,28 @@ class VagasRepository extends ChangeNotifier {
     final dio = Dio();
     dio.interceptors.add(TokenInterceptor(dio));
     return dio.get("$vagasUrl/$id");
+  }
+
+  Future<List<VagasListaResponseModel>> buscarVagasProximas(int size, int distancia, BuildContext context) async {
+    final dio = Dio();
+    dio.interceptors.add(TokenInterceptor(dio));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uuid = prefs.getString('uidUsuario')!;
+    var url = "$vagasUrl/$uuid/proximidade?page=1&size=$size&distanciaMaxima=$distancia";
+    try {
+      var response = await dio.get(url);
+      if (response.statusCode == 200) {
+        List<VagasListaResponseModel> vagasEncontradas = [];
+        for (var i = 0; i < response.data.length; i++) {
+          vagasEncontradas.add(VagasListaResponseModel.fromJson(response.data[i]));
+        }
+        return vagasEncontradas;
+      } else {
+        throw Exception("Erro ao buscar vagas");
+      }
+    } catch (e) {
+      exibirMensagemErro(context, extractErrorMessage(e.toString()));
+      return [];
+    }
   }
 }
