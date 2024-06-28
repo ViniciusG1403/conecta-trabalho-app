@@ -31,6 +31,14 @@ class CustomPopupMenu extends StatelessWidget {
               onPressed: () => {routes.go("/")},
             ),
           ),
+          PopupMenuItem(child: TextButton.icon(
+            icon: const Icon(Icons.person, color: Colors.black),
+            label: const Text(
+              'Aplicações',
+              style: TextStyle(color: Colors.black),
+            ),
+            onPressed: () => {routes.go("/aplicacoes")},
+          )),
           PopupMenuItem(
             child: TextButton.icon(
               icon:
@@ -62,6 +70,10 @@ class CustomPopupMenu extends StatelessWidget {
 
         if (value == "Vagas") {
           routes.go("/vagas");
+        }
+
+        if(value == "Aplicações"){
+          routes.go("/aplicacoes");
         }
       },
       icon: const Icon(

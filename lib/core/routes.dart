@@ -1,3 +1,4 @@
+import 'package:conectatrabalho/pages/aplicacao/aplicacoes.dart';
 import 'package:conectatrabalho/pages/home/home-page.dart';
 import 'package:conectatrabalho/pages/initial/initial-page.dart';
 import 'package:conectatrabalho/pages/login/login-page.dart';
@@ -76,4 +77,8 @@ final routes = GoRouter(routes: [
         return MaterialPage(
             child: DetalhesVagaPage(id: id), fullscreenDialog: true);
       }),
+
+        GoRoute(
+      path: '/aplicacoes',
+      pageBuilder: (context, state) => MaterialPage(child: AplicacoesPage())),
 ]);
