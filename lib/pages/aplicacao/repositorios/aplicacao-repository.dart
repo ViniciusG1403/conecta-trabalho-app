@@ -74,6 +74,7 @@ Future<bool> verificarAplicacaoVaga(BuildContext context, String idVaga) async {
   }
 }
 
+
 class AplicacaoRepository extends ChangeNotifier {
   int page = 1;
   final List<AplicacaoDetailResponseModel> vagas = [];
@@ -100,4 +101,25 @@ class AplicacaoRepository extends ChangeNotifier {
           context, extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
+
+
+Future<AplicacaoCompletaModel> getAplicacaoById(
+    BuildContext context, String idAplicacao) async {
+  final dio = Dio();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? idCandidato = prefs.getString("idPerfil");
+  dio.interceptors.add(TokenInterceptor(dio));
+  AplicacaoCompletaModel aplicacao = AplicacaoCompletaModel("", "", "", DateTime.now(), "", 0, "", "");
+
+  var url = "$aplicacaoUrl/$idAplicacao";
+  await dio.get(url).then((response) {
+    if (response.statusCode == 200) {
+      aplicacao = AplicacaoCompletaModel.fromJson(response.data);
+    }
+  }).catchError((e) {
+    exibirMensagemErro(
+        context, extractErrorMessage(e.response.data["stack"].toString()));
+  });
+  return aplicacao;
+}
 }

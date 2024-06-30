@@ -1,13 +1,8 @@
-import 'dart:async';
-
 import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/aplicacao/enums/situacao-aplicacao.enum.dart';
 import 'package:conectatrabalho/pages/aplicacao/modal/detalhes-aplicacao-modal.dart';
 import 'package:conectatrabalho/pages/aplicacao/repositorios/aplicacao-repository.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
-import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
-import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
-import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -21,7 +16,6 @@ class AplicacoesPage extends StatefulWidget {
 class _AplicacoesPageState extends State<AplicacoesPage> {
   late AplicacaoRepository repository;
   List<String> recentSearches = [];
-  late SearchController controller;
   bool pesquisarVagasProximas = false;
   final loading = ValueNotifier(true);
   late final ScrollController _scrollController;
@@ -45,9 +39,13 @@ class _AplicacoesPageState extends State<AplicacoesPage> {
   }
 
   loadingVagas() async {
+    repository.vagas.clear();
     loading.value = true;
     await repository.getAplicacoesByIdCandidato(context);
     loading.value = false;
+    setState(() {
+      repository.notifyListeners();
+    });
   }
 
   @override
@@ -98,18 +96,27 @@ class _AplicacoesPageState extends State<AplicacoesPage> {
                             final aplicacao = repository.vagas[index];
                             return GestureDetector(
                                 child: Card(
-                                    color: const Color.fromARGB(160, 33, 0, 109),
+                                    color:
+                                        const Color.fromARGB(160, 33, 0, 109),
                                     child: ListTile(
                                         title: Text(
                                           'Empresa: ${aplicacao.nomeEmpresa}\nData da aplicação:  ${DateFormat('dd/MM/yyyy hh:mm').format(aplicacao.dataAplicacao)}\nSituação: ${SituacaoAplicacao.values[aplicacao.statusAplicacao].name}',
-                                          style: const TextStyle(color: Colors.white),
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                         trailing: IconButton(
                                             icon: const Icon(
                                               Icons.summarize_outlined,
                                               color: Colors.white,
                                             ),
-                                            onPressed: () => showModalDetalhesAplicacao(context, aplicacao.id)))));
+                                            onPressed: () {
+                                              showModalDetalhesAplicacao(
+                                                  context, aplicacao.id, () {
+                                                setState(() {
+                                                  loadingVagas();
+                                                });
+                                              });
+                                            }))));
                           }),
                           itemCount: repository.vagas.length)
                     ]);

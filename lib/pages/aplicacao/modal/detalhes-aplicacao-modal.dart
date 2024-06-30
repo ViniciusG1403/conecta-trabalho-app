@@ -1,8 +1,20 @@
+import 'package:conectatrabalho/core/routes.dart';
+import 'package:conectatrabalho/pages/aplicacao/enums/situacao-aplicacao.enum.dart';
+import 'package:conectatrabalho/pages/aplicacao/models/aplicacoes-model.dart';
+import 'package:conectatrabalho/pages/aplicacao/repositorios/aplicacao-repository.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
+Future<AplicacaoCompletaModel> loadAplicacao(BuildContext context, String id) async {
+  final repository = AplicacaoRepository();
+  AplicacaoCompletaModel aplicacao = await repository.getAplicacaoById(context, id);
+  return aplicacao;
+}
 
-void showModalDetalhesAplicacao(BuildContext context, String id) {
+void showModalDetalhesAplicacao(BuildContext context, String id, VoidCallback onClose) async {
   Size screenSize = MediaQuery.of(context).size;
+  AplicacaoCompletaModel aplicacao = await loadAplicacao(context, id);
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -22,60 +34,69 @@ void showModalDetalhesAplicacao(BuildContext context, String id) {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Data da aplicação: 2021-10-10 00:00:00",
-                  style: TextStyle(color: Colors.white)),
-              SizedBox(
+              Text("Data da aplicação: ${DateFormat('dd/MM/yyyy hh:mm').format(aplicacao.dataAplicacao)}",
+                  style: const TextStyle(color: Colors.white)),
+              const SizedBox(
                 height: 10,
               ),
-              Text("Situação: Pendente", style: TextStyle(color: Colors.white)),
-              SizedBox(
+              Text("Situação: ${SituacaoAplicacao.values[aplicacao.statusAplicacao].name}", style: const TextStyle(color: Colors.white)),
+              const SizedBox(
                 height: 10,
               ),
-              Text("Vaga: Desenvolvedor Flutter",
-                  style: TextStyle(color: Colors.white)),
-              SizedBox(
+              Text("Vaga: ${aplicacao.tituloVaga}",
+                  style: const TextStyle(color: Colors.white)),
+              const SizedBox(
                 height: 10,
               ),
-              Text("Empresa: Empresa Teste",
-                  style: TextStyle(color: Colors.white)),
-              SizedBox(
+              Text("Empresa: ${aplicacao.nomeEmpresa}",
+                  style: const TextStyle(color: Colors.white)),
+              const SizedBox(
                 height: 10,
               ),
-              Text("Feedback da empresa: ",
-                  style: TextStyle(color: Colors.white)),
-              SizedBox(
+              Text("Feedback da empresa: ${aplicacao.feedbackEmpresa}",
+                  style: const TextStyle(color: Colors.white)),
+              const SizedBox(
                 height: 10,
               ),
-              Text("Feedback do candidato: ",
-                  style: TextStyle(color: Colors.white)),
-              SizedBox(
+              Text("Feedback do candidato: ${aplicacao.feedbackCandidato} ",
+                  style: const TextStyle(color: Colors.white)),
+              const SizedBox(
                 height: 10,
               ),
-              TextButton.icon(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.exit_to_app_outlined,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  "Cancelar aplicação",
-                  style: TextStyle(color: Colors.white),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton.icon(
+                    onPressed: () async {
+                      await cancelarAplicacao(context, aplicacao.idVaga);
+                      Navigator.of(context).pop();
+                      onClose();
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: Colors.red,
+                    ),
+                    label: const Text(
+                      "Cancelar",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () => {
+                      routes.go('/detalhes-vaga/${aplicacao.idVaga}'),
+                      Navigator.of(context).pop()
+                    },
+                    icon: const Icon(
+                      Icons.info,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      "Vaga",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: 10,
-              ),
-                            TextButton.icon(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.arrow_right,
-                  color: Colors.white,
-                ),
-                label: Text(
-                  "Ir para vaga",
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
             ],
           ),
         ),

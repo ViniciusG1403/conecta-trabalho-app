@@ -32,5 +32,39 @@ class AplicacaoDetailResponseModel {
 }
 
 class AplicacaoCompletaModel {
-  
+  String id;
+  String tituloVaga;
+  String idVaga;
+  DateTime dataAplicacao;
+  String nomeEmpresa;
+  int statusAplicacao;
+  String feedbackCandidato;
+  String feedbackEmpresa;
+
+  AplicacaoCompletaModel(
+      this.id,
+      this.tituloVaga,
+      this.idVaga,
+      this.dataAplicacao,
+      this.nomeEmpresa,
+      this.statusAplicacao,
+      this.feedbackCandidato,
+      this.feedbackEmpresa);
+
+  factory AplicacaoCompletaModel.fromJson(Map<String, dynamic> json) {
+
+    String idVaga = json['vaga']['id'];
+    String empresa = json['vaga']['empresa']['setor'];
+    String tituloVaga = json['vaga']['titulo'];
+
+    return AplicacaoCompletaModel(
+        json['id'],
+        tituloVaga,
+        idVaga,
+        DateTime.parse(json['dataAplicacao'] ?? DateTime.now().toIso8601String()),
+        empresa,
+        json['status'],
+        json['feedbackCandidato'] ?? "Sem feedback",
+        json['feedbackEmpresa'] ?? "Sem feedback");
+  }
 }
