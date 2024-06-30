@@ -2,14 +2,25 @@ import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/aplicacao/enums/situacao-aplicacao.enum.dart';
 import 'package:conectatrabalho/pages/aplicacao/models/aplicacoes-model.dart';
 import 'package:conectatrabalho/pages/aplicacao/repositorios/aplicacao-repository.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+bool isCharging = false;
+
 Future<AplicacaoCompletaModel> loadAplicacao(BuildContext context, String id) async {
+  try {
+  isCharging = true;
   final repository = AplicacaoRepository();
   AplicacaoCompletaModel aplicacao = await repository.getAplicacaoById(context, id);
   return aplicacao;
+  } catch (e){
+    exibirMensagemErro(context, "Ocorreu um erro ao carregar a aplicação");
+    return AplicacaoCompletaModel("", "", "", DateTime.now(), "", 1, "", "");
+  } finally {
+    isCharging = false;
+  }
 }
 
 void showModalDetalhesAplicacao(BuildContext context, String id, VoidCallback onClose) async {
@@ -30,7 +41,7 @@ void showModalDetalhesAplicacao(BuildContext context, String id, VoidCallback on
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: SingleChildScrollView(
+        content: isCharging ? CircularProgressIndicator() : SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

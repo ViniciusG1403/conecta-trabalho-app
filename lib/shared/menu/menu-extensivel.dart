@@ -11,55 +11,54 @@ class CustomPopupMenu extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry>[
           PopupMenuItem(
-            value: "Vagas",
-            child: TextButton.icon(
-              icon: const Icon(Icons.groups_outlined, color: Colors.black),
-              label: const Text(
-                'Vagas',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () => {routes.go("/vagas")},
+            child: const Row(
+              children: [
+                Icon(Icons.groups_outlined),
+                Text(" "),
+                Text("Vagas", style: TextStyle(color: Colors.black)),
+              ],
             ),
+            onTap: () => routes.go("/vagas"),
           ),
           PopupMenuItem(
-            child: TextButton.icon(
-              icon: const Icon(Icons.store, color: Colors.black),
-              label: const Text(
-                'Empresas',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () => {routes.go("/")},
+            child: const Row(
+              children: [
+                Icon(Icons.store),
+                Text(" "),
+                Text("Empresas", style: TextStyle(color: Colors.black)),
+              ],
             ),
-          ),
-          PopupMenuItem(child: TextButton.icon(
-            icon: const Icon(Icons.person, color: Colors.black),
-            label: const Text(
-              'Aplicações',
-              style: TextStyle(color: Colors.black),
-            ),
-            onPressed: () => {routes.go("/aplicacoes")},
-          )),
-          PopupMenuItem(
-            child: TextButton.icon(
-              icon:
-                  const Icon(Icons.build_circle_outlined, color: Colors.black),
-              label: const Text(
-                'Configurações',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () => {routes.go("/")},
-            ),
+            onTap: () => routes.go("/empresas"),
           ),
           PopupMenuItem(
-            value: "Sair",
-            child: TextButton.icon(
-              icon: const Icon(Icons.close, color: Colors.black),
-              label: const Text(
-                'Sair',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () => {exitApp()},
+            child: const Row(
+              children: [
+                Icon(Icons.person),
+                Text(" "),
+                Text("Aplicações", style: TextStyle(color: Colors.black)),
+              ],
             ),
+            onTap: () => routes.go("/aplicacoes"),
+          ),
+          PopupMenuItem(
+            child: const Row(
+              children: [
+                Icon(Icons.settings),
+                Text(" "),
+                Text("Configurações", style: TextStyle(color: Colors.black)),
+              ],
+            ),
+            onTap: () => routes.go("/configuracoes"),
+          ),
+          PopupMenuItem(
+            child: const Row(
+              children: [
+                Icon(Icons.exit_to_app),
+                Text(" "),
+                Text("Sair", style: TextStyle(color: Colors.black)),
+              ],
+            ),
+            onTap: () => exitApp(),
           ),
         ];
       },
@@ -72,7 +71,7 @@ class CustomPopupMenu extends StatelessWidget {
           routes.go("/vagas");
         }
 
-        if(value == "Aplicações"){
+        if (value == "Aplicações") {
           routes.go("/aplicacoes");
         }
       },
