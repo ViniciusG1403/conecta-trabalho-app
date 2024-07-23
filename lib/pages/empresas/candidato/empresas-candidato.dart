@@ -102,7 +102,7 @@ class _EmpresasCandidatoPageState extends State<EmpresasCandidatoPage> {
                             final empresa = repository.empresas[index];
                             return GestureDetector(
                                 onTap: () =>
-                                    routes.go('/detalhes-vaga/${empresa.id}'),
+                                    routes.go('/empresa/${empresa.id}/completo'),
                                 child: Card(
                                     color: Color.fromARGB(160, 33, 0, 109),
                                     child: ListTile(

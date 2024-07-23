@@ -27,7 +27,7 @@ class EmpresaReponseModel {
         ', ' +
         json['endereco']['bairro'] +
         ', ' +
-        json['endereco']['cidade'] +
+        json['endereco']['municipio'] +
         ' - ' +
         json['endereco']['estado'];
 

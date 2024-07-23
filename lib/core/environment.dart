@@ -1,6 +1,6 @@
 // Aws Routes
-late String route = 'https://b6ce-177-52-117-143.ngrok-free.app';
-//late String route = 'http://10.0.2.2:8080';
+//late String route = 'https://b6ce-177-52-117-143.ngrok-free.app';
+late String route = 'http://10.0.2.2:8080';
 //late String route = 'http://localhost:8080';
 late String authUrl = '$route/auth';
 late String userUrl = '$route/usuario';

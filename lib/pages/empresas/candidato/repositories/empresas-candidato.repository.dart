@@ -67,10 +67,10 @@ class EmpresasCandidatoRepository extends ChangeNotifier {
     dio.interceptors.add(TokenInterceptor(dio));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uuid = prefs.getString('uidUsuario')!;
-
+  
     String url = "$empresaUrl/${id}";
-
-    await dio.get(url).then((response) {
+  
+    return await dio.get(url).then((response) {
       if (response.statusCode == 200) {
         return EmpresaReponseModel.fromJson(response.data);
       } else {
@@ -79,6 +79,7 @@ class EmpresasCandidatoRepository extends ChangeNotifier {
     }).catchError((e) {
       exibirMensagemErro(
           context, extractErrorMessage(e.response.data["stack"].toString()));
+      return EmpresaReponseModel("", "", "", "", "", "", "", "", "");
     });
   }
 }
