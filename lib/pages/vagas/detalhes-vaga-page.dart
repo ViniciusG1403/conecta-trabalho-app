@@ -165,7 +165,7 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
                                 response.descricao.split('.').map((sentence) {
                               return TextSpan(
                                 text: sentence.trim().isNotEmpty
-                                    ? sentence.trim() + '.\n' + '\n'
+                                    ? '${sentence.trim()}.\n\n'
                                     : '',
                               );
                             }).toList(),

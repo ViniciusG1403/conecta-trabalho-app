@@ -28,7 +28,7 @@ class CustomPopupMenu extends StatelessWidget {
                 Text("Empresas", style: TextStyle(color: Colors.black)),
               ],
             ),
-            onTap: () => routes.go("/empresas"),
+            onTap: () => routes.go("/empresas/candidato"),
           ),
           PopupMenuItem(
             child: const Row(

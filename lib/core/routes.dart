@@ -1,4 +1,5 @@
 import 'package:conectatrabalho/pages/aplicacao/aplicacoes.dart';
+import 'package:conectatrabalho/pages/empresas/candidato/empresas-candidato.dart';
 import 'package:conectatrabalho/pages/home/home-page.dart';
 import 'package:conectatrabalho/pages/initial/initial-page.dart';
 import 'package:conectatrabalho/pages/login/login-page.dart';
@@ -58,7 +59,7 @@ final routes = GoRouter(routes: [
   ),
   GoRoute(
       path: '/home',
-      pageBuilder: (context, state) => MaterialPage(child: HomePage())),
+      pageBuilder: (context, state) => const MaterialPage(child: HomePage())),
   GoRoute(
       path: '/preencher-foto',
       pageBuilder: (context, state) {
@@ -69,7 +70,7 @@ final routes = GoRouter(routes: [
       }),
   GoRoute(
       path: '/vagas',
-      pageBuilder: (context, state) => MaterialPage(child: VagasPage())),
+      pageBuilder: (context, state) => const MaterialPage(child: VagasPage())),
   GoRoute(
       path: '/detalhes-vaga/:id',
       pageBuilder: (context, state) {
@@ -77,8 +78,12 @@ final routes = GoRouter(routes: [
         return MaterialPage(
             child: DetalhesVagaPage(id: id), fullscreenDialog: true);
       }),
-
-        GoRoute(
+  GoRoute(
       path: '/aplicacoes',
-      pageBuilder: (context, state) => MaterialPage(child: AplicacoesPage())),
+      pageBuilder: (context, state) =>
+          const MaterialPage(child: AplicacoesPage())),
+  GoRoute(
+      path: '/empresas/candidato',
+      pageBuilder: (context, state) =>
+          const MaterialPage(child: EmpresasCandidatoPage()))
 ]);
