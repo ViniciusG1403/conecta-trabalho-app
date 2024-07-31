@@ -33,7 +33,7 @@ class EmpresasCandidatoRepository extends ChangeNotifier {
     });
   }
 
-  getEmpresasNome(String pesquisa, BuildContext context) async {
+  getEmpresasNome(String pesquisa, BuildContext context, String searchOption) async {
     final dio = Dio();
     dio.interceptors.add(TokenInterceptor(dio));
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,8 +43,14 @@ class EmpresasCandidatoRepository extends ChangeNotifier {
 
     if (pesquisa == "") {
       url = "$empresaUrl/?page=$page&size=20";
-    } else {
+    } else if(searchOption == 'Nome Empresa') {
       url = "$empresaUrl/?search=usuario.nome:$pesquisa&page=$page&size=20";
+    } else if(searchOption == 'Cidade') {
+      url = "$empresaUrl/?search=usuario.endereco.municipio:$pesquisa&page=$page&size=20";
+    } else if(searchOption == 'Setor') {
+      url = "$empresaUrl/?search=setor:$pesquisa&page=$page&size=20";
+    } else {
+      url = "$empresaUrl/?page=$page&size=20";
     }
 
     await dio.get(url).then((response) {

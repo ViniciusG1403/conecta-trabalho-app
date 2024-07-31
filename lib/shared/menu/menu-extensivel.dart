@@ -43,16 +43,6 @@ class CustomPopupMenu extends StatelessWidget {
           PopupMenuItem(
             child: const Row(
               children: [
-                Icon(Icons.settings),
-                Text(" "),
-                Text("Configurações", style: TextStyle(color: Colors.black)),
-              ],
-            ),
-            onTap: () => routes.go("/configuracoes"),
-          ),
-          PopupMenuItem(
-            child: const Row(
-              children: [
                 Icon(Icons.exit_to_app),
                 Text(" "),
                 Text("Sair", style: TextStyle(color: Colors.black)),

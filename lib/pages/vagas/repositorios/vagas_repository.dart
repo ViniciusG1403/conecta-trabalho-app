@@ -98,18 +98,39 @@ class VagasRepository extends ChangeNotifier {
     return dio.get("$vagasUrl/$id");
   }
 
-  Future<List<VagasListaResponseModel>> buscarVagasProximas(int size, int distancia, BuildContext context) async {
+  getVagasByIdEmpresa(String id, BuildContext context) async {
+    final dio = Dio();
+    dio.interceptors.add(TokenInterceptor(dio));
+    String url = "$vagasUrl/empresa/$id";
+    await dio.get(url).then((response) {
+      if (response.statusCode == 200) {
+        for (var i = 0; i < response.data.length; i++) {
+          vagas.add(VagasListaResponseModel.fromJson(response.data[i]));
+        }
+        page++;
+        notifyListeners();
+      }
+    }).catchError((e) {
+      exibirMensagemErro(
+          context, extractErrorMessage(e.response.data["stack"].toString()));
+    });
+  }
+
+  Future<List<VagasListaResponseModel>> buscarVagasProximas(
+      int size, int distancia, BuildContext context) async {
     final dio = Dio();
     dio.interceptors.add(TokenInterceptor(dio));
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uuid = prefs.getString('uidUsuario')!;
-    var url = "$vagasUrl/$uuid/proximidade?page=1&size=$size&distanciaMaxima=$distancia";
+    var url =
+        "$vagasUrl/$uuid/proximidade?page=1&size=$size&distanciaMaxima=$distancia";
     try {
       var response = await dio.get(url);
       if (response.statusCode == 200) {
         List<VagasListaResponseModel> vagasEncontradas = [];
         for (var i = 0; i < response.data.length; i++) {
-          vagasEncontradas.add(VagasListaResponseModel.fromJson(response.data[i]));
+          vagasEncontradas
+              .add(VagasListaResponseModel.fromJson(response.data[i]));
         }
         return vagasEncontradas;
       } else {

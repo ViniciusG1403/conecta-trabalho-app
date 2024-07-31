@@ -1,6 +1,7 @@
 import 'package:conectatrabalho/pages/aplicacao/aplicacoes.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/empresa-completa.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/empresas-candidato.dart';
+import 'package:conectatrabalho/pages/empresas/candidato/listagem-todas-vagas-empresa.dart';
 import 'package:conectatrabalho/pages/home/home-page.dart';
 import 'package:conectatrabalho/pages/initial/initial-page.dart';
 import 'package:conectatrabalho/pages/login/login-page.dart';
@@ -93,5 +94,13 @@ final routes = GoRouter(routes: [
         String? id = state.pathParameters['id'];
         return MaterialPage(
             child: EmpresaCompletaPage(id: id), fullscreenDialog: true);
+      }),
+  GoRoute(
+      path: '/empresa/:id/vagas',
+      pageBuilder: (context, state) {
+        String? id = state.pathParameters['id'];
+        return MaterialPage(
+            child: ListagemTodasVagasEmpresaPage(idEmpresa: id),
+            fullscreenDialog: true);
       }),
 ]);

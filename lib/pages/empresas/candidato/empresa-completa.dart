@@ -2,6 +2,7 @@ import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/repositories/empresas-candidato.repository.dart';
 import 'package:conectatrabalho/pages/empresas/models/empresa-response-model.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
+import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
 import 'package:flutter/material.dart';
 
 class EmpresaCompletaPage extends StatefulWidget {
@@ -13,9 +14,12 @@ class EmpresaCompletaPage extends StatefulWidget {
 }
 
 class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
-  final EmpresasCandidatoRepository empresasCandidatoRepository = EmpresasCandidatoRepository();
-  EmpresaReponseModel response = EmpresaReponseModel("", "", "", "", "", "", "", "", "");
+  final EmpresasCandidatoRepository empresasCandidatoRepository =
+      EmpresasCandidatoRepository();
+  EmpresaReponseModel response =
+      EmpresaReponseModel("", "", "", "", "", "", "", "", "");
   bool jaAplicado = false;
+  String searchOption = 'Nome Empresa'; // Default search option
 
   @override
   void initState() {
@@ -24,7 +28,9 @@ class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
   }
 
   loadVaga() async {
-    await empresasCandidatoRepository.getEmpresaCompleto(context, widget.id!).then((value) {
+    await empresasCandidatoRepository
+        .getEmpresaCompleto(context, widget.id!)
+        .then((value) {
       setState(() {
         response = value;
       });
@@ -34,6 +40,14 @@ class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void onSearchOptionChanged(String? newOption) {
+    if (newOption != null) {
+      setState(() {
+        searchOption = newOption;
+      });
+    }
   }
 
   @override
@@ -46,7 +60,8 @@ class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
         height: screenSize.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/initial-page/background-initial-page.png'),
+            image: AssetImage(
+                'assets/images/initial-page/background-initial-page.png'),
             fit: BoxFit.fill,
           ),
         ),
@@ -58,7 +73,7 @@ class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
                 children: [
                   const SizedBox(width: 35),
                   IconButton(
-                    onPressed: () => routes.go('/vagas'),
+                    onPressed: () => routes.go('/empresas/candidato'),
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
                   const Spacer(),
@@ -85,41 +100,82 @@ class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
-                          title: Text("Nome", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.nome, style: TextStyle(color: Colors.white)),
+                          title: const Text("Nome",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.nome,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                         ListTile(
-                          title: Text("Email", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.email, style: TextStyle(color: Colors.white)),
+                          title: const Text("Email",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.email,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                         ListTile(
-                          title: Text("Telefone", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.telefone, style: TextStyle(color: Colors.white)),
+                          title: const Text("Telefone",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.telefone,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                         ListTile(
-                          title: Text("Setor", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.setor, style: TextStyle(color: Colors.white)),
+                          title: const Text("Setor",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.setor,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                         ListTile(
-                          title: Text("Descrição", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.descricao, style: TextStyle(color: Colors.white)),
+                          title: const Text("Descrição",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.descricao,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                         ListTile(
-                          title: Text("Website", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.website, style: TextStyle(color: Colors.white)),
+                          title: const Text("Website",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.website,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                         ListTile(
-                          title: Text("LinkedIn", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.linkedin, style: TextStyle(color: Colors.white)),
+                          title: const Text("LinkedIn",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.linkedin,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                         ListTile(
-                          title: Text("Endereço", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                          subtitle: Text(response.endereco, style: TextStyle(color: Colors.white)),
+                          title: const Text("Endereço",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          subtitle: Text(response.endereco,
+                              style: const TextStyle(color: Colors.white)),
                         ),
                       ],
                     ),
                   ),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => routes.go('/empresa/${widget.id}/vagas'),
+                    child: const Text("Ver todas as vagas"),
+                  ),
+                ],
               ),
             ],
           ),

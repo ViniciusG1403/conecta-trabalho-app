@@ -23,23 +23,50 @@ SizedBox searchBarConectaTrabalho(screenSize, page, recentSearches,
       ));
 }
 
-SizedBox searchBarEmpresas(screenSize, page, recentSearches,
-    EmpresasCandidatoRepository repository, BuildContext context) {
+SizedBox searchBarEmpresas(
+    Size screenSize,
+    EmpresasCandidatoRepository repository,
+    BuildContext context,
+    String searchOption,
+    void Function(String?) onSearchOptionChanged) {
   SearchController controller = SearchController();
+
   return SizedBox(
-      width: screenSize.width * 0.9,
-      child: SearchBar(
-        controller: controller,
-        padding: const MaterialStatePropertyAll<EdgeInsets>(
-          EdgeInsets.symmetric(horizontal: 16.0),
+    width: screenSize.width * 0.9,
+    child: Row(
+      children: [
+        Expanded(
+          child: SearchBar(
+            controller: controller,
+            padding: const MaterialStatePropertyAll<EdgeInsets>(
+              EdgeInsets.symmetric(horizontal: 16.0),
+            ),
+            onChanged: (value) {
+              repository.page = 1;
+              repository.empresas.clear();
+              repository.getEmpresasNome(value, context, searchOption);
+            },
+            hintText: "Pesquise por $searchOption",
+            leading: PopupMenuButton<String>(
+              icon: const Icon(
+                Icons.search
+              ),
+              onSelected: onSearchOptionChanged,
+              itemBuilder: (BuildContext context) {
+                return <String>['Nome Empresa', 'Setor', 'Cidade']
+                    .map<PopupMenuItem<String>>((String value) {
+                  return PopupMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList();
+              },
+            ),
+            textInputAction: TextInputAction.search,
+          ),
         ),
-        onChanged: (value) {
-          repository.page = 1;
-          repository.empresas.clear();
-          repository.getEmpresasNome(value, context);
-        },
-        hintText: "Pesquise por nome",
-        leading: const Icon(Icons.search),
-        textInputAction: TextInputAction.search,
-      ));
+        SizedBox(width: 10),
+      ],
+    ),
+  );
 }
