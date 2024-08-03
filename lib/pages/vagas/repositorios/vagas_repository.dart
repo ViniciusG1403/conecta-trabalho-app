@@ -92,6 +92,38 @@ class VagasRepository extends ChangeNotifier {
     });
   }
 
+  getVagasSearch(String value, String query, int distancia, BuildContext context) async {
+    if (value == "" && !pesquisarVagasProximas) {
+      return getTodasVagas(context);
+    } else if (value == "" && pesquisarVagasProximas) {
+      return getVagasProximo(20, 80, context);
+    }
+    final dio = Dio();
+    dio.interceptors.add(TokenInterceptor(dio));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uuid = prefs.getString('uidUsuario')!;
+    String url;
+    if (!pesquisarVagasProximas) {
+      url = "$vagasUrl/?search=$query&page=$page&size=20";
+    } else {
+      url =
+          "$vagasUrl/$uuid/proximidade?search=$query&page=$page&size=20&distanciaMaxima=$distancia";
+    }
+
+    await dio.get(url).then((response) {
+      if (response.statusCode == 200) {
+        for (var i = 0; i < response.data.length; i++) {
+          vagas.add(VagasListaResponseModel.fromJson(response.data[i]));
+        }
+        page++;
+        notifyListeners();
+      }
+    }).catchError((e) {
+      exibirMensagemErro(
+          context, extractErrorMessage(e.response.data["stack"].toString()));
+    });
+  }
+
   getVagasById(String id) {
     final dio = Dio();
     dio.interceptors.add(TokenInterceptor(dio));

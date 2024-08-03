@@ -23,6 +23,7 @@ class _VagasPageState extends State<VagasPage> {
   late final ScrollController _scrollController;
   RangeValues _currentRangeValues = const RangeValues(0, 80);
   String distanciaSelected = "Distancia máxima: 80 km	";
+  String searchOption = 'Descrição';
 
   @override
   void initState() {
@@ -45,6 +46,15 @@ class _VagasPageState extends State<VagasPage> {
     loading.value = true;
     await repository.getTodasVagas(context);
     loading.value = false;
+  }
+
+  
+  void onSearchOptionChanged(String? newOption) {
+    if (newOption != null) {
+      setState(() {
+        searchOption = newOption;
+      });
+    }
   }
 
   @override
@@ -86,8 +96,8 @@ class _VagasPageState extends State<VagasPage> {
             const SizedBox(height: 35),
             SizedBox(
               width: screenSize.width * 0.9,
-              child: searchBarConectaTrabalho(screenSize, 1, recentSearches,
-                  repository, _currentRangeValues.end.toInt(), context),
+              child: searchBarConectaTrabalho(screenSize, repository, context,
+                  searchOption, _currentRangeValues.end.toInt(), onSearchOptionChanged),
             ),
             const SizedBox(height: 10),
             const SizedBox(

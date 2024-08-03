@@ -5,6 +5,7 @@ import 'package:conectatrabalho/core/http-interceptor/error-tratament.dart';
 import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
 import 'package:conectatrabalho/pages/aplicacao/models/aplicacoes-model.dart';
 import 'package:conectatrabalho/pages/aplicacao/models/aplicar-para-vaga-model.dart';
+import 'package:conectatrabalho/pages/aplicacao/models/feedback-model.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';
@@ -40,6 +41,25 @@ cancelarAplicacao(BuildContext context, String idVaga) async {
   await dio.post(url, data: json.encode(model.toJson())).then((response) {
     if (response.statusCode == 200) {
       exibirMensagemSucesso(context, "Cancelamento realizada com sucesso.");
+    }
+  }).catchError((e) {
+    exibirMensagemErro(
+        context, extractErrorMessage(e.response.data["stack"].toString()));
+  });
+}
+
+
+darFeedback(BuildContext context, String idAplicacao, String feedback) async {
+  final dio = Dio();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String usuarioId = prefs.getString("idPerfil")!;
+  dio.interceptors.add(TokenInterceptor(dio));
+  final model = FeedbackModel(idAplicacao, usuarioId, feedback);
+
+  var url = "$aplicacaoUrl/feedback";
+  await dio.put(url, data: json.encode(model.toJson())).then((response) {
+    if (response.statusCode == 200) {
+      exibirMensagemSucesso(context, "Feedback realizado com sucesso.");
     }
   }).catchError((e) {
     exibirMensagemErro(

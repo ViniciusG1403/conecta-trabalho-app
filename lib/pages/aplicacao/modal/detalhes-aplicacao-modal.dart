@@ -1,5 +1,6 @@
 import 'package:conectatrabalho/core/routes.dart';
 import 'package:conectatrabalho/pages/aplicacao/enums/situacao-aplicacao.enum.dart';
+import 'package:conectatrabalho/pages/aplicacao/modal/feedback-aplicacao-modal.dart';
 import 'package:conectatrabalho/pages/aplicacao/models/aplicacoes-model.dart';
 import 'package:conectatrabalho/pages/aplicacao/repositorios/aplicacao-repository.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
@@ -9,13 +10,15 @@ import 'package:intl/intl.dart';
 
 bool isCharging = false;
 
-Future<AplicacaoCompletaModel> loadAplicacao(BuildContext context, String id) async {
+Future<AplicacaoCompletaModel> loadAplicacao(
+    BuildContext context, String id) async {
   try {
-  isCharging = true;
-  final repository = AplicacaoRepository();
-  AplicacaoCompletaModel aplicacao = await repository.getAplicacaoById(context, id);
-  return aplicacao;
-  } catch (e){
+    isCharging = true;
+    final repository = AplicacaoRepository();
+    AplicacaoCompletaModel aplicacao =
+        await repository.getAplicacaoById(context, id);
+    return aplicacao;
+  } catch (e) {
     exibirMensagemErro(context, "Ocorreu um erro ao carregar a aplicação");
     return AplicacaoCompletaModel("", "", "", DateTime.now(), "", 1, "", "");
   } finally {
@@ -23,7 +26,8 @@ Future<AplicacaoCompletaModel> loadAplicacao(BuildContext context, String id) as
   }
 }
 
-void showModalDetalhesAplicacao(BuildContext context, String id, VoidCallback onClose) async {
+void showModalDetalhesAplicacao(
+    BuildContext context, String id, VoidCallback onClose) async {
   Size screenSize = MediaQuery.of(context).size;
   AplicacaoCompletaModel aplicacao = await loadAplicacao(context, id);
   showDialog(
@@ -41,76 +45,86 @@ void showModalDetalhesAplicacao(BuildContext context, String id, VoidCallback on
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: isCharging ? CircularProgressIndicator() : SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Data da aplicação: ${DateFormat('dd/MM/yyyy hh:mm').format(aplicacao.dataAplicacao)}",
-                  style: const TextStyle(color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
-              Text("Situação: ${SituacaoAplicacao.values[aplicacao.statusAplicacao].name}", style: const TextStyle(color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
-              Text("Vaga: ${aplicacao.tituloVaga}",
-                  style: const TextStyle(color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
-              Text("Empresa: ${aplicacao.nomeEmpresa}",
-                  style: const TextStyle(color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
-              Text("Feedback da empresa: ${aplicacao.feedbackEmpresa}",
-                  style: const TextStyle(color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
-              Text("Feedback do candidato: ${aplicacao.feedbackCandidato} ",
-                  style: const TextStyle(color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TextButton.icon(
-                    onPressed: () async {
-                      await cancelarAplicacao(context, aplicacao.idVaga);
-                      Navigator.of(context).pop();
-                      onClose();
-                    },
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.red,
+        content: isCharging
+            ? const CircularProgressIndicator()
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                        "Data da aplicação: ${DateFormat('dd/MM/yyyy hh:mm').format(aplicacao.dataAplicacao)}",
+                        style: const TextStyle(color: Colors.white)),
+                    const SizedBox(
+                      height: 10,
                     ),
-                    label: const Text(
-                      "Cancelar",
-                      style: TextStyle(color: Colors.white),
+                    Text(
+                        "Situação: ${SituacaoAplicacao.values[aplicacao.statusAplicacao].name}",
+                        style: const TextStyle(color: Colors.white)),
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                  TextButton.icon(
-                    onPressed: () => {
-                      routes.go('/detalhes-vaga/${aplicacao.idVaga}'),
-                      Navigator.of(context).pop()
-                    },
-                    icon: const Icon(
-                      Icons.info,
-                      color: Colors.white,
+                    Text("Vaga: ${aplicacao.tituloVaga}",
+                        style: const TextStyle(color: Colors.white)),
+                    const SizedBox(
+                      height: 10,
                     ),
-                    label: const Text(
-                      "Vaga",
-                      style: TextStyle(color: Colors.white),
+                    Text("Empresa: ${aplicacao.nomeEmpresa}",
+                        style: const TextStyle(color: Colors.white)),
+                    const SizedBox(
+                      height: 10,
                     ),
-                  ),
-                ],
+                    Text("Feedback da empresa: ${aplicacao.feedbackEmpresa}",
+                        style: const TextStyle(color: Colors.white)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                        "Feedback do candidato: ${aplicacao.feedbackCandidato} ",
+                        style: const TextStyle(color: Colors.white)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextButton.icon(
+                          onPressed: () => showModalFeedback(context, id),
+                          label: const Text("Feedback", style: TextStyle(color: Colors.white),),
+                          icon: const Icon(Icons.feedback, color: Colors.white,),
+                        ),
+                        TextButton.icon(
+                          onPressed: () async {
+                            await cancelarAplicacao(context, aplicacao.idVaga);
+                            Navigator.of(context).pop();
+                            onClose();
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
+                          label: const Text(
+                            "Cancelar",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        TextButton.icon(
+                          onPressed: () => {
+                            routes.go('/detalhes-vaga/${aplicacao.idVaga}'),
+                            Navigator.of(context).pop()
+                          },
+                          icon: const Icon(
+                            Icons.info,
+                            color: Colors.white,
+                          ),
+                          label: const Text("Vaga",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
       );
     },
   );
