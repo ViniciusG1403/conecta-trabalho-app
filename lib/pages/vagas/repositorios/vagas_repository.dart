@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:conectatrabalho/core/environment.dart';
 import 'package:conectatrabalho/core/http-interceptor/error-tratament.dart';
 import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
+import 'package:conectatrabalho/pages/vagas/models/create-vaga-model.dart';
 import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -173,4 +177,51 @@ class VagasRepository extends ChangeNotifier {
       return [];
     }
   }
+
+  
+  Future<List<VagasListaResponseModel>> buscarVagasEmpresa(BuildContext context) async {
+    final dio = Dio();
+    dio.interceptors.add(TokenInterceptor(dio));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uuid = prefs.getString('idPerfil')!;
+    var url =
+        "$vagasUrl/empresa/$uuid";
+    try {
+      var response = await dio.get(url);
+      if (response.statusCode == 200) {
+        List<VagasListaResponseModel> vagasEncontradas = [];
+        for (var i = 0; i < response.data.length; i++) {
+          vagasEncontradas
+              .add(VagasListaResponseModel.fromJson(response.data[i]));
+        }
+        return vagasEncontradas;
+      } else {
+        throw Exception("Erro ao buscar vagas");
+      }
+    } catch (e) {
+      exibirMensagemErro(context, extractErrorMessage(e.toString()));
+      return [];
+    }
+  }
+
+  cadastrarVaga(VagaCreateRequestModel model, BuildContext context) async {
+    final dio = Dio();
+    dio.interceptors.add(TokenInterceptor(dio));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uuid = prefs.getString('idPerfil')!;
+    var url = vagasUrl;
+    String modelJson = json.encode(model.toJson());
+
+  await dio.post(url, data: modelJson).then((response) {
+    if (response.statusCode == 200) {
+      exibirMensagemSucesso(context, "Vaga criada com sucesso");
+    }
+  }).catchError((e) {
+    exibirMensagemErro(
+        context, extractErrorMessage(e.response.data["stack"].toString()));
+  });
 }
+}
+
+
+

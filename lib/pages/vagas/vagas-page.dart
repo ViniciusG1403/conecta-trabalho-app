@@ -90,7 +90,7 @@ class _VagasPageState extends State<VagasPage> {
                     onPressed: () => routes.go('/home'),
                     icon: const Icon(Icons.arrow_back, color: Colors.white)),
                 const SizedBox(width: 230),
-                const CustomPopupMenu()
+                const CustomPopupMenuCandidato()
               ],
             ),
             const SizedBox(height: 35),

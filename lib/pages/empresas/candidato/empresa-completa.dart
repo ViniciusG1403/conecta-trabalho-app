@@ -77,7 +77,7 @@ class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
                   const Spacer(),
-                  const CustomPopupMenu(),
+                  const CustomPopupMenuCandidato(),
                   const SizedBox(width: 35),
                 ],
               ),

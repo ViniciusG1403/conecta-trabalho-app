@@ -98,7 +98,7 @@ class _DetalhesVagaPageState extends State<DetalhesVagaPage> {
                       onPressed: () => routes.go('/vagas'),
                       icon: const Icon(Icons.arrow_back, color: Colors.white)),
                   const Spacer(),
-                  const CustomPopupMenu(),
+                  const CustomPopupMenuCandidato(),
                   const SizedBox(width: 35),
                 ],
               ),

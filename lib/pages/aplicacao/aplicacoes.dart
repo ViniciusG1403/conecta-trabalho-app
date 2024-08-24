@@ -106,7 +106,7 @@ class _AplicacoesPageState extends State<AplicacoesPage> {
                           icon: const Icon(Icons.arrow_back,
                               color: Colors.white)),
                       const SizedBox(width: 230),
-                      const CustomPopupMenu()
+                      const CustomPopupMenuCandidato()
                     ],
                   ),
                   const SizedBox(height: 35),

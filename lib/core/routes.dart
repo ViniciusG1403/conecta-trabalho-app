@@ -1,4 +1,5 @@
 import 'package:conectatrabalho/pages/aplicacao/aplicacoes.dart';
+import 'package:conectatrabalho/pages/candidatos/candidatos-page.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/empresa-completa.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/empresas-candidato.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/listagem-todas-vagas-empresa.dart';
@@ -13,6 +14,7 @@ import 'package:conectatrabalho/pages/register/perfil-candidato-registro.dart';
 import 'package:conectatrabalho/pages/register/preencher-documentos-registro.dart';
 import 'package:conectatrabalho/pages/register/principal-data-page.dart';
 import 'package:conectatrabalho/pages/register/register-page.dart';
+import 'package:conectatrabalho/pages/vagas/cadastrar-vaga-page.dart';
 import 'package:conectatrabalho/pages/vagas/detalhes-vaga-page.dart';
 import 'package:conectatrabalho/pages/vagas/vagas-page.dart';
 import 'package:flutter/material.dart';
@@ -103,4 +105,11 @@ final routes = GoRouter(routes: [
             child: ListagemTodasVagasEmpresaPage(idEmpresa: id),
             fullscreenDialog: true);
       }),
+  GoRoute(
+      path: '/vagas/cadastrar',
+      pageBuilder: (context, state) =>
+          MaterialPage(child: CadastrarVagaPage())),
+  GoRoute(
+      path: '/candidatos',
+      pageBuilder: (context, state) => const MaterialPage(child: CandidatosPage())),
 ]);

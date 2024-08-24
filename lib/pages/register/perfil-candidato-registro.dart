@@ -31,7 +31,7 @@ class _PerfilCandidatoRegistroState extends State<PerfilCandidatoRegistro> {
     _portfolioController = TextEditingController(text: "");
     _disponibilidadeController = TextEditingController(text: "");
     _pretensaoSalarialController =
-        MaskedTextController(mask: "R\$ 000.000,00'", text: "");
+        MaskedTextController(mask: "R\$ 000.000,00", text: "");
     super.initState();
   }
 

@@ -1,4 +1,5 @@
 import 'package:conectatrabalho/pages/home/home-page-candidato.dart';
+import 'package:conectatrabalho/pages/home/home-page-empresa.dart';
 import 'package:conectatrabalho/pages/initial/services/initial-page-service.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-alerta.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
@@ -23,23 +24,34 @@ class _HomePageState extends State<HomePage> {
   late MenuController _menuController;
   late Image image;
   late String idUsuario;
+  late int tipoUsuario;
 
   void initPrefs() async {
+    tipoUsuario = 0;
     prefs = await SharedPreferences.getInstance();
+    tipoUsuario = prefs.getInt("tipoUsuario")!;
     setState(() {
       idUsuario = prefs.getString("uidUsuario")!;
     });
   }
 
-  renderHomePageCandidato() {
-    return HomePageCandidato();
+  renderPage() {
+    if (tipoUsuario == 0) {
+      return HomePageCandidato();
+    }
+    return HomePageEmpresa();
   }
 
   carregarPerfilUsuario() async {
     try {
       prefs = await SharedPreferences.getInstance();
       DateTime now = DateTime.now();
-      int timefoto = prefs.getInt("timeFoto")!;
+      int timefoto = 0;
+       try {
+        timefoto = prefs.getInt("timefoto")!;
+       } catch (e) {
+        timefoto = 0;
+       }
       if (now.millisecondsSinceEpoch - timefoto > 59000) {
         getProfile().then((value) {
           setState(() {
@@ -66,7 +78,7 @@ class _HomePageState extends State<HomePage> {
     controller = SearchController();
     _menuController = MenuController();
     carregarPerfilUsuario();
-    renderHomePageCandidato();
+    renderPage();
     super.initState();
   }
 
@@ -134,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                           ))
                       : const CircularProgressIndicator(),
                   const SizedBox(width: 210),
-                  const CustomPopupMenu()
+                  tipoUsuario == 0 ?  CustomPopupMenuCandidato() : CustomPopupMenuEmpresa(),
                 ],
               ),
               const SizedBox(height: 35),
@@ -145,7 +157,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(
                 height: 15,
               ),
-              renderHomePageCandidato(),
+              renderPage(),
             ],
           ),
         ),

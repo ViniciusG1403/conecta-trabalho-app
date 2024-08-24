@@ -1,37 +1,33 @@
 import 'dart:async';
 
 import 'package:conectatrabalho/core/routes.dart';
+import 'package:conectatrabalho/pages/candidatos/candidato-repository.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
 import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
 import 'package:flutter/material.dart';
 
-class ListagemTodasVagasEmpresaPage extends StatefulWidget {
-  const ListagemTodasVagasEmpresaPage({Key? key, required this.idEmpresa})
-      : super(key: key);
-  final String? idEmpresa;
+class CandidatosPage extends StatefulWidget {
+  const CandidatosPage({Key? key}) : super(key: key);
+
   @override
-  State<ListagemTodasVagasEmpresaPage> createState() =>
-      _ListagemTodasVagasEmpresaPageState();
+  State<CandidatosPage> createState() => _CandidatosPageState();
 }
 
-class _ListagemTodasVagasEmpresaPageState
-    extends State<ListagemTodasVagasEmpresaPage> {
-  late VagasRepository repository;
+class _CandidatosPageState extends State<CandidatosPage> {
+  late CandidatoRepository repository;
   List<String> recentSearches = [];
   late SearchController controller;
-  bool pesquisarVagasProximas = false;
   final loading = ValueNotifier(true);
   late final ScrollController _scrollController;
-  RangeValues _currentRangeValues = const RangeValues(0, 80);
-  String distanciaSelected = "Distancia máxima: 80 km	";
+  String searchOption = 'Descrição';
 
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(infiniteScroll);
-    repository = VagasRepository();
+    repository = CandidatoRepository();
     loadingVagas();
     super.initState();
   }
@@ -46,8 +42,17 @@ class _ListagemTodasVagasEmpresaPageState
 
   loadingVagas() async {
     loading.value = true;
-    await repository.getVagasByIdEmpresa(widget.idEmpresa!, context);
+    await repository.getTodosCandidatos(context);
     loading.value = false;
+  }
+
+  
+  void onSearchOptionChanged(String? newOption) {
+    if (newOption != null) {
+      setState(() {
+        searchOption = newOption;
+      });
+    }
   }
 
   @override
@@ -80,13 +85,17 @@ class _ListagemTodasVagasEmpresaPageState
               children: [
                 const SizedBox(width: 35),
                 IconButton(
-                    onPressed: () => routes.go('/empresa/${widget.idEmpresa}/completo'),
+                    onPressed: () => routes.go('/home'),
                     icon: const Icon(Icons.arrow_back, color: Colors.white)),
                 const SizedBox(width: 230),
-                const CustomPopupMenuCandidato()
+                const CustomPopupMenuEmpresa()
               ],
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 35),
+            const SizedBox(
+              height: 15,
+            ),
+  
             Expanded(
               child: AnimatedBuilder(
                   animation: repository,
@@ -95,25 +104,23 @@ class _ListagemTodasVagasEmpresaPageState
                       ListView.builder(
                           controller: _scrollController,
                           itemBuilder: ((context, index) {
-                            final vaga = repository.vagas[index];
+                            final vaga = repository.candidatos[index];
                             return GestureDetector(
-                                onTap: () =>
-                                    routes.go('/detalhes-vaga/${vaga.id}'),
                                 child: Card(
                                     color: Color.fromARGB(160, 33, 0, 109),
                                     child: ListTile(
                                       title: Text(
-                                        vaga.cargo.length > 30
-                                            ? '${vaga.cargo.substring(0, 30)}...'
-                                            : vaga.cargo,
+                                        vaga.nome.length > 30
+                                            ? '${vaga.nome.substring(0, 30)}...'
+                                            : vaga.nome,
                                         style: const TextStyle(
                                             color: Color.fromARGB(
                                                 255, 248, 248, 248)),
                                       ),
                                       subtitle: Text(
-                                        vaga.descricao.length > 50
-                                            ? '${vaga.descricao.substring(0, 50)}...\nEmpresa ${vaga.empresa}'
-                                            : '${vaga.descricao}\nEmpresa ${vaga.empresa}',
+                                        vaga.habilidades.length > 50
+                                            ? '${vaga.habilidades.substring(0, 50)}'
+                                            : vaga.habilidades,
                                         style: const TextStyle(
                                             color: Color.fromARGB(
                                                 255, 248, 248, 248)),
@@ -124,7 +131,7 @@ class _ListagemTodasVagasEmpresaPageState
                                       ),
                                     )));
                           }),
-                          itemCount: repository.vagas.length)
+                          itemCount: repository.candidatos.length)
                     ]);
                   }),
             ),
