@@ -21,7 +21,46 @@ class CandidatoRepository extends ChangeNotifier {
     await dio.get(url).then((response) {
       if (response.statusCode == 200) {
         for (var i = 0; i < response.data.length; i++) {
-          candidatos.add(CandidatoListaResponseModel.fromJson(response.data[i]));
+          candidatos
+              .add(CandidatoListaResponseModel.fromJson(response.data[i]));
+        }
+        page++;
+        notifyListeners();
+      }
+    }).catchError((e) {
+      exibirMensagemErro(
+          context, extractErrorMessage(e.response.data["stack"].toString()));
+    });
+  }
+
+  getCandidato(BuildContext context, String searchOption, String option) async {
+    final dio = Dio();
+    dio.interceptors.add(TokenInterceptor(dio));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uuid = prefs.getString('uidUsuario')!;
+    var url = "$candidatoUrl/?page=$page&size=20";
+
+    if (searchOption == "") {
+      url = "$candidatoUrl/?page=$page&size=20";
+    } else if (searchOption == "Nome") {
+      url = "$candidatoUrl/?search=usuario.nome:$option&page=$page&size=20";
+    } else if (searchOption == "Cidade") {
+      url =
+          "$candidatoUrl/?search=usuario.endereco.municipio:$option&page=$page&size=20";
+    } else if (searchOption == "Habilidades") { 
+      url = "$candidatoUrl/?search=habilidades:$option&page=$page&size=20";
+    }
+
+    if (option == "") {
+      url = "$candidatoUrl/?page=$page&size=20";
+    }
+
+    await dio.get(url).then((response) {
+      if (response.statusCode == 200) {
+        candidatos.clear();
+        for (var i = 0; i < response.data.length; i++) {
+          candidatos
+              .add(CandidatoListaResponseModel.fromJson(response.data[i]));
         }
         page++;
         notifyListeners();

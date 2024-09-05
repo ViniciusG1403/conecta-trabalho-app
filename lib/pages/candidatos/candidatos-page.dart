@@ -21,7 +21,7 @@ class _CandidatosPageState extends State<CandidatosPage> {
   late SearchController controller;
   final loading = ValueNotifier(true);
   late final ScrollController _scrollController;
-  String searchOption = 'Descrição';
+  String searchOption = 'Nome';
 
   @override
   void initState() {
@@ -95,7 +95,8 @@ class _CandidatosPageState extends State<CandidatosPage> {
             const SizedBox(
               height: 15,
             ),
-  
+             searchBarCandidato(screenSize, repository, context,
+                  searchOption, onSearchOptionChanged),
             Expanded(
               child: AnimatedBuilder(
                   animation: repository,
