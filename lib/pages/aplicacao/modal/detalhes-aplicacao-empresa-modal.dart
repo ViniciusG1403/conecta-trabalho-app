@@ -3,6 +3,7 @@ import 'package:conectatrabalho/pages/aplicacao/enums/situacao-aplicacao.enum.da
 import 'package:conectatrabalho/pages/aplicacao/modal/feedback-aplicacao-modal.dart';
 import 'package:conectatrabalho/pages/aplicacao/models/aplicacoes-model.dart';
 import 'package:conectatrabalho/pages/aplicacao/repositorios/aplicacao-repository.dart';
+import 'package:conectatrabalho/pages/candidatos/show-candidato-modal.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +27,7 @@ Future<AplicacaoCompletaModel> loadAplicacao(
   }
 }
 
-void showModalDetalhesAplicacao(
+void showModalDetalhesAplicacaoEmpresa(
     BuildContext context, String id, VoidCallback onClose) async {
   Size screenSize = MediaQuery.of(context).size;
   AplicacaoCompletaModel aplicacao = await loadAplicacao(context, id);
@@ -92,18 +93,14 @@ void showModalDetalhesAplicacao(
                           label: const Text("Feedback", style: TextStyle(color: Colors.white),),
                           icon: const Icon(Icons.feedback, color: Colors.white,),
                         ),
-                        TextButton.icon(
-                          onPressed: () async {
-                            await cancelarAplicacao(context, aplicacao.idVaga);
-                            Navigator.of(context).pop();
-                            onClose();
-                          },
+                          TextButton.icon(
+                          onPressed: () => showModalDetalhesCandidato(context, aplicacao.idCandidato),
                           icon: const Icon(
-                            Icons.close,
-                            color: Colors.red,
+                            Icons.person,
+                            color: Colors.white,
                           ),
                           label: const Text(
-                            "Cancelar",
+                            "Ver candidato",
                             style: TextStyle(color: Colors.white),
                           ),
                         ),

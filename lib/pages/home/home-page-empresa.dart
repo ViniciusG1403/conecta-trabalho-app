@@ -1,5 +1,4 @@
 import 'package:conectatrabalho/core/routes.dart';
-import 'package:conectatrabalho/pages/aplicacao/enums/situacao-aplicacao.enum.dart';
 import 'package:conectatrabalho/pages/vagas/enums/situacao-vaga.enum.dart';
 import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
@@ -61,14 +60,19 @@ class _HomePageEmpresaState extends State<HomePageEmpresa> {
                     child: SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(color: Colors.white,),
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
                   )
                 : ListView.builder(
                     itemBuilder: (context, index) {
                       final vaga = vagasCharged[index];
                       return GestureDetector(
-                        onTap: () => routes.go('/detalhes-vaga/${vaga.id}'),
+                        onDoubleTap: () async {
+                          await _showVagaOptionsModal(
+                              context, vaga.id, vagasRepository, vaga.status);
+                        },
                         child: Card(
                           color: Colors.transparent,
                           child: ListTile(
@@ -119,4 +123,106 @@ class _HomePageEmpresaState extends State<HomePageEmpresa> {
       const SizedBox(height: 15),
     ]);
   }
+}
+
+Future<void> _showVagaOptionsModal(
+    BuildContext context, String vagaId, VagasRepository repository, int status) async {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      List<Widget> actions = [];
+
+      if (status == 0) {
+        actions.add(
+          TextButton(
+            onPressed: () {
+              repository.finalizarVaga(vagaId, context);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Finalizar Vaga'),
+          ),
+        );
+        actions.add(
+          TextButton(
+            onPressed: () {
+              repository.pausarVaga(vagaId, context);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Pausar Vaga'),
+          ),
+        );
+        actions.add(
+          TextButton(
+            onPressed: () {
+              repository.ativarVaga(vagaId, context);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Ativar Vaga'),
+          ),
+        );
+      } else if (status == 1) {
+        actions.add(
+          TextButton(
+            onPressed: () {
+              repository.finalizarVaga(vagaId, context);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Finalizar Vaga'),
+          ),
+        );
+        actions.add(
+          TextButton(
+            onPressed: () {
+              repository.pausarVaga(vagaId, context);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Pausar Vaga'),
+          ),
+        );
+      } else if (status == 2) {
+        actions.add(
+          TextButton(
+            onPressed: () {
+              repository.finalizarVaga(vagaId, context);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Finalizar Vaga'),
+          ),
+        );
+        actions.add(
+          TextButton(
+            onPressed: () {
+              repository.ativarVaga(vagaId, context);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Ativar Vaga'),
+          ),
+        );
+      }
+
+      actions.add(
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            routes.go('/vagas/$vagaId/aplicacoes');
+          },
+          child: const Text('Ver Aplicações'),
+        ),
+      );
+      actions.add(
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Cancelar'),
+        ),
+      );
+
+      return AlertDialog(
+        title: const Text('Opções da Vaga'),
+        content: const Text('Escolha uma das opções abaixo:'),
+        actions: actions,
+      );
+    },
+  );
 }

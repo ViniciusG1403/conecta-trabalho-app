@@ -5,9 +5,10 @@ class AplicacaoDetailResponseModel {
   String nomeEmpresa;
   int statusAplicacao;
   String nomeCandidato;
+  String idCandidato;
 
   AplicacaoDetailResponseModel(this.id, this.descricaoVaga, this.dataAplicacao,
-      this.nomeEmpresa, this.statusAplicacao, this.nomeCandidato);
+      this.nomeEmpresa, this.statusAplicacao, this.nomeCandidato, this.idCandidato);
 
   factory AplicacaoDetailResponseModel.fromJson(Map<String, dynamic> json) {
     return AplicacaoDetailResponseModel(
@@ -16,7 +17,8 @@ class AplicacaoDetailResponseModel {
         DateTime.parse(json['dataAplicacao']),
         json['nomeEmpresa'],
         json['statusAplicacao'],
-        json['nomeCandidato']);
+        json['nomeCandidato'],
+        json['idCandidato']);
   }
 
   Map<String, dynamic> toJson() {
@@ -26,7 +28,8 @@ class AplicacaoDetailResponseModel {
       'dataAplicacao': dataAplicacao.toIso8601String(),
       'nomeEmpresa': nomeEmpresa,
       'statusAplicacao': statusAplicacao,
-      'nomeCandidato': nomeCandidato
+      'nomeCandidato': nomeCandidato,
+      'idCandidato': idCandidato
     };
   }
 }
@@ -40,6 +43,7 @@ class AplicacaoCompletaModel {
   int statusAplicacao;
   String feedbackCandidato;
   String feedbackEmpresa;
+    String idCandidato;
 
   AplicacaoCompletaModel(
       this.id,
@@ -49,13 +53,15 @@ class AplicacaoCompletaModel {
       this.nomeEmpresa,
       this.statusAplicacao,
       this.feedbackCandidato,
-      this.feedbackEmpresa);
+      this.feedbackEmpresa,
+      this.idCandidato);
 
   factory AplicacaoCompletaModel.fromJson(Map<String, dynamic> json) {
 
     String idVaga = json['vaga']['id'];
     String empresa = json['vaga']['empresa']['setor'];
     String tituloVaga = json['vaga']['titulo'];
+    String idCandidato = json['candidato']['id'];
 
     return AplicacaoCompletaModel(
         json['id'],
@@ -65,6 +71,7 @@ class AplicacaoCompletaModel {
         empresa,
         json['status'],
         json['feedbackCandidato'] ?? "Sem feedback",
-        json['feedbackEmpresa'] ?? "Sem feedback");
+        json['feedbackEmpresa'] ?? "Sem feedback",
+        idCandidato);
   }
 }

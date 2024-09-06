@@ -268,6 +268,8 @@ class _CadastrarVagaPageState extends State<CadastrarVagaPage> {
                                       model, context);
                                 });
                               }
+
+                              routes.go('/home');
                             },
                             child: const Text(
                               "Cadastrar Vaga",

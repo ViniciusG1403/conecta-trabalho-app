@@ -122,6 +122,28 @@ class AplicacaoRepository extends ChangeNotifier {
     });
   }
 
+    getAplicacaoByVagaAndEmpresa(BuildContext context, String? idVaga) async {
+    final dio = Dio();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? idEmpresa = prefs.getString("idPerfil");
+    dio.interceptors.add(TokenInterceptor(dio));
+
+    var url = "$aplicacaoUrl/$idVaga/$idEmpresa/empresa";
+
+    await dio.get(url).then((response) {
+      if (response.statusCode == 200) {
+        for (var i = 0; i < response.data.length; i++) {
+          vagas.add(AplicacaoDetailResponseModel.fromJson(response.data[i]));
+        }
+        page++;
+        notifyListeners();
+      }
+    }).catchError((e) {
+      exibirMensagemErro(
+          context, extractErrorMessage(e.response.data["stack"].toString()));
+    });
+  }
+
 
 Future<AplicacaoCompletaModel> getAplicacaoById(
     BuildContext context, String idAplicacao) async {
@@ -129,7 +151,7 @@ Future<AplicacaoCompletaModel> getAplicacaoById(
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? idCandidato = prefs.getString("idPerfil");
   dio.interceptors.add(TokenInterceptor(dio));
-  AplicacaoCompletaModel aplicacao = AplicacaoCompletaModel("", "", "", DateTime.now(), "", 0, "", "");
+  AplicacaoCompletaModel aplicacao = AplicacaoCompletaModel("", "", "", DateTime.now(), "", 0, "", "", "");
 
   var url = "$aplicacaoUrl/$idAplicacao";
   await dio.get(url).then((response) {
