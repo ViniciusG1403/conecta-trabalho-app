@@ -36,6 +36,10 @@ void showModalDetalhesCandidato(BuildContext context, String id) async {
               Text('Disponibilidade: ${candidato.disponibilidade}', style: const TextStyle(color: Colors.white)),
               Text('Pretensão Salarial: R\$${candidato.pretensaoSalarial.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white)),
               Text('Endereço: ${candidato.endereco.toJson()['endereco']}', style: const TextStyle(color: Colors.white)),
+              const SizedBox(
+                height: 20,
+              ),
+              TextButton.icon(onPressed: () => downloadCurriculo(context, id), label: Text("Curriculo", style: TextStyle(color: Colors.white),), icon: Icon(Icons.download)),
             ],
           ),
         ),

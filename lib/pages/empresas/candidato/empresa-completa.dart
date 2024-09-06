@@ -1,5 +1,5 @@
 import 'package:conectatrabalho/core/routes.dart';
-import 'package:conectatrabalho/pages/empresas/candidato/repositories/empresas-candidato.repository.dart';
+import 'package:conectatrabalho/pages/empresas/candidato/repositories/empresa-repository.dart';
 import 'package:conectatrabalho/pages/empresas/models/empresa-response-model.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
 import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
@@ -14,8 +14,8 @@ class EmpresaCompletaPage extends StatefulWidget {
 }
 
 class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
-  final EmpresasCandidatoRepository empresasCandidatoRepository =
-      EmpresasCandidatoRepository();
+  final EmpresaRepository empresaRepository =
+      EmpresaRepository();
   EmpresaReponseModel response =
       EmpresaReponseModel("", "", "", "", "", "", "", "", "");
   bool jaAplicado = false;
@@ -28,7 +28,7 @@ class _EmpresaCompletaPageState extends State<EmpresaCompletaPage> {
   }
 
   loadVaga() async {
-    await empresasCandidatoRepository
+    await empresaRepository
         .getEmpresaCompleto(context, widget.id!)
         .then((value) {
       setState(() {

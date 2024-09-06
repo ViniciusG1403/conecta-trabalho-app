@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:conectatrabalho/core/routes.dart';
-import 'package:conectatrabalho/pages/empresas/candidato/repositories/empresas-candidato.repository.dart';
+import 'package:conectatrabalho/pages/empresas/candidato/repositories/empresa-repository.dart';
 import 'package:conectatrabalho/shared/menu/menu-extensivel.dart';
 import 'package:conectatrabalho/pages/vagas/models/vagas-lista-response-model.dart';
 import 'package:conectatrabalho/shared/searchBarConectaTrabalho.dart';
@@ -16,7 +16,7 @@ class EmpresasCandidatoPage extends StatefulWidget {
 }
 
 class _EmpresasCandidatoPageState extends State<EmpresasCandidatoPage> {
-  late EmpresasCandidatoRepository repository;
+  late EmpresaRepository repository;
   List<String> recentSearches = [];
   late SearchController controller;
   bool pesquisarVagasProximas = false;
@@ -28,7 +28,7 @@ class _EmpresasCandidatoPageState extends State<EmpresasCandidatoPage> {
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(infiniteScroll);
-    repository = EmpresasCandidatoRepository();
+    repository = EmpresaRepository();
     loadingVagas();
     super.initState();
   }

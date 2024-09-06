@@ -4,6 +4,7 @@ import 'package:conectatrabalho/pages/candidatos/candidatos-page.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/empresa-completa.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/empresas-candidato.dart';
 import 'package:conectatrabalho/pages/empresas/candidato/listagem-todas-vagas-empresa.dart';
+import 'package:conectatrabalho/pages/empresas/perfil/edicao-perfil-empresa.dart';
 import 'package:conectatrabalho/pages/home/home-page.dart';
 import 'package:conectatrabalho/pages/initial/initial-page.dart';
 import 'package:conectatrabalho/pages/login/login-page.dart';
@@ -120,5 +121,8 @@ final routes = GoRouter(routes: [
         return MaterialPage(
             child: AplicacoesEmpresa(idVaga: id),
             fullscreenDialog: true);
-      })
+      }),
+        GoRoute(
+      path: '/perfil/empresa',
+      pageBuilder: (context, state) =>  MaterialPage(child: EditarPerfiLEmpresaPage())),
 ]);

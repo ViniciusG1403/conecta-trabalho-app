@@ -4,9 +4,12 @@ import 'package:conectatrabalho/core/http-interceptor/token-interceptor.dart';
 import 'package:conectatrabalho/pages/candidatos/candidato-lista-response-model.dart';
 import 'package:conectatrabalho/pages/candidatos/candidato-response-model.dart';
 import 'package:conectatrabalho/pages/empresas/models/empresas-lista-response-model.dart';
+import 'package:conectatrabalho/shared/exibir-mensagens/exibir-mensagem-sucesso.dart';
 import 'package:conectatrabalho/shared/exibir-mensagens/mostrar-mensagem-erro.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CandidatoRepository extends ChangeNotifier {
@@ -71,17 +74,16 @@ class CandidatoRepository extends ChangeNotifier {
           context, extractErrorMessage(e.response.data["stack"].toString()));
     });
   }
-
-
 }
 
-  Future<CandidatoResponse> getCandidatoById(BuildContext context, String idCandidato) async {
-    final dio = Dio();
-    dio.interceptors.add(TokenInterceptor(dio));
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uuid = prefs.getString('uidUsuario')!;
-    var url = "$candidatoUrl/$idCandidato";
-      CandidatoResponse candidato =  CandidatoResponse(
+Future<CandidatoResponse> getCandidatoById(
+    BuildContext context, String idCandidato) async {
+  final dio = Dio();
+  dio.interceptors.add(TokenInterceptor(dio));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String uuid = prefs.getString('uidUsuario')!;
+  var url = "$candidatoUrl/$idCandidato";
+  CandidatoResponse candidato = CandidatoResponse(
       nome: "",
       email: "",
       telefone: "",
@@ -93,15 +95,33 @@ class CandidatoRepository extends ChangeNotifier {
       pretensaoSalarial: 0.0,
       endereco: EnderecoDTO(municipio: "", estado: ""));
 
+  await dio.get(url).then((response) {
+    if (response.statusCode == 200) {
+      candidato = CandidatoResponse.fromJson(response.data);
+    }
+  }).catchError((e) {
+    exibirMensagemErro(
+        context, extractErrorMessage(e.response.data["stack"].toString()));
+  });
+  return candidato;
+}
 
-    await dio.get(url).then((response) {
-      if (response.statusCode == 200) {
-        candidato = CandidatoResponse.fromJson(response.data);
-      }
-      
-    }).catchError((e) {
-      exibirMensagemErro(
-          context, extractErrorMessage(e.response.data["stack"].toString()));
-    });
-    return candidato;
+downloadCurriculo(BuildContext context, String idCandidato) async {
+  final dio = Dio();
+  dio.interceptors.add(TokenInterceptor(dio));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String uuid = prefs.getString('uidUsuario')!;
+  var url = "$candidatoUrl/$idCandidato/curriculo";
+  try {
+  var dir = await getTemporaryDirectory();
+  String savePath = '${dir.path}/curriculo_$idCandidato.pdf';
+
+  
+    await dio.download(url, savePath);
+    exibirMensagemSucesso(context, "Download concluido com sucesso");
+    OpenFile.open(savePath);
+  } catch (e) {
+    exibirMensagemErro(
+        context, extractErrorMessage("Erro ao baixar curriculo"));
   }
+}

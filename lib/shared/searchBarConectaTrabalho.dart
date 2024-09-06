@@ -1,11 +1,10 @@
 import 'package:conectatrabalho/pages/candidatos/candidato-repository.dart';
-import 'package:conectatrabalho/pages/empresas/candidato/repositories/empresas-candidato.repository.dart';
+import 'package:conectatrabalho/pages/empresas/candidato/repositories/empresa-repository.dart';
 import 'package:conectatrabalho/pages/vagas/repositorios/vagas_repository.dart';
 import 'package:flutter/material.dart';
 
-
-String convertSearchOptionInQuery(String searchOption){
-  switch(searchOption){
+String convertSearchOptionInQuery(String searchOption) {
+  switch (searchOption) {
     case 'Descrição':
       return 'descricao:';
     case 'Cargo':
@@ -18,7 +17,7 @@ String convertSearchOptionInQuery(String searchOption){
 }
 
 SizedBox searchBarConectaTrabalho(
-      Size screenSize,
+    Size screenSize,
     VagasRepository repository,
     BuildContext context,
     String searchOption,
@@ -40,7 +39,7 @@ SizedBox searchBarConectaTrabalho(
               repository.page = 1;
               repository.vagas.clear();
               String query = convertSearchOptionInQuery(searchOption) + value;
-              repository.getVagasSearch(value, query, distancia ,context);
+              repository.getVagasSearch(value, query, distancia, context);
             },
             hintText: "Pesquise por $searchOption",
             leading: PopupMenuButton<String>(
@@ -49,7 +48,7 @@ SizedBox searchBarConectaTrabalho(
               ),
               onSelected: onSearchOptionChanged,
               itemBuilder: (BuildContext context) {
-                return <String>['Descrição','Cargo', 'Nível']
+                return <String>['Descrição', 'Cargo', 'Nível']
                     .map<PopupMenuItem<String>>((String value) {
                   return PopupMenuItem<String>(
                     value: value,
@@ -67,10 +66,9 @@ SizedBox searchBarConectaTrabalho(
   );
 }
 
-
 SizedBox searchBarEmpresas(
     Size screenSize,
-    EmpresasCandidatoRepository repository,
+    EmpresaRepository repository,
     BuildContext context,
     String searchOption,
     void Function(String?) onSearchOptionChanged) {
@@ -117,7 +115,7 @@ SizedBox searchBarEmpresas(
 }
 
 SizedBox searchBarCandidato(
-      Size screenSize,
+    Size screenSize,
     CandidatoRepository repository,
     BuildContext context,
     String searchOption,
@@ -147,7 +145,7 @@ SizedBox searchBarCandidato(
               ),
               onSelected: onSearchOptionChanged,
               itemBuilder: (BuildContext context) {
-                return <String>['Nome','Cidade', 'Habilidades']
+                return <String>['Nome', 'Cidade', 'Habilidades']
                     .map<PopupMenuItem<String>>((String value) {
                   return PopupMenuItem<String>(
                     value: value,

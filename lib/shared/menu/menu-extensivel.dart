@@ -101,6 +101,16 @@ class CustomPopupMenuEmpresa extends StatelessWidget {
             ),
             onTap: () => routes.go("/vagas/cadastrar"),
           ),
+                    PopupMenuItem(
+            child: const Row(
+              children: [
+                Icon(Icons.person),
+                Text(" "),
+                Text("Perfil", style: TextStyle(color: Colors.black)),
+              ],
+            ),
+            onTap: () => routes.go("/perfil/empresa"),
+          ),
           PopupMenuItem(
             child: const Row(
               children: [
